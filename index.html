@@ -1,0 +1,1505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F6F5FA">
+<meta name="description" content="Hantco FieldPulse: pharmacy visits, shelf audits, supply routes and follow-ups, ready for the field.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="manifest" href="./manifest.json">
+<title>Hantco FieldPulse CRM</title>
+<script src="https://cdn.tailwindcss.com/3.4.17" defer></script>
+<!-- Inline stylesheet inserted by the authoring script. -->
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAATpUlEQVR42u2daXBU15mG37v0LoQkkACVbQJ4YTG7sFlkFgkH7XISUgWesZmxnbFx4nEl8fzJVDkul5P8iO2Kl4oxxRA841Qc48wYCRuBIqGF1ezCGMexBMQgkISWltTqVnffe+dHcxsJRPdtqcHd9PtU9Q9ocdWcPu857/nOd84npKaO1UBIgiKyCQgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFQAgFMHwEQYAgCGwICiCxkGUZgiDA5/PB5/NBFEVIksSGoQASY8S/fPkyvF4fxo4dg7S0NPT09MDpdFIEFMDt3flVVYXH48YzzzyN6updOHLkMA4fPoiPP/5frFr1XXR2dkIU2ZRx+f2mpo7V2AyhBeBy9eLddzdg3brHh/yZ55//Kd56622MGTMGiqKw0eIIyWazv8RmuEHjSBK6urrwxhtv4KmnnoTX6wUgQF//KooCTdNQUJCPxsYzOHz4EOx2OzSNYwpngHj3hqKIvr4+TJs2DYcOHYCmaRBF8broj6IokCQJjY1NmD9/Aa0Q1wC3jwDc7j4UFxdCFEVomjZk6FOSJKiqismTJ+HBBx+Ay+XiopgCiH8URYHd7kBRUVFwLXAjVFWFIAgoKiqC19vPPQIK4HYY/d24//4ZmD17FjRNCzmq67YnPz8Pqalp8Pn8bEQKIP7tz6pVq2AymcJGdkRRhKqqmDJlMubPn4e+vl7aIAogfvH7/UhJScWjj64ZNMKHQrdBjz32z/D7OQNQAIjf0KfL5cIDDyzA1KlToaqqIQHoI35+fh4mTMiE1+vlWoACQFxufHm9/cHFr6qqEe0Yp6enIzt7CVwuF0OiFED84fP5kJqahvz8PMP2Z6ANAoDS0hLDwiEUQEzZn76+PixYkIUpUyYbtj/X2qDc3BxkZtIGUQBxbH90SzOcxLmMjAzaIAogsewPbRAFkND2hzaIArgt7E9hYeGw7M9QNmjJksW0QRRAfHR+n8+HsWPTUVRUMGz7c60NWr16NQAm21IAcZD60NPTg5UrczF58vDtz7U2qKAgD3fffQ/cbvctsUGCIECSJMiyDFmWIUkS7RcFYAxNU1FSUgxN00a8eBUEAYqiwOFwIDc3B319fTc9N0jPR+rqcqKtrQ1tbW3o7OyEz+djXhIPxITurH6/H6NGjcLRo4eQkZFxw9z/q2LRwo6s+kGZXbsqUVhYjJSUlJt2XFKWZXR3dyM5ORmLFy9CVlYWZFnGF198gb179+HcuXNITU3lcc2h2o72R4TL5UJ+fh4yMjIM2R8jtkJ/xuLFizBlyhScP38BFos56sclZVlGe3s7HnooGxs2vIOpU+8b9H5b22X88pcv4Z133sHYsekUAS3Q0IvW0tKSsLk/+nt///vXaGtrC84GoWxQUlLSFRsU/ZNi+tolO3sJtm37P0ydeh8URYHf74ff74eiKEhPH4vf//5tPPfcc7zChQIYKvTpRWZmJnJzcwYtYEMJYMOGd1FdvdtwslxpaQkkSYrq6K8LzGazYcuWP2D06NHw+/3XLYJVVYWqqnjzzd9h5sz74XL1MixLAQw8+O5CdnZ20P6EsjeSJMHv96O8fDt27aqM2AZ5PJ6oRWX00b+oqBCTJn0HiqJAluUhf04X3osvvoj+fi8EgQKgAIILYAUlJcVhR3NFUSAIAhoaTuLMmTPYv38/ent7Q47sA21QTs4KuFzROykWeLYf06dPh6ZpIWcXSZKgKApKS4uxbt06XL7cCpPJxN6fyAIQBAEejweTJ0/GqlUPh7U/egfbtq0MqqrhzJmz2Ldvv2EbtHbtGlgs1qjlB+nXtGRmZhpelKuqitdf/y1mzZqFnp4ergcSWQCSJKG3txf5+XnBG93C2R+fz4cdOypgt9vg8/mwbVuZod+jaRoWL16EWbNmwuXqi4oH149tZmcvNrRzLQgCNE1DSkoK3nrrTaiqygu8ElkAmqZBlqXg5hfCxPQFQcCJEw04depzWK1W2Gw2VFVVh7VBA/cE8vLy4PG4RywA/dKu2bNnYdKkScHZwIgY/X4/li59CC+//BLa22mFxES1P263B5MnT8HixYsgCELIDqR37rKycvT1BdIarFYrGhsbsXdveBukzyzFxUWw2+0jjsWLogivtx/Z2dnBdUYkM5+iKPjZz36KlSu/i66uzoS2QmLipj67kJubg6SkpJD2JzBTyOjt7cWHH26Fw+EIdjhN07Bly5awm2P6DDF79izMmDEDbvfIZoFAmkVScO8iksiSftW7LMvYtGkjUlJS4fP5EjZnSExU+yNJUrADwUBm5759+9HY2AibzRbMF3I4HKirq0dra+ugcOONOq3JZEJ+ft6IBCAIAvr7+zFx4kRMnz5tWJmroihCURRMnDgRv/nNr+B0Ju4sICaq/ZkyJWB/jHagbdvKBs0UmqbBbDbj0qWLqKqqDnbym22D9IM7y5Ythc1mC7t4D7ceeOKJf8W6df+Cy5cvD7mPQAEkuP3Ro0VVVdWw2x3XdVxBEIPRoFBCipYN0hPxli5dGjIVw+hMoGkaXnvtt5g0adKIrRkFcJN3bQdu8Q/3pT9nePbHOqjD6TZoz569w7BBkYdD9YM76enpWL58adi9C6N7A2PGjMHmzZuCF/sOt2317yeeRCTH021tbrcHgApRlIaVWxOInngwaVLA/hgNH15rfwaOxmazGc3NzaiqqsbatWtumJIw0AaVlBTj1Vdfi9gGiaKI3t5eLFz4oOHMVWNWSMGyZUvxwgsv4Ne/fgUWS6QWTYCmqVAUPwABZrMZo0aNCrtDTQEYGPEAoLOzE3PmzMHDD6/E6NGj8c033+Ds2bMwmUwRNbAkSXA6nVizZk3Q/txoBDVifwZ2zG3byrB27ZqwNkhVVcybNwdLlixGbW0dkpOTDXe2QPKeBytWrIAoivD7/WEFYEQkkhSYCV5++SW0tLSgubkZZrOx1G39PEVaWhqmT58Ov9+P+vo9qKurg8lkgsViiekUbDnWi9O53W688cbv8KMfPQmz2Rz1mSVcx9m3bz+amhoxevTQB1oG2qCWllaMGxf6QI2qqpBlGcXFxaisrIxoARsIf45CTs7yiM4lhDvAM7Du8aZNG6PStpWVf8UTTzyF9vZ22O32mL0iJqbNWn9/PzZu3IAf/3g9TCbToDx3Pc13uC+jIiwrK4ffH3qhbLEEbNDu3TVho0HX1xLwRRT+vOuuuzBz5syQi2595L548RLefPPtiG65GG7bXnsO4eGHV6Ks7GOkpaXF9NUwYiwXp3vyySfw+OOPBTvJwEWwKIojehnZJ2hvb8eOHRVBu3Tjnw98tg8++CDsumJgLYEFC7IMnxeWJAludx9yclbAarWGjF7pnb2xsRHPP//vqK/fE4z9G/k9w2nPa88heL1ezJ07B6+99ir6+vpidmEsxupGlclkwqOPrg1akVs5gugdZefOSjQ1NcFqtYaN7iQlJaGmphaNjU3BTh7Nkkq6jSkoyDf0swBQVVUNQRDw1FP/hvb29rCfK5qYTCaoqoqCgjxMnDgR/f2xWTpKjNVTWuPGjcO9995jaMS+GSFXIJD7I8vGok2Bg+lO7NhRETY3KFIbpLfJhAmZmDdvruE9h5qaWthsDjQ1NeHnP/+PEV34NdwAhsPhwLRpU+HxeGJyFojZNYAsy99KpqJuYVpaWrFnzx7Y7Q5DnSYwa5mxffv2qNsgPftz3ry5GD9+fMiTa/p7X3/diIaGBpjNZqSlpeG997Zg8+Y/QJblWxqVEUUx4mhdQgtATz5ra2vDuXP/iGjRGi37o6oaampq0NzcDIvFYujLC1SVtOPQocMR2aDCwsKwNkg//ZWbm2v44H5VVTU6OtqDwYPRo1Pxi1/8Jxobm27JTKC3mcfjQWNjk+GwKmeAK6N/T08PKip2Xlm8qbdMfIFRS8Cf/vQBZFmO6EszmUzo7OyIyAYVFRVg7Nj0kBmZgcPvDixbtjRs+FMPe9bW1gY/fyBSZUFLyyVs2vRfwT2Emz2QiKKIY8eO46uvvoLNZovJUGhMXoylb67YbDbs2PEJ5s6dA5/PN8hWRGs0uZrcBgCB2WfLlv/GM8+sR1JSUkRfmiRJ6O7uxvLly1BR8WlYK6Qv8Neu/Sds3frRkJdX6fZnxowZ2Ls3sLkUKiQrCAKcTidmz56Hjo6OIe3Hrl0VyMqaH/U21T+XqqowmUxwOp3Izy/EsWPH4XA4YlIAMR0F6unpQXFxKQ4cOAiTyTRk3slIX1efF3jm5s1b8PTTT8Nut0fcIYZjgzRNu3IqTb3hiN7f78HChQ/CbDYbsj8HDhzExYsXr7MdgVQQL773vR+gqqo66m2qP8dkMuHSpUsoLf0+PvvsUMQDCXeCr3yZdrsdTqcTBQVF+OEPV6OoqPBKKsR5nD175sroNrJpeubM+4PpFX/+84fYtasSDkdS8AztcMJ/bW2tqKjYiZ/85NmQqQj65bW5uTmYMCETPT0919kufVTPy8szbOFqa+vg9fZDFEcP6niqqsJqtaKrqwuPPPJ9FBTko6SkGHfeeSecTidOnvw84uQ6QcB1qRA1NbV4//0/4sKFZqSlpcV02diYvxtU38Dp7u6GKEpX/uy/kngVjfWGCaIoQVECeTXJyckjSuLSr1qcN28uamqqIctySM+uC2TNmkfx0Ud/GWSDdCuYnJyMQ4cOYvz4cSHTGjRNg9/vx0MPLceJEyduaDv0dYLT6bwiRBmqqsDv943A/ojBqJ3P50NSUlLM5wHFRTao3kHS0tIGjYjR2lTRO7v+vJF+YfrMdfToMZw40YCsrPkhk+70/19paQk+/HDrkP5/+fJlGD9+XMjZRH/v7Nmz+NvfQi869b9PTU2Napvqz9UHrXi4h1SOlyOM8XSpqyRJ8Hg8KC/fjqys+WEvrQKullQaaIP08GdOTk7YzE79vaqq3ejq6kB6ekZY63Gz2jSeaqPxjryb1AECEayKsPfzh6osGYjfp6CwMHzVmqHCn4QC+FYFcOrUKZw40RD26pKBlSX1aJAoinC73bjvvvswceJdIUOq+nvd3d3Yv/8AbDY7K1RSALFRdbK8fHvYGPtAGzRu3Hh4vd4rNsqNnJwVMJlMhgR08OChIcOfhAKIeRukKAoyMjJQXFyE3t5eCIIAs9liaPdXp6ysDD6fl9efUwDxZ4N0Vq/+QXARnZk5AQsXPmjI/3u9Xnz22WewWm20PxRAbF3BYsQG6R180aKFuOeee9Dd3Y1FixYhOTk5ZPanfjDm9OkvcerU6ZjNuaEAEnYWsOOTTz6Bx+MxXEtg5cpcaJofOTkrwmZuDtz9dbtdvPKcAogtATgcDhw/fgJ1dfWG05ALCvJhtdqxYsVyQ/YHAKqqqiBJDH9SAIi9zFZNUw3VEtA784IFWcjNzcUdd9wR9vC7KIq4dKkFR48ei+nbFyiABEXP5TdSS0D3+SkpKXj99VdhsVgM7bgeOXIUFy82M/xJASAm0zhstkAtAaMllURRxL333mv4d1RUVBgq3k0ogG/NBimKYsgGRZJPo4c/Dxw4GNX6YxQAiboNstsdhksqGbmy/Wr48zROn2b4kwKIAxvU1BSwQXqBjWicX66v33tTqtBTAOSm1CQuKyuPilfXj1uWlZXBZOLilwKIAxuUlJSEHTsq0N7ePqzr3a8Nf7a2tqKh4XPaHwogPmyQ1WpFU1MTdu6sHNGBFP3f1dTUoa2tNaYvnqIAyHW1icvKyodV3O7a/YK6ujqGPykAxFVqhN3uwJ49ewyVVAp1c7XH40FtbW1U6g5TAOSWzQADSyoNxwbpXv/kyZM4d+4fhq9uJBRATF31YqSyZKjwZ3V1DVyuHoY/KYD4zBA1WlnyRuHP3bt3w2y2cvSnABLHBl0Nf7bh+PETDH9SAPFugyKLBulCqa7ejba2NoY/KYB4t0H1aGlpMWyD9HDnp59+ykakAOLbBlksFly4cAFbt/7FkA3Sw5/d3d04cuQo7Q8FcDusBSwoKys3VLFe7+wNDSfR2NgYtnAfoQAQ+ynSdhw+bKyWgN7ZKyv/Cr/fx7t/KID4Z2BJpXAp0pIkQVEU1NXVM/uTAri9bFB5+fawNQQ0TUNHRwe+/PJL+n8K4PaxQaNGjUJ9fT1qagK3Onu93usqxPj9geIdGzduQmsrsz+RSBViEuGgjM/nQ3JyMsrLt2Hu3DnXFZsAgPfe+x+sX/8sbDYbOz9ngNsvJNrR0YHS0kfw/vt/RE9PD0RRhCiKaG6+iFde+RXWr38WZrOZDcYZ4PbdGfb5fOjt7cXUqVNx991ToCgKGhpO4vz584PKGREK4La1Q3phjP7+QPV4m80Gi8US05UWKQByU4QwMAJEkLhF8hJxXcBTXlwEE0IBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEEIBEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAEAqAkFvL/wOXRthj9qLulwAAAABJRU5ErkJggg==">
+<style>
+/* FieldPulse: a quiet, light field workspace. Reference-led rounded geometry.
+   Interaction guidance: Emil design engineering. Palette/type guidance: Taste minimalist-ui.
+   The supplied reference takes precedence over the latter's sharp-corner defaults. */
+:root{color-scheme:light;--bg:#f6f5fa;--surface:#fff;--ink:#111114;--text:#202024;--muted:#6c6a75;--line:#e8e6ed;--teal:#2a7b76;--blue:#111114;--good:#206749;--warn:#875510;--bad:#a2393c;--ease-out:cubic-bezier(.23,1,.32,1);--ease-drawer:cubic-bezier(.32,.72,0,1);font-family:"Helvetica Neue","Segoe UI",Arial,sans-serif;font-size:14px;font-synthesis:none}
+*{box-sizing:border-box}html{scroll-padding-bottom:130px}body{margin:0;background:#eeedf2;color:var(--text);-webkit-font-smoothing:antialiased}button,input,select,textarea{font:inherit}button,a,input,select,textarea{-webkit-tap-highlight-color:transparent;touch-action:manipulation}button,input,select,textarea{min-height:44px}button{cursor:pointer;border:0}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #577dba;outline-offset:4px}a{color:#236b66;text-decoration:none}p{margin:0 0 12px}h1,h2,h3,h4{line-height:1.22;margin:0;color:var(--ink)}h1{font-size:30px;letter-spacing:-1.15px;font-weight:600}h2{font-size:23px;letter-spacing:-.7px;font-weight:600}h3{font-size:17px;font-weight:600;letter-spacing:-.3px}h4{font-size:15px;font-weight:600}small{color:var(--muted)}svg{width:21px;height:21px;flex-shrink:0;vertical-align:middle}hr,.divider{border:0;border-top:1px solid var(--line);margin:22px 0}button,.btn{overflow-wrap:anywhere}button:active{transform:scale(.97)}button{transition:transform 140ms var(--ease-out)}
+.shell{max-width:480px;min-height:100dvh;margin:auto;background:var(--bg);position:relative;padding-bottom:calc(120px + env(safe-area-inset-bottom));isolation:isolate}
+.app-header{padding:30px 24px 0;display:flex;align-items:center;gap:12px}.brand-mark{background:#111114;color:white;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}.brand-mark svg{width:28px;height:28px;stroke-width:2.2}.brand{font-size:12px;color:var(--muted);font-weight:400;margin-bottom:5px}.product{font-size:23px;font-weight:500;letter-spacing:-.7px;line-height:1.2}.notification-btn{margin-left:auto;background:white;color:#111114;min-width:50px;height:50px;border-radius:50%;position:relative;display:grid;place-items:center;box-shadow:0 2px 10px #11111403}.notification-btn svg{width:24px;height:24px}.notification-dot{position:absolute;top:11px;right:12px;height:7px;width:7px;border-radius:50%;background:#bc735a;box-shadow:0 0 0 2px white}.notification-dot[hidden]{display:none}.header-meta{padding:17px 24px 0;display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted)}.connection{display:inline-flex;gap:6px;align-items:center}.connection:before{content:"";width:5px;height:5px;border-radius:50%;background:#2a7b76}.connection.offline:before{background:#a56c32}
+main{padding:26px 24px 10px}.page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:25px}.page-head .eyebrow{font-weight:500;font-size:12px;color:var(--muted);letter-spacing:.1px;text-transform:none;margin-bottom:7px}.eyebrow{text-transform:uppercase;letter-spacing:1.35px;color:#6d6b73;font-size:10px;font-weight:650;margin-bottom:8px}.muted{color:var(--muted);line-height:1.6}.tiny{font-size:12px;line-height:1.6}.section-title{font-size:20px;font-weight:600;letter-spacing:-.55px;margin:27px 0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}.section-title .tiny{font-weight:400;letter-spacing:0}.stack{display:grid;gap:16px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row.between{justify-content:space-between}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.card{background:var(--surface);border:1px solid #f0eef3;border-radius:26px;padding:21px;min-width:0;box-shadow:0 3px 14px #17122203}.card>.section-title:first-child,.card>div>.section-title:first-child{margin-top:0}.card .section-title{font-size:18px;letter-spacing:-.4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 17px;border-radius:24px;min-height:46px;font-weight:550;text-align:center;line-height:1.4;transition:transform 140ms var(--ease-out),background-color 140ms ease}.btn:active{transform:scale(.97)}.primary{background:#111114;color:#fff;box-shadow:none}.secondary{background:#eeedf2;color:#25232b;border:1px solid transparent}.ghost{background:transparent;color:#55525f;border:1px solid #e6e3eb}.danger{background:#fae8e7;color:#962e31;border:1px solid #f3d8d6}.full{width:100%}.btn.icon-only{width:46px;min-width:46px;padding:10px;border-radius:50%}.text-button{background:none;color:#5e5a68;padding:6px 0;min-height:44px;font-size:12px;font-weight:400;white-space:nowrap}.circle-action{width:44px;height:44px;min-width:44px;background:white;color:#111114;border-radius:50%;display:grid;place-items:center}.circle-action.dark{background:#111114;color:white}.chip{background:#fff;border:1px solid #eceaf0;border-radius:22px;padding:10px 15px;min-height:44px;white-space:nowrap;color:#6a6674;font-size:12px;font-weight:450}.chip.selected,.chip[aria-pressed=true]{color:#fff;background:#151418;border-color:#151418}.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:8px;font-size:10px;font-weight:550;line-height:1.5;background:#eeedf2;color:#625e6b;letter-spacing:.1px}.good{color:#206749;background:#e6f5ec;border-color:#c4e2d2}.warn{color:#875510;background:#fff2da;border-color:#eed9b2}.bad{color:#a2393c;background:#ffe9e9;border-color:#efcbcd}.purple{color:#695286;background:#eeebf7}.notice{padding:17px 19px;background:#edf3f0;border:1px solid #dce7df;border-radius:20px;color:#365f50;font-size:13px;line-height:1.7;overflow-wrap:anywhere}.notice.warn{color:#875510;border-color:#f1e2c7;background:#fff5e5}.notice.bad{color:#a2393c;background:#fff0f0;border-color:#efd6d6}.notice.good{color:#206749;background:#e6f5ec;border-color:#c4e2d2}
+.field{display:grid;gap:8px;font-size:12px;color:#5b5864;min-width:0;font-weight:500;line-height:1.5}.field+.field{margin-top:14px}.grid2 .field+.field{margin-top:0}label{cursor:pointer}input:not([type=checkbox]):not([type=radio]),select,textarea{width:100%;background:#f7f6fa;color:#232128;border:1px solid #e7e4ed;border-radius:14px;padding:13px 14px;outline-offset:2px;min-width:0;font-size:14px;min-height:48px}input::placeholder,textarea::placeholder{color:#817c89;opacity:1}textarea{resize:vertical;min-height:108px;line-height:1.65}input[type=checkbox],input[type=radio]{accent-color:#171619;width:20px;min-height:20px;flex-shrink:0}label:has(input[type=checkbox]),label:has(input[type=radio]){display:flex;align-items:center;min-height:44px;gap:10px}label.field:has(input[type=checkbox]){flex-direction:row}.check-row{display:flex;align-items:center;gap:10px;min-height:44px}.check-row span{font-size:13px}.field input:disabled{background:#efedf3;color:#8b8693}.search-box{position:relative;display:block}.search-box svg{position:absolute;left:16px;top:15px;color:#898391;width:19px}.search-box input{padding-left:45px!important;background:white!important;border-color:transparent!important;border-radius:24px!important}.chips{display:flex;gap:8px;overflow-x:auto;padding:3px 0 8px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.pipeline-tools{display:grid;gap:11px}.pipeline-tools select{background:transparent;border:0;padding:8px 0;font-size:12px;color:#6a6674;min-height:44px}.pipeline-tools .field{max-width:100%}
+.today-pulse{width:100%;display:flex;gap:13px;align-items:center;background:#101013;color:white;border-radius:999px;padding:8px 17px 8px 8px;min-height:78px;text-align:left}.pulse-symbol{background:#fff;color:#b9755d;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}.pulse-symbol svg{width:26px;height:26px;stroke-width:1.6}.pulse-copy{display:grid;gap:6px;min-width:0;flex:1}.pulse-copy strong{font-size:16px;font-weight:500;letter-spacing:-.25px}.pulse-copy small{font-size:12px;color:#c4c1ca;line-height:1.35}.today-pulse>.pulse-arrow{width:19px;color:#fff}.section-heading-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 15px}.section-heading-row h2{font-size:20px;font-weight:600;letter-spacing:-.55px}.section-heading-row .muted{font-size:12px}.kpis{display:flex;gap:11px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 -24px;padding:0 24px 5px}.kpis::-webkit-scrollbar{display:none}.kpi{background:#fff;color:#19181d;border:1px solid transparent;border-radius:31px;padding:20px;flex:0 0 146px;height:174px;text-align:left;scroll-snap-align:center;display:flex;flex-direction:column;align-items:flex-start;position:relative;box-shadow:0 3px 10px #17122203}.kpi-icon{width:43px;height:43px;border-radius:50%;background:#f5f4f8;color:#25232b;display:grid;place-items:center;margin-bottom:auto}.kpi-icon svg{width:21px;height:21px}.kpi-label{display:block;font-size:12px;font-weight:450;margin:8px 0 3px;color:inherit}.kpi b{display:block;font-size:37px;font-weight:450;line-height:1.05;letter-spacing:-1.5px;font-variant-numeric:tabular-nums}.kpi.featured{background:#111114;color:#fff}.kpi.featured .kpi-icon{background:white;color:#19181d}.kpi.active{box-shadow:inset 0 0 0 2px #b9755d}.kpi.active:after{content:"";position:absolute;right:17px;top:18px;width:6px;height:6px;border-radius:50%;background:#b9755d}.alert-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:17px 0 21px}.alert-row .btn{font-size:11px;justify-content:flex-start;padding:9px 11px;border:0;background:#eeecf3;color:#5b5666;border-radius:16px;gap:6px}.alert-row .btn svg{width:16px;height:16px}.alert-row .btn b{font-weight:600;margin-left:auto;color:#25222d}
+.territory-empty{background:white;border:0;border-radius:32px;padding:26px;min-height:247px;display:flex;flex-direction:column;align-items:flex-start;position:relative;overflow:hidden}.territory-empty .empty-icon{margin:0 0 18px;width:46px;height:46px;display:grid;place-items:center;border:0;border-radius:50%;background:#f1eff5;color:#625a71}.territory-empty h3{font-size:24px;font-weight:500;letter-spacing:-.7px;line-height:1.2;max-width:260px;margin-bottom:10px}.territory-empty p{font-size:13px;line-height:1.6;color:#77717e;max-width:265px;margin-bottom:23px}.territory-empty .btn{align-self:stretch;justify-content:space-between;padding:14px 19px;font-size:13px}.territory-empty .btn svg{width:18px}.empty{padding:30px 23px;text-align:center;border:1px solid #edeaf1;border-radius:26px;background:#fff}.empty-icon{width:54px;height:54px;display:grid;place-items:center;margin:0 auto 17px;background:#f0edf5;border-radius:50%;color:#62586e}.empty-icon svg{height:25px;width:25px}.empty h3{font-size:20px;margin-bottom:10px;font-weight:500}.empty p{max-width:290px;margin:0 auto;font-size:13px;color:var(--muted);line-height:1.7}.hint-line{display:flex;align-items:center;gap:7px;color:#807988;font-size:10px;margin-top:19px;line-height:1.5}.hint-line svg{width:15px;height:15px}.account-card{padding:22px;border-radius:28px}.account-top{display:flex;align-items:center;gap:12px;margin-bottom:15px}.account-emblem{width:45px;height:45px;border-radius:16px;display:grid;place-items:center;background:#f2eff7;color:#6a5b7f;flex-shrink:0}.account-emblem svg{width:22px;height:22px}.account-heading{min-width:0;flex:1}.account-name{font-size:18px;letter-spacing:-.4px;margin:0 0 5px;line-height:1.3;overflow-wrap:anywhere}.account-meta{font-size:11px;color:#77717d;margin:0;line-height:1.45}.account-status-line{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:10px}.account-status-line .badge{font-size:9px}.coverage{height:5px;background:#edeaf2;border-radius:4px;overflow:hidden;margin:10px 0}.coverage>span{display:block;height:100%;background:#27222d;border-radius:4px}.account-actions{display:flex;gap:7px;margin-top:18px}.account-actions .btn{font-size:11px;padding:10px 12px}.account-actions .btn:first-child{flex:1}.account-actions .icon-only{min-width:44px;width:44px}.account-actions .ghost{border:0;background:#f2f0f5}.account-due{font-size:11px;line-height:1.4;color:#716a79}
+.bottom-nav{position:fixed;z-index:10;bottom:calc(18px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(432px,calc(100% - 40px));display:flex;align-items:center;gap:2px;background:#08080b;border:1px solid #111114;border-radius:999px;padding:6px;box-shadow:0 8px 28px #13101e16;min-height:68px}.nav-btn{background:transparent;color:#e4e1e9;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 10px;min-height:54px;border-radius:999px;flex:1;min-width:44px;font-size:13px;font-weight:500}.nav-btn.active{color:#111114;background:#fff;flex:1.65}.nav-btn svg{width:23px;height:23px;stroke-width:1.7}.nav-btn span{display:none;white-space:nowrap}.nav-btn.active span{display:inline}.nav-btn.active svg{width:21px;height:21px}.nav-btn:focus-visible{outline-color:#e5e1ec;outline-offset:3px}
+.price-table{width:100%;border-collapse:collapse;table-layout:fixed}.price-table th{text-align:right;font-size:10px;line-height:1.5;color:#77717d;text-transform:none;letter-spacing:0;font-weight:450;padding:13px 6px;border-bottom:1px solid #dfdbe5}.price-table th:first-child{width:57%;text-align:left}.price-table td{padding:0 6px;border-bottom:1px solid #e4e0e9;vertical-align:middle;text-align:right;font-variant-numeric:tabular-nums;font-size:12px}.price-table td:last-child{font-weight:600;color:#242028}.price-table button{background:transparent;color:#2c2633;text-align:left;padding:17px 0;line-height:1.5;font-size:13px;width:100%;min-height:44px}.sku-code{font-size:10px;font-weight:500;color:#88808e;display:block;letter-spacing:.4px;margin-bottom:5px}.group-title{background:#eae6ef;padding:13px 16px;font-size:12px;letter-spacing:0;font-weight:500;margin-top:22px;border-radius:14px;color:#5b5266}.brochure-cover{background:#141217;color:white;border:0;padding:27px;border-radius:30px;position:relative;overflow:hidden}.brochure-cover .eyebrow{color:#bcb4c5;font-weight:400;letter-spacing:1.2px}.brochure-cover h2{font-size:31px;font-weight:450;line-height:1.1;color:white;letter-spacing:-1.1px;margin:17px 0 20px}.brochure-cover p{color:#c2bacb;font-size:13px;max-width:270px;line-height:1.6;margin-bottom:22px}.brochure-cover .btn{background:#fff;color:#19151e;border:0;font-size:12px}.brochure-cover-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.collection-number{font-size:13px;border:1px solid #66586d;border-radius:50%;width:42px;height:42px;display:grid;place-items:center;color:#e9e2ee}.calc-output{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:19px}.calc-output>div{padding:17px 14px;border:0;border-radius:18px;background:#f0edf5;min-width:0}.calc-output>div:nth-child(2){background:#17131c;color:white}.calc-output b{font-size:23px;font-weight:500;display:block;margin:9px 0 5px;color:#292030;font-variant-numeric:tabular-nums;letter-spacing:-.6px;overflow-wrap:anywhere}.calc-output small{font-size:9px;line-height:1.5;display:block;color:#786e80;letter-spacing:.15px}.calc-output>div:nth-child(2) b{color:white}.calc-output>div:nth-child(2) small{color:#c8bdcf}
+.list-row{padding:16px 0;border-bottom:1px solid #e9e5ed;overflow-wrap:anywhere}.list-row:last-child{border-bottom:0}.queue-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;background:#ebe7f0;padding:5px;border-radius:22px;margin:22px 0}.queue-tabs .chip{font-size:11px;white-space:normal;background:transparent;border:0;border-radius:18px;padding:10px 7px;color:#726879}.queue-tabs .chip.selected{color:#25202c;background:white;box-shadow:0 2px 6px #17112206}.task{display:flex;align-items:flex-start;gap:12px}.task>input[type=checkbox]{min-height:44px;width:22px;margin-top:0}.task.done h3{text-decoration:line-through;color:#99909f}.task-content{flex:1;min-width:0}.task h3{font-size:15px;line-height:1.5}.task .btn{font-size:11px;padding:10px 12px}.task .row{gap:7px}
+.wizard-steps{display:flex;gap:5px;position:sticky;top:0;z-index:3;background:#f6f5faf5;padding:12px 0 16px;backdrop-filter:blur(10px)}.step-pill{background:#ece8f1;border:0;color:#776c82;border-radius:17px;display:flex;flex:1;min-width:0;flex-direction:column;gap:4px;align-items:center;justify-content:center;padding:10px 1px;min-height:60px}.step-pill>span{font-size:14px;font-weight:500}.step-pill small{font-size:10px;white-space:nowrap;letter-spacing:-.2px;color:inherit}.step-pill.active{background:#18131d;color:#fff}.step-pill.done{background:#e5ede7;color:#467052}.section-heading{margin:12px 0 24px}.section-heading h2{font-size:24px;letter-spacing:-.7px;font-weight:500;margin:8px 0 12px}.section-heading>.muted{font-size:13px;line-height:1.65}.wizard-content{padding-bottom:10px}.wizard-content .card{padding:20px}.wizard-footer{position:sticky;bottom:104px;background:#fffffff2;border:1px solid #ece8f0;z-index:4;border-radius:24px;padding:13px;margin-top:24px;backdrop-filter:blur(10px);box-shadow:0 4px 18px #17122208}.wizard-footer>span{font-size:10px;display:block;margin-bottom:9px;text-align:center}.wizard-footer .row{flex-wrap:nowrap;gap:8px}.wizard-footer .row .btn{flex:1;font-size:12px;min-height:46px}.wizard-footer:has(.row:empty){position:static;background:transparent;box-shadow:none;border:0}.inline-add{display:grid;gap:10px}.inline-add .btn{justify-self:start;font-size:12px}.route-card{background:#fff;color:#242029;border:1px solid #e9e4ee;border-radius:24px;padding:20px;text-align:left;display:grid;gap:12px}.route-card>.muted{font-size:12px;line-height:1.6}.route-card.selected{border-color:#19151e;box-shadow:inset 0 0 0 1px #19151e;background:#fefefe}.route-card strong{font-size:15px;font-weight:550}.route-card .badge{font-size:9px;background:#f1edf5;color:#776b82}.route-card.selected .badge{background:#211b29;color:white}.stock-toggle{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.stock-toggle button{min-height:64px;border:1px solid #e6e0eb;border-radius:14px;background:#f6f3f9;color:#82768e;padding:9px 3px;display:flex;flex-direction:column;justify-content:center;gap:5px}.stock-toggle strong{font-size:11px;font-weight:550}.stock-toggle small{font-size:10px;color:inherit}.stock-toggle .selected.good{background:#e6f5ec;color:#206749;border-color:#85b99b}.stock-toggle .selected.warn{background:#fff2da;color:#875510;border-color:#d8b47d}.stock-toggle .selected.bad{background:#ffe9e9;color:#a2393c;border-color:#d99fa1}.audit-card h4{line-height:1.5;margin:6px 0;font-size:15px;font-weight:550}.audit-card p{margin:6px 0 0;font-size:11px}.audit-card .eyebrow{font-size:10px;font-weight:500;color:#82758f}.audit-card .field{font-size:11px}.request-line{display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #e9e2ef}.request-line label{font-size:12px;line-height:1.5}.request-line input[type=number]{padding:10px}.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.timeline{border-left:1px solid #d9d1e1;margin:24px 0 0 5px;padding-left:22px}.timeline-item{position:relative;padding-bottom:24px;overflow-wrap:anywhere}.timeline-item:before{content:"";position:absolute;left:-27px;top:5px;width:9px;height:9px;background:#c7bdd2;border:2px solid var(--bg);border-radius:100%}.timeline-item p{white-space:pre-wrap;font-size:13px;line-height:1.65;margin:8px 0}.timeline-item small{font-size:10px}.stock-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stock-cell{background:white;color:#28222f;border:1px solid #ece6f2;padding:16px;border-radius:20px;text-align:left;line-height:1.5;min-height:123px}.stock-cell strong{display:block;font-size:12px;font-weight:500;margin:6px 0 11px}.stock-cell .badge{font-size:9px}.stock-cell .sku-code{font-size:10px}.profile-stage{margin-bottom:16px}
+dialog{padding:0;background:var(--bg);color:var(--text);border:0;border-radius:0;width:min(480px,100vw);max-width:100vw;max-height:100dvh;box-shadow:0 20px 100px #160e2326;overscroll-behavior:contain}dialog::backdrop{background:#1b162850;backdrop-filter:blur(5px)}dialog.fullscreen{height:100dvh;margin:0 0 0 auto;top:0;bottom:0;right:0}dialog.editor{border-radius:30px;width:min(442px,calc(100vw - 24px));max-height:90dvh}.modal-head{position:sticky;top:0;z-index:5;background:#f6f5faf5;backdrop-filter:blur(10px);padding:16px 24px;border-bottom:1px solid #ebe6f0;display:flex;justify-content:space-between;align-items:center;gap:12px}.modal-head .eyebrow{font-size:10px;color:#796e84;font-weight:500}.modal-head .icon-only{background:white;border:0;color:#4e425c}.modal-content{padding:24px 24px calc(32px + env(safe-area-inset-bottom))}.modal-content h2{line-height:1.3}.modal-content .section-title{font-size:19px}.modal-content .section-title .btn{font-size:11px;padding:9px 14px}.modal-content>.row .btn{font-size:12px}.pitch-hero{border:0;border-radius:30px;padding:27px;background:#19131f;margin-bottom:23px;position:relative;overflow:hidden;color:#eee6f4}.pitch-hero .badge{background:#3b3145;color:#e1d4ec;font-size:10px}.pitch-hero h1{font-size:29px;font-weight:450;letter-spacing:-.75px;line-height:1.25;margin:19px 0 27px;color:#fff}.pitch-number{font-size:44px;font-weight:450;letter-spacing:-1.6px;color:#fff}.pitch-hero .muted{color:#c6b7d2}.pitch-hero p{font-size:11px;line-height:1.65;margin-top:8px}.pitch-bullets{padding-left:21px;line-height:1.8;color:#5d506a;font-size:15px}.pitch-bullets li{margin-bottom:18px;padding-left:5px}.pitch-bullets li::marker{color:#a28caf}.pitch-controls{display:flex;gap:10px;justify-content:space-between;margin-top:25px}.pitch-controls .btn{font-size:12px;flex:1}
+.toast{position:fixed;z-index:100;left:50%;transform:translateX(-50%);bottom:calc(104px + env(safe-area-inset-bottom));width:max-content;max-width:min(420px,calc(100% - 36px));padding:14px 19px;background:#24202b;color:#fff;border:1px solid #3c3445;border-radius:18px;font-size:12px;line-height:1.5;box-shadow:0 8px 25px #1711221a;pointer-events:none}.toast[hidden]{display:none}body:has(#view-wizard .wizard-footer .btn) .toast{bottom:calc(220px + env(safe-area-inset-bottom))}details{border:1px solid #e7dfef;border-radius:18px;padding:15px;margin-top:15px}summary{min-height:44px;cursor:pointer;font-size:13px;font-weight:500}details[open]>summary{margin-bottom:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#ece7f2;color:#4e3e5d;padding:15px;border-radius:13px;font-size:11px;line-height:1.7}code{font-size:12px}.install-banner{margin:20px 24px 0;padding:12px 15px;border-radius:22px;background:white;display:flex;align-items:center;gap:10px;font-size:12px;color:#655a71}.install-banner[hidden]{display:none}.install-banner .btn{margin-left:auto;font-size:11px;padding:9px 13px}.footer-note{color:#8b7d96;font-size:10px;line-height:1.8;text-align:center;margin:28px 0 5px;letter-spacing:.1px}.screen-reader-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}#boot-error{padding:12px 0}body:has(dialog[open]){overflow:hidden}.skip-link{position:fixed;top:-100px;left:24px;z-index:200;background:#fff;color:#111;padding:14px 20px;border-radius:24px}.skip-link:focus{top:14px}
+/* Modals enter once; routine filtering and list refreshes remain immediate. */
+@media(prefers-reduced-motion:no-preference){dialog[open]{opacity:1;transform:translateY(0);transition:opacity 180ms var(--ease-out),transform 220ms var(--ease-drawer)}@starting-style{dialog[open]{opacity:0;transform:translateY(12px)}}}
+@media(hover:hover) and (pointer:fine){.btn:hover{background-color:#e9e4ef}.btn.primary:hover{background-color:#302b36}.btn.danger:hover{background-color:#f5dcda}.notification-btn:hover,.circle-action:hover{background-color:#eae5f0}.circle-action.dark:hover{background-color:#302b36}.nav-btn:not(.active):hover{background:#2b2532}.kpi:hover{transform:translateY(-2px)}.stock-cell:hover{border-color:#c8bdd4}.price-table button:hover{color:#6b4f80}.brochure-cover .btn:hover{background:#eee7f4}.text-button:hover{color:#111114}}
+@media(min-width:768px){.shell{margin-top:28px;min-height:calc(100dvh - 28px);border-radius:36px 36px 0 0;box-shadow:0 6px 70px #21133107}.app-header{padding-top:31px}dialog.fullscreen{margin:0 auto;left:0;right:0}body{background:#eeedf2}}
+@media(max-width:360px){main{padding:23px 19px 10px}.app-header{padding:25px 19px 0;gap:10px}.brand-mark{width:47px;height:47px}.product{font-size:20px}.brand{font-size:11px}.header-meta{padding-inline:19px}.notification-btn{width:46px;min-width:46px;height:46px}.kpis{margin-inline:-19px;padding-inline:19px}.today-pulse{gap:10px}.pulse-symbol{width:54px;height:54px}.pulse-copy strong{font-size:14px}.pulse-copy small{font-size:11px}.grid2{gap:9px}.btn{padding:11px 13px}.bottom-nav{width:calc(100% - 28px);padding:5px;gap:0;min-height:66px}.nav-btn{padding-inline:7px;min-width:41px}.nav-btn.active{flex:1.7;font-size:12px}.nav-btn svg{width:21px}.modal-head{padding-inline:19px}.modal-content{padding-inline:19px}.card,.wizard-content .card{padding:17px}.stock-toggle strong{font-size:9px}.stock-toggle small{font-size:8px}.step-pill small{font-size:9px}.territory-empty{padding:23px}.price-table th:first-child{width:54%}.price-table button{font-size:12px}.section-heading-row h2{font-size:18px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}button:active,.kpi:hover{transform:none!important}}
+.keyboard-mode *, .keyboard-mode *::before,.keyboard-mode *::after{transition:none!important;animation:none!important}.keyboard-mode dialog[open]{opacity:1;transform:none}
+/* The primary empty-state action stays in the first phone viewport. */
+#view-pipeline .section-heading-row{margin-top:20px;margin-bottom:12px}
+#view-pipeline .territory-empty .empty-icon{display:none}
+#view-pipeline .territory-empty{min-height:0;padding:25px 26px}
+#view-pipeline .territory-empty h3{font-size:23px}
+#view-pipeline .territory-empty p{margin-bottom:19px}
+/* Visits use a smaller header so the current task gets the screen. */
+#view-wizard>.page-head{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+body:has(#view-wizard) .app-header{padding-top:21px}
+body:has(#view-wizard) .header-meta{padding-top:12px}
+#view-wizard .section-heading{margin-top:8px;margin-bottom:18px}
+#view-wizard .section-heading h2{font-size:23px;margin-bottom:9px}
+#view-wizard .section-heading>.muted{font-size:12px;margin-bottom:0}
+.wizard-content section.stack>.section-title{margin:12px 0 0}
+.pitch-hero{background:#111114}
+h1,h2,h3,h4{overflow-wrap:anywhere}
+
+</style>
+</head>
+<body>
+<div class="shell">
+<a class="skip-link" href="#app">Skip to workspace</a>
+<header class="app-header"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h6l3-9 6 17 4-12 3 4h4"/></svg></div><div><div class="brand">Hantco FieldPulse</div><div class="product" id="greeting">Your field workspace</div></div><button class="notification-btn" data-action="queue-open" data-queue="we" aria-label="View pending promises" title="Pending promises"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span id="notification-dot" class="notification-dot" hidden></span></button></header>
+<div class="header-meta"><span id="header-date"></span><span id="connection" class="connection">On device</span></div>
+<div id="install-banner" class="install-banner" hidden>Keep FieldPulse one tap away.<button class="btn secondary" data-action="install">Install app</button></div>
+<main id="app" tabindex="-1"></main>
+<nav id="bottom-nav" class="bottom-nav" aria-label="Main navigation"></nav>
+</div>
+<dialog id="modal-account-360" class="fullscreen" aria-labelledby="profile-title"></dialog>
+<dialog id="modal-pitch" class="fullscreen" aria-labelledby="pitch-title"></dialog>
+<dialog id="modal-editor" class="editor" aria-labelledby="dialog-title"></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<noscript><p style="padding:24px">Enable JavaScript to use Hantco FieldPulse CRM. All field records are stored on this device.</p></noscript>
+<script>
+'use strict';
+/* Supplied Hantco catalogue. Editable prices and talking points live in Settings. */
+const INITIAL_SKUS = [
+  {
+    "id": "DA-01",
+    "code": "DA-01",
+    "section": "Derma Angel Products",
+    "brand": "Derma Angel",
+    "name": "Derma Angel Spot Patch with Salicylic Acid 24's",
+    "retailExclVatAED": 45.0,
+    "retailInclVatAED": 47.25,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Salicylic acid penetrates pores to clear early-stage & active acne fast",
+      "Ultra-thin hydrocolloid protects from bacteria and hand touching",
+      "24-patch value pack for complete breakout cycle coverage"
+    ]
+  },
+  {
+    "id": "DA-02",
+    "code": "DA-02",
+    "section": "Derma Angel Products",
+    "brand": "Derma Angel",
+    "name": "Derma Angel Spot Patch Lightening 24's",
+    "retailExclVatAED": 45.0,
+    "retailInclVatAED": 47.25,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Brightening formula targets dark spots and post-acne hyperpigmentation",
+      "Hydrocolloid core absorbs exudate while fading blemish marks",
+      "24 patches per box with invisible matte finish"
+    ]
+  },
+  {
+    "id": "DA-03",
+    "code": "DA-03",
+    "section": "Derma Angel Products",
+    "brand": "Derma Angel",
+    "name": "Derma Angel Spot Patch Invisible 24's",
+    "retailExclVatAED": 34.0,
+    "retailInclVatAED": 35.7,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Ultra-thin 0.01cm translucent edge blends seamlessly into all skin tones",
+      "Makeup-friendly daytime protection with strong sweat-proof adhesion",
+      "High-velocity everyday bestseller at 35.70 AED incl. VAT"
+    ]
+  },
+  {
+    "id": "DA-04",
+    "code": "DA-04",
+    "section": "Derma Angel Products",
+    "brand": "Derma Angel",
+    "name": "Derma Angel Beauty Patch 12's",
+    "retailExclVatAED": 28.0,
+    "retailInclVatAED": 29.4,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Decorative & protective hydrocolloid patch for confident daily wear",
+      "Prevents picking and secondary infection while absorbing oil",
+      "Entry-level impulse price point (29.40 AED incl. VAT) at pharmacy counter"
+    ]
+  },
+  {
+    "id": "DA-05",
+    "code": "DA-05",
+    "section": "Derma Angel Products",
+    "brand": "Derma Angel",
+    "name": "Derma Angel Spot Patch Clearing 12's",
+    "retailExclVatAED": 28.0,
+    "retailInclVatAED": 29.4,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Fast-acting pus and exudate absorption for mature whiteheads",
+      "Waterproof barrier accelerates natural skin recovery overnight",
+      "Compact 12-patch trial pack ideal for first-time buyers"
+    ]
+  },
+  {
+    "id": "DA-06",
+    "code": "DA-06",
+    "section": "Derma Angel Products",
+    "brand": "Derma Angel",
+    "name": "Derma Angel Intensive Acne Gel",
+    "retailExclVatAED": 60.0,
+    "retailInclVatAED": 63.0,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Concentrated targeted gel for stubborn, inflamed, or multiple acne zones",
+      "Calms redness, unclogs pores, and regulates excess sebum without peeling",
+      "High-margin treatment tube (63.00 AED incl. VAT) — pairs with patches"
+    ]
+  },
+  {
+    "id": "DA-07",
+    "code": "DA-07",
+    "section": "Derma Angel Products",
+    "brand": "Derma Angel",
+    "name": "Derma Angel Spot Lightening Serum",
+    "retailExclVatAED": 60.0,
+    "retailInclVatAED": 63.0,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Post-acne recovery serum targeting stubborn dark marks and uneven tone",
+      "Lightweight non-comedogenic texture suitable for acne-prone skin",
+      "Completes the 3-step Derma Angel regimen (Treat, Patch, Fade)"
+    ]
+  },
+  {
+    "id": "IM-01",
+    "code": "IM-01",
+    "section": "Impress Med Products",
+    "brand": "Impress Med",
+    "name": "Impress Men Intimate Wash",
+    "retailExclVatAED": 60.0,
+    "retailInclVatAED": 63.0,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Urology",
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Specialized pH-balanced daily intimate hygiene formula engineered for men",
+      "Eliminates odor, sweat irritation, and chafing in hot UAE climate",
+      "High-margin underserved male personal care category (63.00 AED incl. VAT)"
+    ]
+  },
+  {
+    "id": "IM-02",
+    "code": "IM-02",
+    "section": "Impress Med Products",
+    "brand": "Impress Med",
+    "name": "Impress Women Intimate Hygiene Wash",
+    "retailExclVatAED": 45.71,
+    "retailInclVatAED": 48.0,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Gynecology",
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Gentle pH-balanced feminine wash protects natural flora and prevents irritation",
+      "Ideal for daily hygiene, post-workout, and gynecological care",
+      "Strong repeat prescription & OTC demand at 48.00 AED incl. VAT"
+    ]
+  },
+  {
+    "id": "IM-03",
+    "code": "IM-03",
+    "section": "Impress Med Products",
+    "brand": "Impress Med",
+    "name": "Impresskid Fever Tracker Patches 12's",
+    "retailExclVatAED": 40.0,
+    "retailInclVatAED": 42.0,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Pediatrics",
+      "GP"
+    ],
+    "uspBullets": [
+      "Continuous visual fever monitoring and soothing cooling relief for children",
+      "Gentle hypoallergenic adhesion — zero discomfort for toddlers and kids",
+      "12-patch family box (42.00 AED incl. VAT) — top pediatric clinic cross-sell"
+    ]
+  },
+  {
+    "id": "IM-04",
+    "code": "IM-04",
+    "section": "Impress Med Products",
+    "brand": "Impress Med",
+    "name": "Impressmed Spot Patch 36's",
+    "retailExclVatAED": 24.0,
+    "retailInclVatAED": 25.2,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Unbeatable economy value: 36 medical-grade hydrocolloid patches for 25.20 AED",
+      "Lowest cost-per-patch on the pharmacy shelf — drives massive volume",
+      "Protects blemishes, absorbs fluid, and prevents scarring"
+    ]
+  },
+  {
+    "id": "IM-05",
+    "code": "IM-05",
+    "section": "Impress Med Products",
+    "brand": "Impress Med",
+    "name": "IM Nasal Strips 10's",
+    "retailExclVatAED": 24.0,
+    "retailInclVatAED": 25.2,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "ENT",
+      "GP",
+      "Dental"
+    ],
+    "uspBullets": [
+      "Drug-free mechanical nasal dilation for instant snoring and congestion relief",
+      "Opens nasal passages for better sleep, deviated septum, and athletic breathing",
+      "10-strip starter box at an accessible 25.20 AED incl. VAT"
+    ]
+  },
+  {
+    "id": "IM-06",
+    "code": "IM-06",
+    "section": "Impress Med Products",
+    "brand": "Impress Med",
+    "name": "IM Nasal Strips 30's",
+    "retailExclVatAED": 50.0,
+    "retailInclVatAED": 52.5,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "ENT",
+      "GP"
+    ],
+    "uspBullets": [
+      "Full 1-month supply (30 strips) for nightly snorers and chronic sinus patients",
+      "Saves customers 30% per strip compared to the 10's pack",
+      "High-ticket repeat purchase at 52.50 AED incl. VAT"
+    ]
+  },
+  {
+    "id": "IM-07",
+    "code": "IM-07",
+    "section": "Impress Med Products",
+    "brand": "Impress Med",
+    "name": "Impresskid Mosquito Repellent Patches 24's",
+    "retailExclVatAED": 20.0,
+    "retailInclVatAED": 21.0,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Pediatrics",
+      "GP"
+    ],
+    "uspBullets": [
+      "DEET-free plant-essential-oil patches stick onto clothes, strollers, or bags",
+      "Zero direct skin contact — 100% safe for infants and sensitive skin",
+      "Fast-moving impulse counter pick at just 21.00 AED incl. VAT for 24 patches"
+    ]
+  },
+  {
+    "id": "IM-08",
+    "code": "IM-08",
+    "section": "Impress Med Products",
+    "brand": "Impress Med",
+    "name": "IM Lens & Screen Cleaning Wipes 50's",
+    "retailExclVatAED": 30.0,
+    "retailInclVatAED": 31.5,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Ophthalmology",
+      "Optometry",
+      "General"
+    ],
+    "uspBullets": [
+      "50 individually wrapped pre-moistened anti-static, streak-free wipes",
+      "Safe for prescription eyeglasses, camera lenses, and smartphones",
+      "Perfect cash-counter impulse add-on at 31.50 AED incl. VAT"
+    ]
+  },
+  {
+    "id": "IM-09",
+    "code": "IM-09",
+    "section": "Impress Med Products",
+    "brand": "Cera Derm",
+    "name": "Cera Derm Ultra Hydrating Sunscreen 50 ml",
+    "retailExclVatAED": 80.0,
+    "retailInclVatAED": 84.0,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Broad-spectrum UV protection enriched with Ceramides for deep barrier hydration",
+      "Zero white-cast, non-greasy finish tailored for daily UAE sun exposure",
+      "Premium dermatological margin builder at 84.00 AED incl. VAT"
+    ]
+  },
+  {
+    "id": "IM-10",
+    "code": "IM-10",
+    "section": "Impress Med Products",
+    "brand": "Cera Derm",
+    "name": "Cera Derm Ultra Hydrating Sunscreen 50 ml (Offer Pack 1 + 1)",
+    "retailExclVatAED": 80.0,
+    "retailInclVatAED": 84.0,
+    "defaultTradeDiscountPct": 25,
+    "targetSpecialty": [
+      "Dermatology",
+      "GP"
+    ],
+    "uspBullets": [
+      "Separate promotional SKU: Buy 1 Get 1 Free (2 x 50ml tubes) for 84.00 AED incl. VAT",
+      "Easiest pitch to pharmacists and customers — unbeatable 1+1 value on shelf",
+      "Drives immediate multi-unit sell-through and counter display dominance"
+    ]
+  }
+];
+
+function seedDatabase() {
+  return {
+    schemaVersion: 1,
+    revision: 0,
+    updatedAt: new Date().toISOString(),
+    company_info: {
+      name: 'Hantco International General Trading L.L.C',
+      address: 'Hareb Al Khawaneej 2, Office No: 16 & 18, Al Khawaneej 2, Dubai, U.A.E.',
+      website: 'www.hantco.ae',
+      email: 'info@hantco.ae',
+      phone: '+971585755666'
+    },
+    skus: JSON.parse(JSON.stringify(INITIAL_SKUS)),
+    master_config: {
+      listedGroupChains: [],
+      listedDrugstores: [],
+      emirates: ['Dubai', 'Sharjah', 'Ajman', 'Abu Dhabi', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain'],
+      pipelineStages: ['Cold / Unaudited', 'Pitched - Pending Order', 'Stocked - Needs Velocity', 'Active VIP'],
+      supabaseConfig: {url: '', anonKey: '', tableName: 'hantco_crm_sync', lastSync: null}
+    },
+    accounts: [],
+    timeline_events: [],
+    deliverables: []
+  };
+}
+
+
+const DB_KEY = 'HANTCO_CRM_V1';
+let db, lastStoredRaw = null, storageBlocked = false, deferredInstall = null, toastTimer, pitchId = null;
+const ui = {tab:'pipeline',step:1,draft:null,profileId:null,showAll:false,queue:'schedule',filter:'all',stage:'',search:'',emirate:''};
+const clone = x => JSON.parse(JSON.stringify(x));
+const esc = x => String(x ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => Number(n || 0).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
+const stamp = () => new Date().toISOString();
+function today(){const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Dubai',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());return ['year','month','day'].map(t=>p.find(x=>x.type===t).value).join('-');}
+const uid = () => globalThis.crypto?.randomUUID?.() || 'id-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
+const checked = b => b ? 'checked' : '';
+const selected = (a,b) => String(a)===String(b) ? 'selected' : '';
+const skuById = id => db.skus.find(s=>s.id===id);
+const missingSkus = a => db.skus.filter(s=>a.stock?.[s.id]?.status!=='in');
+const talabatMissing = a => a.hasOnline ? db.skus.filter(s=>a.stock?.[s.id]?.status==='in'&&!a.stock[s.id].talabat) : [];
+const statusLabel = state => ({in:'IN STOCK',oos:'OUT OF STOCK',not:'NOT LISTED'}[state] || 'NOT LISTED');
+const statusClass = state => ({in:'good',oos:'warn',not:'bad'}[state] || 'bad');
+const dateLabel = date => date ? new Intl.DateTimeFormat('en-AE',{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Dubai'}).format(new Date(date.length===10?date+'T12:00:00+04:00':date)) : 'No date set';
+function icon(name){const paths={home:'<path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2v-9Z"/>',pulse:'<path d="m13 2-8 12h6l-1 8 9-13h-6l1-7Z"/>',star:'<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3Z"/>',pipeline:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',visit:'<path d="M12 8v8m-4-4h8"/><rect x="4" y="4" width="16" height="17" rx="3"/><path d="M9 4V2h6v2"/>',tasks:'<path d="m4 6 2 2 3-4m3 2h8M4 13l2 2 3-4m3 2h8M4 20l2 2 3-4m3 2h8"/>',book:'<path d="M12 5v16M12 5C9 2 4 3 2 4v15c4-1 7-1 10 2 3-3 6-3 10-2V4c-2-1-7-2-10 1Z"/>',settings:'<path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="16" cy="17" r="3"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',plus:'<path d="M12 5v14M5 12h14"/>',arrow:'<path d="M5 12h14m-6-6 6 6-6 6"/>',check:'<path d="m5 12 4 4L19 6"/>',close:'<path d="m6 6 12 12M6 18 18 6"/>',chat:'<path d="M21 11a9 9 0 0 1-13 8l-5 2 1-5A9 9 0 1 1 21 11Z"/><path d="M8 10h8m-8 4h5"/>',pin:'<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',box:'<path d="m3 7 9-5 9 5v10l-9 5-9-5V7Zm0 0 9 5 9-5m-9 5v10M7 4.8l10 5.5"/>',phone:'<path d="M8 3 4 4C2 13 11 22 20 20l1-4-5-2-2 3c-3-1-6-4-7-7l3-2-2-5Z"/>',shield:'<path d="m12 2 9 4v6c0 6-9 10-9 10S3 18 3 12V6l9-4Z"/><path d="m8 12 3 3 5-6"/>',download:'<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>',store:'<path d="m3 9 2-6h14l2 6M3 9v3c2 2 4 2 6 0 2 2 4 2 6 0 2 2 4 2 6 0V9M5 14v7h14v-7M9 21v-6h6v6"/>',chevron:'<path d="m9 5 7 7-7 7"/>'};return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]||paths.box}</svg>`;}
+function field(label,html){return `<label class="field">${esc(label)}${html}</label>`;}
+function input(label,name,value,type='text',extra=''){return field(label,`<input type="${esc(type)}" data-field="${esc(name)}" value="${esc(value)}" ${extra}>`);}
+function select(label,name,value,values){return field(label,`<select data-field="${esc(name)}">${values.map(o=>{const v=typeof o==='string'?o:o.value,l=typeof o==='string'?o:o.label;return `<option value="${esc(v)}" ${selected(v,value)}>${esc(l)}</option>`}).join('')}</select>`);}
+function button(label,action,extra='',kind='secondary'){return `<button type="button" class="btn ${kind}" data-action="${esc(action)}" ${extra}>${label}</button>`;}
+function empty(title,copy){return `<div class="empty"><div class="empty-icon">${icon('store')}</div><h3>${esc(title)}</h3><p>${esc(copy)}</p></div>`;}
+function toast(msg){clearTimeout(toastTimer);const el=document.getElementById('toast');el.textContent=msg;el.hidden=false;toastTimer=setTimeout(()=>el.hidden=true,5000);}
+function logEvent(accountId,type,text,extra={}){return {id:uid(),accountId,type,text,createdAt:stamp(),...extra};}
+function transact(fn){
+ if(storageBlocked){toast('Storage is unavailable. Export your records before continuing.');return false;}
+ try{
+  const current=localStorage.getItem(DB_KEY);
+  if(current!==lastStoredRaw){if(current){db=validateDatabase(JSON.parse(current));lastStoredRaw=current;}toast('Records changed in another tab. Review the latest data and try again.');render();return false;}
+  const next=clone(db);fn(next);next.revision=(db.revision||0)+1;next.updatedAt=stamp();const valid=validateDatabase(next);const raw=JSON.stringify(valid);localStorage.setItem(DB_KEY,raw);db=valid;lastStoredRaw=raw;return true;
+ }catch(err){toast('Not saved: '+(err.message||'device storage is full or unavailable.'));return false;}
+}
+function download(name,text,mime='text/plain;charset=utf-8'){const url=URL.createObjectURL(new Blob([text],{type:mime}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000);}
+function normalizedPhone(phone){let s=String(phone||'').trim().replace(/[\s().-]/g,'');if(s.startsWith('00'))s='+'+s.slice(2);if(/^05\d{8}$/.test(s))s='+971'+s.slice(1);if(!/^\+?[1-9]\d{7,14}$/.test(s))return '';return s.replace(/^\+/,'');}
+function openWhatsApp(phone,text){const n=normalizedPhone(phone);if(phone&&!n){toast('Enter a valid WhatsApp number, including country code.');return false;}window.open('https://wa.me/'+n+'?text='+encodeURIComponent(text),'_blank','noopener,noreferrer');return true;}
+function routeLabel(a){return a.scenario==='group'?`${a.groupName} · Main store transfer`:a.scenario==='drugstore'?`${a.drugstoreName} · Partner drugstore`:'Hantco direct supply';}
+function routeGuide(a){return a.scenario==='group'?`MAIN STORE / WAREHOUSE LISTED (${a.groupName}): Products are listed in their central store. Pitch the branch pharmacist to request transfer/stock of missing SKUs from their main branch/warehouse.`:a.scenario==='drugstore'?`ROUTE VIA PARTNER DRUGSTORE (${a.drugstoreName}): Do not open direct credit unless required. Instruct pharmacy to purchase our SKUs through ${a.drugstoreName} for fast supply and easy payment collection.`:'DIRECT HANTCO SUPPLY REQUIRED: Pharmacy does not deal with our listed drugstores. Supply directly from Hantco International (Collect Trade License, TRN & Payment Terms).';}
+function navigate(tab){if(!['pipeline','wizard','deliverables','showroom','settings'].includes(tab))return;ui.tab=tab;render();window.scrollTo({top:0,behavior:'instant'});}
+function render(){
+ if(!db)return;
+ const titles={pipeline:['Your territory','CRM & pipeline'],wizard:['Your field playbook','Guided visit'],deliverables:['Your next steps','Follow-ups & promises'],showroom:['The Hantco collection','Price list & brochure'],settings:['Make it yours','Settings & master data']};
+ const tabs=[['pipeline','home','Home','CRM & pipeline'],['wizard','visit','Visit','Guided visit'],['deliverables','tasks','Tasks','Follow-ups & deliverables'],['showroom','book','Prices','Price list & digital brochure'],['settings','settings','More','Settings & master data']];
+ document.getElementById('bottom-nav').innerHTML=tabs.map(([id,ico,label,full])=>`<button class="nav-btn ${ui.tab===id?'active':''}" data-action="tab" data-tab="${id}" aria-label="${full}" title="${full}" ${ui.tab===id?'aria-current="page"':''}>${icon(ico)}<span>${label}</span></button>`).join('');
+ const body={pipeline:renderPipeline,wizard:renderWizard,deliverables:renderDeliverables,showroom:renderShowroom,settings:renderSettings}[ui.tab]();
+ document.getElementById('app').innerHTML=`<section id="view-${ui.tab}" aria-label="${titles[ui.tab][1]}"><div class="${ui.tab==='pipeline'?'screen-reader-only':'page-head'}"><div><div class="eyebrow">${titles[ui.tab][0]}</div><h1>${titles[ui.tab][1]}</h1></div></div>${body}</section>`;
+ const now=new Date();
+ document.getElementById('header-date').textContent=new Intl.DateTimeFormat('en-AE',{weekday:'short',month:'short',day:'numeric',timeZone:'Asia/Dubai'}).format(now)+' · UAE';
+ const hour=Number(new Intl.DateTimeFormat('en-GB',{hour:'2-digit',hourCycle:'h23',timeZone:'Asia/Dubai'}).format(now));
+ document.getElementById('greeting').textContent=hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';
+ const pending=db.deliverables.filter(d=>!d.done).length;
+ document.getElementById('notification-dot').hidden=!pending;
+ document.querySelector('.notification-btn').setAttribute('aria-label',`View ${pending} pending promises`);
+ refreshConnection();document.querySelectorAll('[data-calc-root]').forEach(updateCalculator);
+}
+function renderPipeline(){
+ const stages=db.master_config.pipelineStages;
+ const due=db.accounts.filter(a=>a.followUp&&a.followUp<=today()).length;
+ const promises=db.deliverables.filter(d=>!d.done).length;
+ const counts=stages.map(stage=>db.accounts.filter(a=>a.stage===stage).length);
+ const dueHeading=due===1?'1 follow-up due':`${due} follow-ups due`;
+ const dueCopy=due?'See today’s visits and overdue accounts':'Your next visits, all in one place';
+ const hasAccounts=db.accounts.length>0;
+ return `<button class="today-pulse" data-action="queue-open" data-queue="schedule" aria-label="${dueHeading}. Open follow-up schedule"><span class="pulse-symbol">${icon('pulse')}</span><span class="pulse-copy"><strong>${dueHeading}</strong><small>${dueCopy}</small></span>${icon('chevron').replace('<svg ','<svg class="pulse-arrow" ')}</button>
+ <div class="section-heading-row"><h2>Pipeline at a glance</h2><button class="text-button" data-action="reset-filters" aria-label="Show all pharmacy accounts">${hasAccounts?db.accounts.length+' accounts':'All accounts'}</button></div>
+ <div class="kpis" role="group" aria-label="Filter accounts by pipeline stage">${stages.map((stage,i)=>`<button class="kpi ${i===1?'featured':''} ${ui.stage===stage?'active':''}" data-action="stage-filter" data-stage="${esc(stage)}" aria-pressed="${ui.stage===stage}" aria-label="${esc(stage)}: ${counts[i]} accounts"><span class="kpi-icon">${icon(['store','box','check','star'][i])}</span><span class="kpi-label">${['Cold accounts','Pending orders','Stocked','Active VIP'][i]}</span><b>${counts[i]}</b></button>`).join('')}</div>
+ ${hasAccounts?`<div class="alert-row">${button(`${icon('clock')} Due / overdue <b>${due}</b>`,'queue-open','data-queue="schedule"','ghost')}${button(`${icon('box')} Pending promises <b>${promises}</b>`,'queue-open','data-queue="we"','ghost')}</div>`:''}
+ <div class="section-heading-row"><h2>Your pharmacies</h2>${button(icon('plus'),'new-visit','aria-label="Start pharmacy visit" title="Start pharmacy visit"','circle-action')}</div>
+ ${hasAccounts?`<div class="pipeline-tools"><label class="search-box"><span class="screen-reader-only">Search pharmacies, contacts or doctors</span>${icon('search')}<input type="search" id="account-search" data-pipeline="search" placeholder="Pharmacy, area, pharmacist…" value="${esc(ui.search)}"></label><div class="chips" aria-label="Account filters">${[['all','All accounts'],['group','Group branch'],['drugstore','Via drugstore'],['direct','Direct supply'],['clinic','Has clinic'],['talabat','Talabat missing']].map(([v,l])=>`<button class="chip ${ui.filter===v?'selected':''}" data-action="filter" data-filter="${v}" aria-pressed="${ui.filter===v}">${l}</button>`).join('')}</div><label class="field"><span class="screen-reader-only">Emirate</span><select data-pipeline="emirate"><option value="">All emirates</option>${db.master_config.emirates.map(e=>`<option ${selected(e,ui.emirate)}>${esc(e)}</option>`).join('')}</select></label></div>`:''}
+ <div id="account-results" class="stack" ${hasAccounts?'style="margin-top:9px"':''}>${accountResults()}</div>
+ ${!hasAccounts?`<div class="alert-row">${button(`${icon('clock')} Follow-ups <b>${due}</b>`,'queue-open','data-queue="schedule"','ghost')}${button(`${icon('box')} Promises <b>${promises}</b>`,'queue-open','data-queue="we"','ghost')}</div>`:''}
+ <div class="hint-line">${icon('shield')} Saved on this device. Back up in Settings.</div>`;
+}
+function accountResults(){
+ const q=ui.search.trim().toLowerCase();
+ const list=db.accounts.filter(a=>(!ui.stage||a.stage===ui.stage)&&(!ui.emirate||a.emirate===ui.emirate)&&(ui.filter==='all'||a.scenario===ui.filter||(ui.filter==='clinic'&&a.hasClinic)||(ui.filter==='talabat'&&talabatMissing(a).length))&&(!q||[a.name,a.area,a.emirate,a.groupName,a.drugstoreName,a.otherDrugstores,...(a.contacts||[]).map(c=>c.name),...(a.doctors||[]).map(d=>d.name)].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
+ if(!list.length)return db.accounts.length?empty('No matching pharmacies','Try another name, supply route or pipeline stage.')+button('Reset filters','reset-filters','','ghost full'):`<div class="territory-empty"><div class="empty-icon" aria-hidden="true">${icon('store')}</div><h3>Your next visit<br>starts here.</h3><p>Meet the pharmacy. Check the shelf.<br>Keep every next step in one place.</p>${button(`Start first pharmacy visit ${icon('arrow')}`,'new-visit','','primary')}</div>`;
+ return list.map(a=>{
+  const stock=db.skus.filter(s=>a.stock?.[s.id]?.status==='in').length;
+  const oos=db.skus.filter(s=>a.stock?.[s.id]?.status==='oos').length;
+  return `<article class="card account-card"><div class="account-top"><span class="account-emblem" aria-hidden="true">${icon('store')}</span><div class="account-heading"><h2 class="account-name">${esc(a.name)}</h2><p class="account-meta">${esc(a.emirate)}${a.area?' · '+esc(a.area):''}</p></div>${button(icon('chevron'),'profile',`data-id="${esc(a.id)}" aria-label="Open ${esc(a.name)} profile"`,'ghost icon-only')}</div>
+  <span class="badge ${a.scenario==='group'?'purple':a.scenario==='drugstore'?'good':'warn'}">${esc(routeLabel(a))}</span><div class="account-status-line"><span class="badge">${esc(a.stage)}</span>${a.followUp?`<span class="account-due ${a.followUp<today()?'warn':''}">${a.followUp<today()?'Overdue · ':''}${esc(dateLabel(a.followUp))}</span>`:''}</div>
+  <div class="row between tiny" style="margin-top:20px"><span class="muted">Shelf coverage</span><b style="font-weight:500">${stock} <span class="muted">/ 17</span></b></div><div class="coverage" role="progressbar" aria-label="Shelf coverage" aria-valuemin="0" aria-valuemax="17" aria-valuenow="${stock}"><span style="width:${stock/17*100}%"></span></div><div class="row tiny muted">${oos} out of stock <span>·</span> ${talabatMissing(a).length} missing online</div>
+  <div class="account-actions">${button('Open 360° profile','profile',`data-id="${esc(a.id)}"`,'primary')}${button('+ Re-visit','revisit',`data-id="${esc(a.id)}"`,'ghost')}${button(icon('chat'),'whatsapp',`data-id="${esc(a.id)}" aria-label="WhatsApp pharmacist"`,'ghost icon-only')}</div></article>`;
+ }).join('');
+}
+function renderDeliverables(){const items=db.deliverables;const q=ui.queue;return `<p class="muted tiny">Close the loop on every conversation.</p><div class="queue-tabs">${[['schedule','Visit schedule'],['we','We owe them'],['orders','Orders to verify']].map(([v,l])=>`<button class="chip ${q===v?'selected':''}" data-action="queue-open" data-queue="${v}" aria-pressed="${q===v}">${l}</button>`).join('')}</div>${q==='schedule'?renderSchedule():`<div class="stack">${renderTasks(items.filter(d=>q==='we'?d.direction==='WE_OWE_THEM':d.direction==='THEY_OWE_US'))}</div>`}`;}
+function renderSchedule(){const list=db.accounts.filter(a=>a.followUp).sort((a,b)=>a.followUp.localeCompare(b.followUp));return list.length?`<div class="stack">${list.map(a=>`<article class="card"><div class="row between"><span class="badge ${a.followUp<today()?'bad':a.followUp===today()?'warn':'good'}">${a.followUp<today()?'OVERDUE':a.followUp===today()?'DUE TODAY':'UPCOMING'}</span><span class="tiny muted">${esc(dateLabel(a.followUp))}</span></div><h3 style="margin:14px 0 7px">${esc(a.name)}</h3><p class="muted tiny">${esc(routeLabel(a))}</p><div class="row">${button('Re-visit','revisit',`data-id="${esc(a.id)}"`,'primary')}${button('WhatsApp','whatsapp',`data-id="${esc(a.id)}"`)}${button('Reschedule','reschedule',`data-id="${esc(a.id)}"`,'ghost')}</div></article>`).join('')}</div>`:empty('No visits scheduled','Set the next follow-up date in a guided visit or account profile.');}
+function renderTasks(items){if(!items.length)return empty('No promises in this queue','Requirements and order commitments from your visits will appear here.');return [...items].sort((a,b)=>Number(a.done)-Number(b.done)||(a.dueDate||'9999').localeCompare(b.dueDate||'9999')).map(d=>{const a=db.accounts.find(a=>a.id===d.accountId);return `<article class="card task ${d.done?'done':''}"><input type="checkbox" data-task="${esc(d.id)}" aria-label="Complete ${esc(d.title)}" ${checked(d.done)}><div class="task-content"><h3>${esc(d.title)}</h3><p class="tiny muted" style="margin:8px 0">${esc(a?.name||'Account')} · ${esc(dateLabel(d.dueDate))}</p><div class="row">${button('Account','profile',`data-id="${esc(d.accountId)}"`,'ghost')}${d.direction==='THEY_OWE_US'?button('WhatsApp order check','order-check',`data-id="${esc(d.accountId)}"`,'secondary'):''}</div></div></article>`}).join('');}
+function priceTable(skus){if(!skus.length)return empty('The shelf is covered','All 17 SKUs are available. Show all products to detail the full range.');return ['Derma Angel Products','Impress Med Products'].map(section=>{const list=skus.filter(s=>s.section===section);return list.length?`<div class="group-title">${esc(section)} <span class="muted">· ${list.length} SKUs</span></div><table class="price-table"><caption class="screen-reader-only">${esc(section)} retail prices in AED</caption><thead><tr><th scope="col">Product</th><th scope="col">Excl.<br>VAT</th><th scope="col">Incl.<br>5% VAT</th></tr></thead><tbody>${list.map(s=>`<tr><td><button data-action="pitch" data-sku="${esc(s.id)}"><span class="sku-code">${esc(s.code)}</span>${esc(s.name)}</button></td><td>${money(s.retailExclVatAED)}</td><td>${money(s.retailInclVatAED)}</td></tr>`).join('')}</tbody></table>`:''}).join('');}
+function renderShowroom(){return `<div class="card brochure-cover"><div class="brochure-cover-top"><div class="eyebrow">HANTCO INTERNATIONAL</div><span class="collection-number">17</span></div><h2>Care for every<br>pharmacy shelf.</h2><p>The complete Hantco range, with retail prices, product details and pharmacy margins.</p>${button(`${icon('chat')} Share price list on WhatsApp`,'share-prices','','secondary full')}</div><h2 class="section-title">Retail price list <span class="badge">AED</span></h2>${priceTable(db.skus)}<h2 class="section-title">Pharmacy margin & offers</h2><div class="card">${calculator(db.skus[0].id,'showroom')}</div><p class="footer-note">${esc(db.company_info.name)}<br>${esc(db.company_info.website)} · ${esc(db.company_info.phone)}</p>`;}
+function calculator(skuId,prefix='calc'){const s=skuById(skuId)||db.skus[0];return `<div data-calc-root="${esc(prefix)}"><div class="stack"><label class="field">Product<select data-calculator="sku">${db.skus.map(x=>`<option value="${esc(x.id)}" ${selected(x.id,s.id)}>${esc(x.code+' · '+x.name)}</option>`).join('')}</select></label><div class="grid2"><label class="field">Order quantity (paid packs)<input type="number" min="1" max="1000000" step="1" value="10" data-calculator="qty" inputmode="numeric"></label><label class="field">Trade discount %<input type="number" min="0" max="100" step="0.01" value="${s.defaultTradeDiscountPct}" data-calculator="discount" inputmode="decimal"></label><label class="field">Buy packs (bonus offer)<input type="number" min="1" max="1000000" step="1" value="10" data-calculator="buy" inputmode="numeric"></label><label class="field">Free packs per bundle<input type="number" min="0" max="1000000" step="1" value="0" data-calculator="free" inputmode="numeric"></label></div><label class="field">Staff incentive per delivered pack (AED)<input type="number" min="0" max="100000" step="0.01" value="0" data-calculator="incentive" inputmode="decimal"></label></div><div data-calc-output aria-live="polite"></div><p class="tiny muted" style="margin:14px 0 0">Discount applies to retail excluding VAT. Free goods apply per completed buy bundle. Profit assumes every delivered pack sells at the listed retail price; VAT is excluded from profit. The 1 + 1 sunscreen SKU counts as one offer pack.</p></div>`;}
+function calculateMargin(s,qty,discount,buy,free,incentive){if(!s||![qty,discount,buy,free,incentive].every(Number.isFinite)||!Number.isInteger(qty)||!Number.isInteger(buy)||!Number.isInteger(free)||qty<1||qty>1000000||discount<0||discount>100||buy<1||buy>1000000||free<0||free>1000000||incentive<0||incentive>100000)throw Error('Enter a valid whole pack quantity and bonus offer, 0–100% discount, and a non-negative incentive.');const bonus=Math.floor(qty/buy)*free,units=qty+bonus,cost=qty*s.retailExclVatAED*(1-discount/100),commission=units*incentive,revenue=units*s.retailExclVatAED,profit=revenue-cost-commission;return {bonus,units,cost,commission,revenue,profit,net:cost/units,unitProfit:profit/units,margin:revenue?100*profit/revenue:0,invoice:cost*1.05};}
+function updateCalculator(root){const get=n=>root.querySelector(`[data-calculator="${n}"]`).value;const out=root.querySelector('[data-calc-output]');try{const r=calculateMargin(skuById(get('sku')),...['qty','discount','buy','free','incentive'].map(n=>get(n)===''?NaN:Number(get(n))));out.innerHTML=`<div class="calc-output"><div><small>NET COST / UNIT · EX VAT</small><b>${money(r.net)}</b><small>AED · ${money(r.net*1.05)} incl. VAT</small></div><div><small>PHARMACY PROFIT</small><b>${money(r.profit)}</b><small>AED after staff incentive</small></div><div><small>PROFIT PER PACK</small><b>${money(r.unitProfit)}</b><small>AED · ${r.margin.toFixed(1)}% margin</small></div><div><small>STAFF COMMISSION</small><b>${money(r.commission)}</b><small>AED total</small></div></div><p class="tiny muted" style="margin-top:12px">${r.units.toLocaleString()} delivered packs (${r.bonus.toLocaleString()} free). Invoice: AED ${money(r.cost)} excl. VAT / AED ${money(r.invoice)} incl. VAT.</p>`;}catch(e){out.innerHTML=`<p class="notice warn" style="margin-top:12px">${esc(e.message)}</p>`;}}
+function showDialog(title,html){const d=document.getElementById('modal-editor');d.innerHTML=`<div class="modal-head"><h2 id="dialog-title" style="font-size:18px">${esc(title)}</h2>${button(icon('close'),'close-modal','aria-label="Close dialog"','ghost icon-only')}</div><div id="dialog-body" class="modal-content">${html}</div>`;if(!d.open)d.showModal();}
+function closeModal(){for(const id of ['modal-editor','modal-pitch','modal-account-360']){const d=document.getElementById(id);if(d.open){d.close();if(id==='modal-account-360')ui.profileId=null;return;}}}
+function openPitch(skuId){const s=skuById(skuId);if(!s)return;pitchId=s.id;const d=document.getElementById('modal-pitch');d.innerHTML=`<div class="modal-head"><div><div class="eyebrow" style="margin:0">HANTCO · PRODUCT DETAIL</div><span class="tiny muted">${db.skus.indexOf(s)+1} of 17</span></div>${button(icon('close'),'close-modal','aria-label="Close product pitch"','ghost icon-only')}</div><div class="modal-content"><div class="pitch-hero"><span class="badge">${esc(s.code)} · ${esc(s.brand)}</span><h1 id="pitch-title">${esc(s.name)}</h1><span class="pitch-number">${money(s.retailInclVatAED)}</span> <span class="muted">AED</span><p class="tiny muted">Retail including 5% VAT · ${money(s.retailExclVatAED)} excluding VAT</p></div><div class="row">${s.targetSpecialty.map(t=>`<span class="badge">${esc(t)}</span>`).join('')}</div><h2 class="section-title">Product talking points</h2><ul class="pitch-bullets">${s.uspBullets.map(u=>`<li>${esc(u)}</li>`).join('')}</ul><h2 class="section-title">Show the pharmacy opportunity</h2><div class="card">${calculator(s.id,'pitch')}</div><div class="pitch-controls">${button('← Previous','pitch-prev')}${button('Next product →','pitch-next','','primary')}</div></div>`;if(!d.open)d.showModal();d.scrollTop=0;updateCalculator(d.querySelector('[data-calc-root]'));}
+function renderProfile(id){const a=db.accounts.find(a=>a.id===id);if(!a){toast('This account no longer exists.');return;}ui.profileId=id;const d=document.getElementById('modal-account-360');const contact=a.contacts?.[0];const tasks=db.deliverables.filter(t=>t.accountId===id);const events=db.timeline_events.filter(e=>e.accountId===id).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+ d.innerHTML=`<div class="modal-head"><div><div class="eyebrow" style="margin:0">PHARMACY · 360° PROFILE</div><span class="tiny muted">${esc(a.emirate)} · ${esc(a.area)}</span></div>${button(icon('close'),'close-modal','aria-label="Close account profile"','ghost icon-only')}</div><div class="modal-content"><h2 id="profile-title" style="font-size:27px;margin-bottom:18px">${esc(a.name)}</h2><label class="field">Pipeline stage<select data-profile="stage" data-id="${esc(id)}">${db.master_config.pipelineStages.map(s=>`<option ${selected(s,a.stage)}>${esc(s)}</option>`).join('')}</select></label><div class="row" style="margin:14px 0">${button(`${icon('plus')} Start guided visit`,'revisit',`data-id="${esc(id)}"`,'primary full')}${button(icon('chat')+' WhatsApp','whatsapp',`data-id="${esc(id)}"`)}${button(icon('phone')+' Call','call',`data-id="${esc(id)}"`)}${button(icon('pin')+' Maps','maps',`data-id="${esc(id)}"`)}</div><div class="notice">${esc(routeGuide(a))}</div><div class="row" style="margin-top:12px">${button('Edit account','edit-account',`data-id="${esc(id)}"`,'ghost')}${button('Delete account','delete-account',`data-id="${esc(id)}"`,'danger')}</div><h3 class="section-title">Shelf & digital availability <span class="tiny muted">17 SKUs</span></h3><div class="stock-grid">${db.skus.map(s=>{const st=a.stock?.[s.id]||{};return `<button class="stock-cell" data-action="pitch" data-sku="${esc(s.id)}"><span class="sku-code">${esc(s.code)}</span><strong>${esc(s.name)}</strong><span class="badge ${statusClass(st.status)}">${statusLabel(st.status)}</span>${a.hasOnline&&st.status==='in'?`<span class="badge ${st.talabat?'good':'warn'}" style="margin-top:4px">${st.talabat?'Listed online':'Missing on Talabat'}</span>`:''}${st.nearExpiry?'<span class="badge warn" style="margin-top:4px">Near expiry</span>':''}${st.qty||st.note?`<span class="tiny muted" style="display:block;margin-top:5px">${st.qty?'Qty: '+esc(st.qty)+' · ':''}${esc(st.note)}</span>`:''}</button>`}).join('')}</div><h3 class="section-title">Pharmacist & purchaser contacts ${button('+ Add','add-contact',`data-id="${esc(id)}"`,'ghost')}</h3><div class="card">${a.contacts?.length?a.contacts.map(c=>`<div class="list-row"><div class="row between"><div><h4>${esc(c.name)}</h4><span class="tiny muted">${esc(c.role)} · ${esc(c.phone||'No mobile number')}</span></div>${button(icon('chat'),'contact-whatsapp',`data-account="${esc(id)}" data-contact="${esc(c.id)}" aria-label="WhatsApp ${esc(c.name)}"`,'ghost icon-only')}</div><div class="row" style="margin-top:8px">${button('Edit','edit-contact',`data-id="${esc(id)}" data-contact="${esc(c.id)}"`,'ghost')}${button('Remove','remove-contact',`data-id="${esc(id)}" data-contact="${esc(c.id)}"`,'ghost')}</div></div>`).join(''):'<p class="muted tiny">Add the people who make the decisions.</p>'}</div><h3 class="section-title">Clinic & doctor mapping</h3><div class="card">${a.hasClinic?`<h3>${esc(a.clinicName||'Attached / nearby clinic')}</h3>${a.doctors.map(doc=>`<div class="list-row"><h4>${esc(doc.name)}</h4><p class="muted tiny" style="margin:6px 0">${esc(doc.specialty)} · ${esc(doc.timings||'Timings not recorded')}</p><div class="row">${doc.samplesNeeded?'<span class="badge warn">Samples needed</span>':''}${doc.samplesGiven?'<span class="badge good">Samples given</span>':''}</div></div>`).join('')}`:'<p class="muted tiny">No attached clinic recorded. Add clinic and doctors during a guided visit.</p>'}</div><h3 class="section-title">Orders & account requirements</h3><div class="card"><p class="tiny">${esc(a.orderAction||'No order action recorded')}</p><p class="tiny muted" style="white-space:pre-wrap">${esc([requestedProductsText(a),a.requests].filter(Boolean).join('\n\n')||'No product requests recorded.')}</p>${a.scenario==='direct'?`<div class="divider"></div><p class="tiny muted">Trade license: ${esc(a.tradeLicense||'Not captured')}<br>TRN: ${esc(a.trn||'Not captured')}<br>Payment terms: ${esc(a.paymentTerms||'Not captured')}</p>`:''}<div class="row between"><span class="tiny">Follow-up: ${esc(dateLabel(a.followUp))}</span>${button('Set date','reschedule',`data-id="${esc(id)}"`,'ghost')}</div>${a.notes?`<p class="tiny muted" style="margin-top:12px;white-space:pre-wrap">${esc(a.notes)}</p>`:''}</div><h3 class="section-title">Two-way promises ${button('+ Add','add-promise',`data-id="${esc(id)}"`,'ghost')}</h3><div class="stack">${tasks.length?renderTasks(tasks):'<div class="notice">No open promises. Log a commitment to keep both sides accountable.</div>'}</div><h3 class="section-title">Relationship timeline</h3><div class="card"><label class="field">Activity type<select id="note-type">${['Field Visit','WhatsApp Follow-Up','Order Confirmed','Sample/Stand Delivered','Note'].map(t=>`<option>${t}</option>`).join('')}</select></label><label class="field" style="margin-top:12px">Quick note<textarea id="profile-note" maxlength="6000" placeholder="What moved the relationship forward?"></textarea></label>${button('Log activity','log-note',`data-id="${esc(id)}" style="margin-top:12px"`,'primary full')}</div><div class="timeline">${events.length?events.map(e=>`<article class="timeline-item"><h4>${esc(e.type)}</h4><small>${esc(dateLabel(e.createdAt))} · ${new Intl.DateTimeFormat('en-AE',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Dubai'}).format(new Date(e.createdAt))}</small><p>${esc(e.text)}</p></article>`).join(''):'<p class="muted tiny">Your account history starts with the first saved visit.</p>'}</div></div>`;
+ if(!d.open)d.showModal();}
+function editAccount(id){const a=db.accounts.find(a=>a.id===id);showDialog('Edit pharmacy account',`<form id="edit-account-form"><div class="stack"><label class="field">Pharmacy name<input name="name" required maxlength="200" value="${esc(a.name)}"></label><label class="field">Emirate<select name="emirate">${db.master_config.emirates.map(e=>`<option ${selected(e,a.emirate)}>${esc(e)}</option>`).join('')}</select></label><label class="field">Area / location<input name="area" maxlength="300" value="${esc(a.area)}"></label><label class="field">Account notes<textarea name="notes" maxlength="6000">${esc(a.notes)}</textarea></label><p class="tiny muted">Update supply routing, shelf status and clinic details through a guided visit.</p>${button('Save account','save-account-edit',`data-id="${esc(id)}"`,'primary')}</div></form>`);}
+function editContact(accountId,contactId){const a=db.accounts.find(a=>a.id===accountId),c=a.contacts.find(c=>c.id===contactId)||{name:'',role:'Pharmacist',phone:''};showDialog(contactId?'Edit contact':'Add contact',`<form id="contact-form" class="stack"><label class="field">Name<input name="name" value="${esc(c.name)}" required maxlength="150" autocomplete="name"></label><label class="field">Role<select name="role">${['Pharmacist','Branch In-Charge','Purchaser'].map(r=>`<option ${selected(r,c.role)}>${r}</option>`).join('')}</select></label><label class="field">Mobile / WhatsApp<input name="phone" type="tel" value="${esc(c.phone)}" placeholder="+971…" maxlength="30" autocomplete="tel"></label>${button('Save contact','save-contact',`data-id="${esc(accountId)}" data-contact="${esc(contactId||'')}"`,'primary')}</form>`);}
+function addPromise(id){showDialog('Log a promise',`<form id="promise-form" class="stack"><label class="field">Who needs to act?<select name="direction"><option value="WE_OWE_THEM">We owe them</option><option value="THEY_OWE_US">They owe us</option></select></label><label class="field">Commitment<input name="title" required maxlength="300"></label><label class="field">Due date<input name="dueDate" type="date"></label>${button('Save promise','save-promise',`data-id="${esc(id)}"`,'primary')}</form>`);}
+function refreshProfile(){if(ui.profileId&&document.getElementById('modal-account-360').open)renderProfile(ui.profileId);}
+function refreshConnection(){const el=document.getElementById('connection');el.textContent=navigator.onLine?'On device':'Offline · on device';el.classList.toggle('offline',!navigator.onLine);}
+
+
+/* Guided visits are saved independently until the complete visit commits atomically. */
+const W_DRAFT_KEY = 'HANTCO_VISIT_DRAFT_V1';
+const W_STEPS = ['Pharmacy', 'Shelf', 'Pitch', 'Online', 'Clinic', 'Finish'];
+const W_SPECIALTIES = ['Dermatology', 'GP / Family', 'Pediatrics', 'Gynecology', 'Urology', 'ENT', 'Dental', 'Ophthalmology'];
+const W_REQUIREMENTS = [
+  {key:'samples', title:'Needs Product Samples'},
+  {key:'incentive', title:'Requested Staff Incentive / Commission'},
+  {key:'display', title:'Needs Counter Display Stand / Brochure'},
+  {key:'account', title:'Direct Account Opening (Trade License / TRN)'}
+];
+const W_ORDERS = ['Promised Main Store Requisition', 'Promised Order via Drugstore', 'Direct Order Placed with Hantco', 'Follow-Up Required'];
+let wDraftWarningShown = false;
+
+function newDraft(account) {
+  const source = account ? clone(account) : {};
+  const stock = {};
+  db.skus.forEach(sku => { stock[sku.id] = {status:'not', qty:'', note:'', nearExpiry:false, talabat:false, ...(source.stock?.[sku.id] || {})}; });
+  const first = source.contacts?.[0];
+  return {
+    id:source.id || uid(), name:source.name || '', emirate:source.emirate || db.master_config.emirates[0], area:source.area || '',
+    scenario:source.scenario || 'direct', groupName:source.groupName || '', drugstoreName:source.drugstoreName || '', otherDrugstores:source.otherDrugstores || '',
+    gps:source.gps || null, stage:source.stage || db.master_config.pipelineStages[0], stock,
+    hasOnline:!!source.hasOnline, hasClinic:!!source.hasClinic, clinicName:source.clinicName || '', doctors:source.doctors || [], contacts:source.contacts || [],
+    followUp:source.followUp || '', orderAction:'Follow-Up Required', requests:'', notes:source.notes || '',
+    tradeLicense:source.tradeLicense || '', trn:source.trn || '', paymentTerms:source.paymentTerms || '',
+    createdAt:source.createdAt || stamp(), updatedAt:source.updatedAt || stamp(), lastVisit:source.lastVisit || null,
+    contact:{name:first?.name || '', role:first?.role || 'Pharmacist', phone:first?.phone || ''},
+    contactId:first?.id || null, requirements:[], requestLines:{}, visitNotes:'', visitId:uid(), step:1,
+    _existing:!!account, _dirty:false, _newGroup:'', _newDrugstore:'', _orderTouched:false, _requestInitialized:false,
+    _baseUpdatedAt:source.updatedAt || null
+  };
+}
+
+function loadVisitDraft() {
+  try {
+    const raw = localStorage.getItem(W_DRAFT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object' || typeof parsed.id !== 'string' || typeof parsed.visitId !== 'string' || !parsed.stock || typeof parsed.name !== 'string') throw new Error('Invalid draft');
+    if (db.timeline_events.some(event => event.visitId === parsed.visitId)) return null;
+    if (parsed._existing && !db.accounts.some(a => a.id === parsed.id)) return null;
+    const draft = {...newDraft(parsed._existing ? db.accounts.find(a => a.id === parsed.id) : undefined), ...parsed};
+    draft.stock = Object.fromEntries(db.skus.map(s => [s.id, {status:'not', qty:'', note:'', nearExpiry:false, talabat:false, ...(parsed.stock[s.id] || {})}]));
+    draft.step = Math.max(1, Math.min(6, Number(parsed.step) || 1));
+    draft.requirements = Array.isArray(draft.requirements) ? draft.requirements.filter(k => W_REQUIREMENTS.some(r => r.key === k)) : [];
+    draft.doctors = Array.isArray(draft.doctors) ? draft.doctors : [];
+    draft.contacts = Array.isArray(draft.contacts) ? draft.contacts : [];
+    draft.requestLines = draft.requestLines && typeof draft.requestLines === 'object' ? draft.requestLines : {};
+    draft.contact = draft.contact && typeof draft.contact === 'object' ? draft.contact : {name:'',role:'Pharmacist',phone:''};
+    return draft;
+  } catch (error) {
+    toast('The saved visit draft could not be read. Your saved accounts are unchanged.');
+    return null;
+  }
+}
+
+function saveDraft() {
+  if (!ui.draft) return false;
+  ui.draft.step = ui.step;
+  try {
+    localStorage.setItem(W_DRAFT_KEY, JSON.stringify(ui.draft));
+    wDraftWarningShown = false;
+    return true;
+  } catch (error) {
+    if (!wDraftWarningShown) toast('Draft could not be stored on this device. Keep this page open and export a backup.');
+    wDraftWarningShown = true;
+    return false;
+  }
+}
+
+function startVisit(accountId) {
+  const account = accountId ? db.accounts.find(a => a.id === accountId) : null;
+  if (accountId && !account) { toast('This pharmacy is no longer available.'); return false; }
+  if (!ui.draft) ui.draft = loadVisitDraft();
+  if (ui.draft && ui.draft._dirty && ((account && ui.draft.id !== account.id) || (!account && ui.draft._existing))) {
+    if (!confirm('Replace the unfinished visit draft? Saved pharmacy records will remain unchanged.')) return false;
+  }
+  if (!ui.draft || (account && ui.draft.id !== account.id) || (!account && ui.draft._existing) || !ui.draft._dirty) ui.draft = newDraft(account);
+  ui.step = ui.draft.step || 1;
+  ui.tab = 'wizard';
+  ui.profileId = null;
+  closeModal();
+  saveDraft();
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+  return true;
+}
+
+function wText(label, key, value, type = 'text', extra = '') {
+  return `<label class="field"><span>${esc(label)}</span><input type="${esc(type)}" data-w="${esc(key)}" value="${esc(value ?? '')}" ${extra}></label>`;
+}
+function wArea(label, key, value, extra = '') {
+  return `<label class="field"><span>${esc(label)}</span><textarea rows="3" data-w="${esc(key)}" ${extra}>${esc(value || '')}</textarea></label>`;
+}
+function wSelect(label, key, value, options) {
+  return `<label class="field"><span>${esc(label)}</span><select data-w="${esc(key)}">${options.map(item => {const o = typeof item === 'string' ? {value:item,label:item} : item; return `<option value="${esc(o.value)}" ${String(o.value) === String(value) ? 'selected' : ''}>${esc(o.label)}</option>`;}).join('')}</select></label>`;
+}
+function wCheck(label, key, value, extra = '') {
+  return `<label class="check-row"><input type="checkbox" data-w="${esc(key)}" ${value ? 'checked' : ''} ${extra}><span>${esc(label)}</span></label>`;
+}
+function wButton(label, action, attrs = '', kind = 'secondary') {
+  return `<button type="button" class="btn ${kind}" data-action="${action}" ${attrs}>${label}</button>`;
+}
+function wEnsureRequests() {
+  const d = ui.draft;
+  if (!d || d._requestInitialized) return;
+  db.skus.forEach(s => { d.requestLines[s.id] = {selected:d.stock[s.id].status !== 'in', qty:1}; });
+  d._requestInitialized = true;
+  if (!d._orderTouched) d.orderAction = d.scenario === 'group' ? W_ORDERS[0] : d.scenario === 'drugstore' ? W_ORDERS[1] : W_ORDERS[3];
+}
+function wDoctorMatches(specialty) {
+  if (specialty === 'Dermatology' || specialty === 'GP / Family' || specialty === 'GP') return db.skus.filter(s => s.code.startsWith('DA-') || s.code === 'IM-09' || s.code === 'IM-10');
+  const codes = {Pediatrics:['IM-03','IM-07'], Gynecology:['IM-02'], Urology:['IM-01'], ENT:['IM-05','IM-06'], Dental:['IM-05'], Ophthalmology:['IM-08']};
+  return db.skus.filter(s => (codes[specialty] || []).includes(s.code));
+}
+
+function renderWizard() {
+  if (!ui.draft) { ui.draft = loadVisitDraft() || newDraft(); ui.step = ui.draft.step || 1; }
+  const d = ui.draft;
+  const step = Math.max(1, Math.min(6, ui.step || 1));
+  const visited = d._existing ? 'RE-VISIT / AUDIT' : 'NEW PHARMACY VISIT';
+  const titles = ['Start with the supply route.', 'What is on the shelf?', 'Turn gaps into opportunity.', 'Make the shelf sell online.', 'Map the clinical opportunity.', 'Leave with a clear next step.'];
+  const descriptions = ['Capture the pharmacy, then choose how it receives Hantco products.', 'Check all 17 products. Your audit is saved as a draft as you work.', 'Use the live price table and product cards with the pharmacist.', 'Audit only the products physically available in this pharmacy.', 'Connect doctors, duty timings, and the right product categories.', 'Record the order, people, promises, and the next follow-up.'];
+  const header = `<div class="row" style="justify-content:space-between"><p class="eyebrow">${visited}</p>${wButton('New draft', 'w-reset', '', 'ghost')}</div>
+    <div class="wizard-steps" aria-label="Visit progress">${W_STEPS.map((label,i) => `<button type="button" data-action="w-step" data-step="${i+1}" class="step-pill ${i+1 === step ? 'active' : ''} ${i+1 < step ? 'done' : ''}" aria-current="${i+1 === step ? 'step' : 'false'}" aria-label="Step ${i+1}: ${label}"><span>${i+1}</span><small>${esc(label)}</small></button>`).join('')}</div>
+    <div class="section-heading"><p class="eyebrow">STEP ${step} OF 6 ${d.name ? `· ${esc(d.name)}` : ''}</p><h2>${titles[step-1]}</h2><p class="muted">${descriptions[step-1]}</p></div>`;
+  const screens = [wRenderRoute, wRenderShelf, wRenderPitch, wRenderOnline, wRenderClinic, wRenderFinish];
+  const footer = `<div class="wizard-footer"><span class="tiny muted">${wDraftWarningShown ? 'Draft not stored · keep this page open' : d._dirty ? 'Draft saved on this device' : 'Your visit stays on this device'}</span><div class="row">${step > 1 ? wButton('← Back', 'w-step', `data-step="${step-1}"`) : ''}${step < 6 ? wButton(`Continue · ${step+1} / 6 →`, 'w-step', `data-step="${step+1}"`, 'primary') : ''}</div></div>`;
+  return `${header}<div class="stack wizard-content">${screens[step-1]()}</div>${footer}`;
+}
+
+function wRenderRoute() {
+  const d = ui.draft;
+  const scenarios = [
+    ['group', 'Group pharmacy', 'Listed in the main branch / central store', 'Main-store transfer'],
+    ['drugstore', 'Pharmacy via drugstore', 'Route the order through a listed sub-distributor', 'Partner drugstore'],
+    ['direct', 'Direct supply pharmacy', 'No shared drugstore — supply through Hantco', 'Hantco direct']
+  ];
+  const existing = wSelect('Pharmacy record', 'existing', d._existing ? d.id : '', [{value:'',label:'+ New pharmacy'}, ...db.accounts.map(a => ({value:a.id,label:`${a.name} · ${a.area || a.emirate}`}))]);
+  let routeFields = '';
+  if (d.scenario === 'group') routeFields = `${wSelect('Listed pharmacy group', 'groupName', d.groupName, [{value:'',label:'Select your group'}, ...db.master_config.listedGroupChains])}
+    <div class="inline-add">${wText('New group name', '_newGroup', d._newGroup, 'text', 'maxlength="140"')}${wButton('+ Add New Group', 'w-add-group')}</div>
+    <div class="notice">Check which of our 17 SKUs are missing on the shelf and convince the pharmacist to order/requisition them from their main store.</div>`;
+  if (d.scenario === 'drugstore') routeFields = `<p class="section-title">Which drugstores do they take supplies from?</p>${wSelect('Listed partner drugstore', 'drugstoreName', d.drugstoreName, [{value:'',label:'Select your drugstore'}, ...db.master_config.listedDrugstores])}
+    <div class="inline-add">${wText('New drugstore name', '_newDrugstore', d._newDrugstore, 'text', 'maxlength="140"')}${wButton('+ Add New Drugstore', 'w-add-drugstore')}</div>
+    ${wText('Other unlisted drugstores they use', 'otherDrugstores', d.otherDrugstores, 'text', 'maxlength="500"')}
+    <div class="notice">Easy Payment &amp; Supply Strategy: Convince them to order our products directly from ${esc(d.drugstoreName || 'their selected partner drugstore')}.</div>`;
+  if (d.scenario === 'direct') routeFields = '<div class="notice">Direct Hantco Supply: They don’t use our listed drugstores. Pitch direct supply and collect Trade License / payment details in Step 6.</div>';
+  return `<section class="card stack">${existing}${wText('Pharmacy name *', 'name', d.name, 'text', 'required maxlength="160" autocomplete="organization"')}
+    <div class="grid2">${wSelect('Emirate', 'emirate', d.emirate, db.master_config.emirates)}${wText('Area / location', 'area', d.area, 'text', 'maxlength="240"')}</div>
+    <div class="row">${wButton(icon('pin')+' Pin Current GPS', 'w-gps')}${d.gps ? `<span class="badge good">GPS pinned · ±${Math.round(d.gps.accuracy || 0)} m</span>` : '<span class="tiny muted">Optional location pin</span>'}</div>
+    ${d.gps ? `<p class="tiny muted">${Number(d.gps.lat).toFixed(6)}, ${Number(d.gps.lng).toFixed(6)} ${wButton('Remove pin','w-remove-gps','','ghost')}</p>` : ''}</section>
+    <section class="stack"><h3 class="section-title">Choose the supply scenario</h3><div class="stack" role="radiogroup" aria-label="Supply route">${scenarios.map(([value,title,copy,badge]) => `<button type="button" role="radio" aria-checked="${d.scenario === value}" data-action="w-route" data-route="${value}" class="route-card ${d.scenario === value ? 'selected' : ''}"><span class="row"><strong>${title}</strong><span class="badge">${badge}</span></span><span class="muted">${copy}</span></button>`).join('')}</div><div class="card stack">${routeFields}</div></section>`;
+}
+
+function wRenderShelf() {
+  const d = ui.draft;
+  const counts = {in:0,oos:0,not:0};
+  Object.values(d.stock).forEach(s => { if (counts[s.status] !== undefined) counts[s.status]++; });
+  return `<div class="row"><span class="badge good">${counts.in} in stock</span><span class="badge warn">${counts.oos} OOS</span><span class="badge bad">${counts.not} not listed</span></div>
+    <div class="grid2">${wButton('Mark All In Stock', 'w-bulk', 'data-status="in"')}${wButton('Mark All Zero / Missing', 'w-bulk', 'data-status="not"')}</div>
+    ${['Derma Angel Products','Impress Med Products'].map(section => `<section class="stack"><h3 class="section-title">${section} <span class="muted">${db.skus.filter(s => s.section === section).length} SKUs</span></h3>${db.skus.filter(s => s.section === section).map(s => {
+      const st = d.stock[s.id];
+      return `<article class="card stack audit-card"><div><span class="eyebrow">${esc(s.code)}</span><h4>${esc(s.name)}</h4><p class="tiny muted">AED ${money(s.retailExclVatAED)} excl. VAT <span aria-hidden="true">·</span> <strong>AED ${money(s.retailInclVatAED)} incl. 5% VAT</strong></p></div>
+      <div class="stock-toggle" role="group" aria-label="${esc(s.name)} shelf status">${[['in','Available','In stock','good'],['oos','Out of stock','Reorder','warn'],['not','Not available','Never ordered','bad']].map(([value,label,detail,color]) => `<button type="button" class="${color} ${st.status === value ? 'selected' : ''}" data-action="w-stock" data-sku="${esc(s.id)}" data-status="${value}" aria-pressed="${st.status === value}"><strong>${label}</strong><small>${detail}</small></button>`).join('')}</div>
+      <div class="grid2">${wText('Shelf quantity', `stock.${s.id}.qty`, st.qty, 'number', 'min="0" max="999999" step="1" inputmode="numeric"')}${wText('Quick shelf note', `stock.${s.id}.note`, st.note, 'text', 'maxlength="300"')}</div>
+      ${wCheck('Near expiry', `stock.${s.id}.nearExpiry`, st.nearExpiry)}</article>`;
+    }).join('')}</section>`).join('')}`;
+}
+
+function wRenderPitch() {
+  const d = ui.draft;
+  const list = ui.showAll ? db.skus : db.skus.filter(s => d.stock[s.id].status !== 'in');
+  return `<div class="notice">${db.skus.filter(s => d.stock[s.id].status !== 'in').length} product opportunities. Tap a product to open its pitch card and pharmacy margin calculator.</div>
+    ${wCheck('Show All 17 SKUs', 'showAll', ui.showAll)}
+    <section class="card"><p class="eyebrow">HANTCO INTERNATIONAL</p><h3>Digital price &amp; margin table</h3><p class="tiny muted">Retail prices in AED · 5% VAT included where shown</p></section>
+    ${list.length ? priceTable(list) : empty('Complete shelf coverage', 'All 17 SKUs are available. Show all products to continue detailing the range.')}`;
+}
+
+function wRenderOnline() {
+  const d = ui.draft;
+  const available = db.skus.filter(s => d.stock[s.id].status === 'in');
+  const missing = available.filter(s => !d.stock[s.id].talabat);
+  return `<section class="card stack"><h3>Talabat / Instashop store</h3><p class="muted">Does this pharmacy have an online store?</p><div class="grid2">${wButton('Yes · audit store', 'w-online', 'data-value="true"', d.hasOnline ? 'primary' : 'secondary')}${wButton('No online store', 'w-online', 'data-value="false"', !d.hasOnline ? 'primary' : 'secondary')}</div></section>
+    ${d.hasOnline ? `<div class="notice ${missing.length ? 'warn' : 'good'}">You have ${missing.length} Hantco SKUs sitting on your shelf right now that are not listed on your Talabat account—let’s get them uploaded so they sell online.</div>
+      ${available.length ? `<div class="stack">${available.map(s => `<article class="card stack"><p class="eyebrow">${esc(s.code)} · PHYSICALLY IN STOCK</p><h4>${esc(s.name)}</h4><div class="grid2">${wButton('✓ Listed on Talabat', 'w-talabat', `data-sku="${esc(s.id)}" data-value="true"`, d.stock[s.id].talabat ? 'primary' : 'secondary')}${wButton('✕ Missing on Talabat', 'w-talabat', `data-sku="${esc(s.id)}" data-value="false"`, !d.stock[s.id].talabat ? 'danger' : 'secondary')}</div></article>`).join('')}</div>` : empty('No in-stock products to audit', 'Return to the shelf audit to mark physical stock. Only available products appear here.')}` : `<div class="notice">Online listing checks are skipped. The physical shelf audit remains available in the account profile.</div>`}`;
+}
+
+function wRenderClinic() {
+  const d = ui.draft;
+  return `<section class="card stack"><h3>Attached or nearby clinic</h3><p class="muted">Is there a clinic or medical center attached / nearby?</p><div class="grid2">${wButton('Yes · map doctors', 'w-clinic', 'data-value="true"', d.hasClinic ? 'primary' : 'secondary')}${wButton('No clinic nearby', 'w-clinic', 'data-value="false"', !d.hasClinic ? 'primary' : 'secondary')}</div></section>
+    ${d.hasClinic ? `<section class="card stack">${wText('Clinic / medical center name', 'clinicName', d.clinicName, 'text', 'maxlength="180"')}${wButton('+ Add Doctor', 'w-add-doctor')}</section>
+    ${d.doctors.length ? d.doctors.map((doctor,index) => `<section class="card stack"><div class="row" style="justify-content:space-between"><h3>Doctor ${index+1}</h3>${wButton('Remove', 'w-remove-doctor', `data-doctor="${esc(doctor.id)}"`, 'ghost')}</div>
+      ${wText('Doctor name', `doctor.${doctor.id}.name`, doctor.name, 'text', 'maxlength="140"')}
+      ${wSelect('Category / specialty', `doctor.${doctor.id}.specialty`, doctor.specialty, W_SPECIALTIES)}
+      ${wText('Doctor duty timings', `doctor.${doctor.id}.timings`, doctor.timings, 'text', 'maxlength="180" placeholder="10 AM–1 PM, 5 PM–9 PM"')}
+      <div class="grid2">${wCheck('Samples needed', `doctor.${doctor.id}.samplesNeeded`, doctor.samplesNeeded)}${wCheck('Samples given', `doctor.${doctor.id}.samplesGiven`, doctor.samplesGiven)}</div>
+      <div class="notice"><p class="eyebrow">SUGGESTED DETAILING</p><div class="stack">${wDoctorMatches(doctor.specialty).map(s => `<button type="button" class="btn ghost" style="text-align:left;justify-content:flex-start" data-action="w-pitch" data-sku="${esc(s.id)}">${esc(s.name)} →</button>`).join('')}</div></div></section>`).join('') : empty('Add your first doctor', 'Capture the specialty and duty timings to plan a focused detailing visit.')}` : '<div class="notice">Clinic mapping is skipped for this visit.</div>'}`;
+}
+
+function wRenderFinish() {
+  wEnsureRequests();
+  const d = ui.draft;
+  return `<section class="card stack"><p class="eyebrow">DECISION MAKER</p>${wText('Pharmacist / purchaser name', 'contact.name', d.contact.name, 'text', 'maxlength="140" autocomplete="name"')}
+    ${wSelect('Role', 'contact.role', d.contact.role, ['Pharmacist','Branch In-Charge','Purchaser'])}${wText('Mobile / WhatsApp number', 'contact.phone', d.contact.phone, 'tel', 'maxlength="24" autocomplete="tel" placeholder="+971…" inputmode="tel"')}
+    <p class="tiny muted">A mobile number is needed only to prepare a WhatsApp message.</p></section>
+    <section class="card stack"><p class="eyebrow">ORDER &amp; REQUIREMENTS</p>${wSelect('Order action', 'orderAction', d.orderAction, W_ORDERS)}
+    <p class="tiny muted">OOS and missing products are selected automatically. Adjust quantities or add any stocked product.</p>
+    <div class="stack">${db.skus.map(s => {const line=d.requestLines[s.id] || {selected:false,qty:1}; return `<div class="request-line"><label class="check-row"><input type="checkbox" data-w="request.${esc(s.id)}.selected" ${line.selected ? 'checked' : ''}><span><strong>${esc(s.code)}</strong> ${esc(s.name)}<small class="muted">AED ${money(s.retailInclVatAED)} incl. VAT</small></span></label><label class="field"><span class="tiny">Packs</span><input aria-label="${esc(s.name)} requested packs" type="number" min="1" max="999999" step="1" inputmode="numeric" data-w="request.${esc(s.id)}.qty" value="${esc(line.qty)}" ${line.selected ? '' : 'disabled'}></label></div>`;}).join('')}</div>
+    ${wArea('Additional order / quantity requirements', 'requests', d.requests, 'maxlength="3000"')}</section>
+    <section class="card stack"><p class="eyebrow">SPECIAL REQUIREMENTS &amp; TRADE SUPPORT</p>${W_REQUIREMENTS.map(r => wCheck(r.title, `requirement.${r.key}`, d.requirements.includes(r.key))).join('')}<p class="tiny muted">Selected requirements create reminders in the deliverables queue. Doctor sample requests are included automatically.</p></section>
+    ${d.scenario === 'direct' ? `<section class="card stack"><p class="eyebrow">DIRECT ACCOUNT OPENING</p>${wText('Trade license reference', 'tradeLicense', d.tradeLicense, 'text', 'maxlength="120"')}${wText('TRN', 'trn', d.trn, 'text', 'maxlength="15" inputmode="numeric"')}${wArea('Agreed / requested payment terms', 'paymentTerms', d.paymentTerms, 'maxlength="1000"')}</section>` : ''}
+    <section class="card stack">${wText('Next follow-up date', 'followUp', d.followUp, 'date')}${wArea('Visit notes', 'visitNotes', d.visitNotes, 'maxlength="5000"')}
+      <div class="notice">${esc(d.name)} · ${esc(routeLabel(d))}<br>${Object.values(d.stock).filter(s => s.status === 'in').length} / 17 in stock · ${d.hasOnline ? db.skus.filter(s => d.stock[s.id].status === 'in' && !d.stock[s.id].talabat).length : 0} missing online</div>
+      ${wButton('Save Visit to CRM', 'w-save', '', 'primary')}${wButton('Save &amp; Send Official Hantco WhatsApp Summary', 'w-save-whatsapp')}
+      <p class="tiny muted">WhatsApp opens a prepared message for your review. You choose when to send it.</p></section>`;
+}
+
+function wValidateStepOne() {
+  const d = ui.draft;
+  if (!d.name.trim()) { toast('Enter a pharmacy name to continue.'); ui.step=1; render(); document.querySelector('[data-w="name"]')?.focus(); return false; }
+  if (!db.master_config.emirates.includes(d.emirate)) { toast('Choose an emirate.'); ui.step=1; render(); return false; }
+  if (d.scenario === 'group' && !db.master_config.listedGroupChains.includes(d.groupName)) { toast('Select or add the listed pharmacy group.'); ui.step=1; render(); return false; }
+  if (d.scenario === 'drugstore' && !db.master_config.listedDrugstores.includes(d.drugstoreName)) { toast('Select or add the partner drugstore.'); ui.step=1; render(); return false; }
+  if (!['group','drugstore','direct'].includes(d.scenario)) { toast('Choose a supply scenario.'); ui.step=1; render(); return false; }
+  return true;
+}
+
+function wNormalizedPhone(value) {
+  let number = String(value || '').replace(/[^0-9+]/g,'');
+  if (number.startsWith('00')) number = '+' + number.slice(2);
+  if (/^05\d{8}$/.test(number)) number = '+971' + number.slice(1);
+  if (/^971\d{9}$/.test(number)) number = '+' + number;
+  return /^\+[1-9]\d{6,14}$/.test(number) ? number : null;
+}
+
+function wSaveVisit(withWhatsApp = false) {
+  const d = ui.draft;
+  if (!d || !wValidateStepOne()) return false;
+  wEnsureRequests();
+  if (db.timeline_events.some(event => event.visitId === d.visitId)) { toast('This visit has already been saved.'); return false; }
+  const current = db.accounts.find(a => a.id === d.id);
+  if (d._existing && !current) { toast('This account was removed. Start a new draft before saving.'); return false; }
+  if (current && d._baseUpdatedAt && current.updatedAt !== d._baseUpdatedAt && !confirm('This pharmacy was edited after the visit started. Save this audit and its captured details over the newer account record? Existing timeline entries and promises will be kept.')) return false;
+  const duplicate = db.accounts.find(a => a.id !== d.id && a.name.trim().toLocaleLowerCase() === d.name.trim().toLocaleLowerCase() && a.emirate === d.emirate && a.area.trim().toLocaleLowerCase() === d.area.trim().toLocaleLowerCase());
+  if (!d._existing && duplicate && !confirm('A pharmacy with this name, emirate, and area already exists. Save a separate account anyway?')) return false;
+  const phone = d.contact.phone.trim() ? wNormalizedPhone(d.contact.phone) : '';
+  if (d.contact.phone.trim() && !phone) { toast('Enter a valid international mobile number, such as +971 followed by the mobile number.'); ui.step=6; render(); return false; }
+  if (withWhatsApp && !phone) { toast('Add the pharmacist’s WhatsApp number before preparing the message.'); ui.step=6; render(); return false; }
+  if ((d.contact.phone.trim() || d.contact.name.trim()) && !d.contact.name.trim()) { toast('Add a name for the contact.'); ui.step=6; render(); return false; }
+  if (d.hasClinic && d.doctors.some(doctor => !doctor.name.trim())) { toast('Enter a name for each doctor, or remove the empty doctor entry.'); ui.step=5; render(); return false; }
+  if (d.trn.trim() && !/^\d{15}$/.test(d.trn.trim())) { toast('A UAE TRN must contain 15 digits. Leave it blank if not collected.'); ui.step=6; render(); return false; }
+  for (const sku of db.skus) {
+    const row = d.stock[sku.id];
+    if (!['in','oos','not'].includes(row.status) || (row.qty !== '' && (!Number.isInteger(Number(row.qty)) || Number(row.qty) < 0 || Number(row.qty) > 999999))) { toast('Shelf quantities must be whole numbers from 0 to 999999.'); ui.step=2; render(); return false; }
+    const line = d.requestLines[sku.id];
+    if (line?.selected && (!Number.isInteger(Number(line.qty)) || Number(line.qty) < 1 || Number(line.qty) > 999999)) { toast('Requested packs must be whole numbers from 1 to 999999.'); ui.step=6; render(); return false; }
+  }
+  if (d.followUp && (!/^\d{4}-\d{2}-\d{2}$/.test(d.followUp) || Number.isNaN(Date.parse(d.followUp+'T12:00:00Z')) || new Date(d.followUp+'T12:00:00Z').toISOString().slice(0,10)!==d.followUp)) { toast('Enter a valid follow-up date.'); ui.step=6; render(); return false; }
+  const at = stamp();
+  const contacts = clone(d.contacts);
+  if (d.contact.name.trim()) {
+    const contact = {id:d.contactId || uid(), name:d.contact.name.trim(), role:d.contact.role, phone:phone || ''};
+    const pos = contacts.findIndex(c => c.id === contact.id);
+    if (pos >= 0) contacts[pos] = contact; else contacts.push(contact);
+  }
+  let stage = d.stage;
+  if (stage === db.master_config.pipelineStages[0]) stage = Object.values(d.stock).some(s => s.status === 'in') ? db.master_config.pipelineStages[2] : db.master_config.pipelineStages[1];
+  const account = {
+    id:d.id, name:d.name.trim(), emirate:d.emirate, area:d.area.trim(), scenario:d.scenario,
+    groupName:d.scenario === 'group' ? d.groupName : '', drugstoreName:d.scenario === 'drugstore' ? d.drugstoreName : '', otherDrugstores:d.otherDrugstores.trim(),
+    gps:d.gps, stage, stock:clone(d.stock), hasOnline:!!d.hasOnline, hasClinic:!!d.hasClinic,
+    clinicName:d.clinicName.trim(), doctors:clone(d.doctors).filter(doc => d.hasClinic || doc.name.trim()).map(doc => ({...doc,name:doc.name.trim(),timings:doc.timings.trim()})), contacts,
+    followUp:d.followUp, orderAction:d.orderAction, requests:d.requests.trim(), requestLines:clone(d.requestLines), notes:d.notes,
+    tradeLicense:d.tradeLicense.trim(), trn:d.trn.trim(), paymentTerms:d.paymentTerms.trim(),
+    createdAt:current?.createdAt || d.createdAt, updatedAt:at, lastVisit:at
+  };
+  const tasks = [];
+  const task = (direction,category,title) => ({id:uid(),accountId:account.id,direction,category,title,dueDate:d.followUp || today(),done:false,createdAt:at,completedAt:null,visitId:d.visitId});
+  d.requirements.forEach(key => { const req=W_REQUIREMENTS.find(r=>r.key===key); if(req) tasks.push(task('WE_OWE_THEM',key,req.title)); });
+  if (d.hasClinic) d.doctors.filter(doc=>doc.samplesNeeded && !doc.samplesGiven).forEach(doc=>tasks.push(task('WE_OWE_THEM','samples',`Samples for Dr. ${doc.name.trim()} · ${doc.specialty} · ${wDoctorMatches(doc.specialty).map(s=>s.code).join(', ')}`)));
+  const requested = db.skus.filter(s=>d.requestLines[s.id]?.selected).map(s=>`${s.code} × ${d.requestLines[s.id].qty}`).join(', ');
+  if (d.orderAction !== 'Follow-Up Required') tasks.push(task('THEY_OWE_US','order',`${d.orderAction}${requested ? ': '+requested : ''}${d.requests.trim() ? ' · '+d.requests.trim() : ''}`));
+  const countIn = db.skus.filter(s=>d.stock[s.id].status === 'in').length;
+  const event = {id:uid(),accountId:account.id,type:'Field Visit',text:`${d.orderAction}. ${countIn}/17 SKUs in stock.${d.visitNotes.trim() ? '\n'+d.visitNotes.trim() : ''}`,createdAt:at,visitId:d.visitId,snapshot:{...clone(account),requirements:clone(d.requirements),visitNotes:d.visitNotes.trim()}};
+  const saved = transact(next => {
+    const pos=next.accounts.findIndex(a=>a.id===account.id);
+    if(pos>=0) next.accounts[pos]=account; else next.accounts.push(account);
+    next.timeline_events.push(event);
+    next.deliverables.push(...tasks);
+  });
+  if (!saved) { toast('Visit was not saved. Your draft is still available.'); return false; }
+  try { localStorage.removeItem(W_DRAFT_KEY); } catch (error) { /* Saved visit ID prevents duplicate replay. */ }
+  ui.draft=null;
+  ui.step=1;
+  ui.tab='pipeline';
+  toast('Visit saved · '+tasks.length+' reminders created.');
+  render();
+  renderProfile(account.id);
+  if (withWhatsApp) openWhatsApp(phone, visitSummary(account));
+  return true;
+}
+
+function visitSummary(account) {
+  const contact=account.contacts?.[0];
+  const chosen=db.skus.filter(s=>account.requestLines?.[s.id]?.selected);
+  const products=chosen.length ? chosen : db.skus.filter(s=>account.stock?.[s.id]?.status !== 'in');
+  const lines=products.map(s=>`• ${s.name}${account.requestLines?.[s.id]?.selected ? ' — '+account.requestLines[s.id].qty+' pack(s)' : ''} — AED ${money(s.retailInclVatAED)} incl. 5% VAT`);
+  const route=account.scenario==='group' ? `Please request these from your Main Store / warehouse (${account.groupName}).` : account.scenario==='drugstore' ? `Available to order via ${account.drugstoreName}. Please place your order through your partner drugstore.` : 'Direct supply via Hantco International. Please share Trade License, TRN, and payment terms for account opening.';
+  const online=account.hasOnline ? db.skus.filter(s=>account.stock?.[s.id]?.status==='in' && !account.stock[s.id].talabat) : [];
+  return [
+    '*Hantco International — Visit Summary*',
+    `Pharmacy: ${account.name}`,
+    `Dear ${contact?.name || 'Pharmacy Team'},`,
+    'Thank you for your time. Please find our product follow-up below.',
+    '', products.length ? '*Missing / requested products*' : 'All 17 Hantco SKUs are available on your shelf.', ...lines,
+    account.requests ? '\nAdditional requirements: '+account.requests : '',
+    '', route,
+    online.length ? '\n*Physically in stock, missing on Talabat / Instashop*\n'+online.map(s=>'• '+s.name).join('\n')+'\nPlease upload these products to support online sell-through.' : '',
+    account.followUp ? '\nNext follow-up: '+account.followUp : '',
+    '', 'Hantco International General Trading L.L.C', 'www.hantco.ae | +971-5857 55 666'
+  ].filter(line=>line!==undefined).join('\n').replace(/\n{3,}/g,'\n\n');
+}
+
+function handleWizardInput(el) {
+  const key=el.dataset.w;
+  if (!key) return false;
+  if (!ui.draft) ui.draft=newDraft();
+  const d=ui.draft;
+  const value=el.type==='checkbox' ? el.checked : el.value;
+  if (key==='existing') {
+    if (!value) {
+      if(d._dirty && !confirm('Replace this unfinished draft with a new pharmacy visit?')) { render(); return true; }
+      ui.draft=newDraft(); ui.step=1; saveDraft(); render();
+    } else if (!startVisit(value)) render();
+    return true;
+  }
+  if (key==='showAll') { ui.showAll=!!value; render(); return true; }
+  let rerender=false;
+  if (key.startsWith('stock.')) {
+    const [,skuId,field]=key.split('.');
+    if (d.stock[skuId] && ['qty','note','nearExpiry'].includes(field)) d.stock[skuId][field]=value;
+  } else if (key.startsWith('doctor.')) {
+    const [,id,field]=key.split('.');
+    const doctor=d.doctors.find(doc=>doc.id===id);
+    if(doctor && ['name','specialty','timings','samplesNeeded','samplesGiven'].includes(field)) { doctor[field]=value; rerender=field==='specialty'; }
+  } else if (key.startsWith('contact.')) {
+    const field=key.split('.')[1];
+    if(['name','role','phone'].includes(field)) d.contact[field]=value;
+  } else if (key.startsWith('request.')) {
+    const [,id,field]=key.split('.');
+    if(skuById(id) && ['selected','qty'].includes(field)) { d.requestLines[id] ||= {selected:false,qty:1}; d.requestLines[id][field]=value; d.requestLines[id]._touched=true; rerender=field==='selected'; }
+  } else if (key.startsWith('requirement.')) {
+    const req=key.split('.')[1];
+    if(W_REQUIREMENTS.some(r=>r.key===req)) d.requirements=value ? [...new Set([...d.requirements,req])] : d.requirements.filter(k=>k!==req);
+  } else if (['name','emirate','area','groupName','drugstoreName','otherDrugstores','clinicName','followUp','orderAction','requests','visitNotes','tradeLicense','trn','paymentTerms','_newGroup','_newDrugstore'].includes(key)) {
+    d[key]=value;
+    if(key==='orderAction') d._orderTouched=true;
+    rerender=key==='groupName'||key==='drugstoreName';
+  }
+  d._dirty=true;
+  saveDraft();
+  if(rerender) render();
+  return true;
+}
+
+function handleWizardAction(action, el) {
+  if (!action.startsWith('w-')) return false;
+  if (!ui.draft) { ui.draft=loadVisitDraft() || newDraft(); ui.step=ui.draft.step; }
+  const d=ui.draft;
+  let refresh=true;
+  switch(action) {
+    case 'w-step': {
+      const target=Number(el.dataset.step);
+      if(!Number.isInteger(target)||target<1||target>6) return true;
+      if(target>1 && !wValidateStepOne()) return true;
+      ui.step=target;
+      if(target===6) wEnsureRequests();
+      saveDraft(); render(); window.scrollTo({top:0,behavior:'smooth'}); return true;
+    }
+    case 'w-reset':
+      if(d._dirty && !confirm('Discard this unfinished visit draft and start a new one? Saved CRM records will remain unchanged.')) return true;
+      ui.draft=newDraft(); ui.step=1; saveDraft(); render(); window.scrollTo({top:0,behavior:'smooth'}); return true;
+    case 'w-route':
+      if(!['group','drugstore','direct'].includes(el.dataset.route)) return true;
+      d.scenario=el.dataset.route;
+      if(!d._orderTouched) d.orderAction=d.scenario==='group'?W_ORDERS[0]:d.scenario==='drugstore'?W_ORDERS[1]:W_ORDERS[3];
+      break;
+    case 'w-add-group':
+    case 'w-add-drugstore': {
+      const group=action==='w-add-group';
+      const value=(group?d._newGroup:d._newDrugstore).trim();
+      if(!value) { toast('Enter a '+(group?'group':'drugstore')+' name first.'); return true; }
+      const kind=group?'listedGroupChains':'listedDrugstores';
+      const known=db.master_config[kind].find(n=>n.toLocaleLowerCase()===value.toLocaleLowerCase());
+      if(!known && !addMaster(kind,value)) return true;
+      if(group) {d.groupName=known||value;d._newGroup='';} else {d.drugstoreName=known||value;d._newDrugstore='';}
+      toast((group?'Group':'Drugstore')+' selected.'); break;
+    }
+    case 'w-gps': {
+      if(!navigator.geolocation) {toast('This browser does not support location capture.');return true;}
+      const visitId=d.visitId;
+      el.disabled=true;
+      el.textContent='Locating…';
+      navigator.geolocation.getCurrentPosition(position=>{
+        if(ui.draft?.visitId!==visitId) return;
+        ui.draft.gps={lat:position.coords.latitude,lng:position.coords.longitude,accuracy:position.coords.accuracy};
+        ui.draft._dirty=true;saveDraft();render();toast('Current GPS location pinned.');
+      },error=>{if(ui.draft?.visitId===visitId) render();toast(error.code===1?'Location permission was denied. You can still save the visit.':'Could not get a GPS fix. Try again outdoors.');},{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+      return true;
+    }
+    case 'w-remove-gps':d.gps=null;break;
+    case 'w-stock': {
+      const id=el.dataset.sku, value=el.dataset.status;
+      if(!d.stock[id]||!['in','oos','not'].includes(value)) return true;
+      d.stock[id].status=value;
+      if(d.requestLines[id]&&!d.requestLines[id]._touched) d.requestLines[id].selected=value!=='in';
+      break;
+    }
+    case 'w-bulk': {
+      const value=el.dataset.status;
+      if(!['in','not'].includes(value)) return true;
+      if(!confirm(value==='in'?'Mark all 17 products as in stock?':'Mark all 17 products as not available / never ordered?')) return true;
+      db.skus.forEach(s=>{d.stock[s.id].status=value;if(d.requestLines[s.id]&&!d.requestLines[s.id]._touched)d.requestLines[s.id].selected=value!=='in';});
+      break;
+    }
+    case 'w-online':d.hasOnline=el.dataset.value==='true';break;
+    case 'w-talabat':if(d.stock[el.dataset.sku])d.stock[el.dataset.sku].talabat=el.dataset.value==='true';break;
+    case 'w-clinic':d.hasClinic=el.dataset.value==='true';break;
+    case 'w-add-doctor':d.doctors.push({id:uid(),name:'',specialty:'Dermatology',timings:'',samplesNeeded:false,samplesGiven:false});break;
+    case 'w-remove-doctor':
+      if(!confirm('Remove this doctor from the visit draft?')) return true;
+      d.doctors=d.doctors.filter(doc=>doc.id!==el.dataset.doctor);break;
+    case 'w-pitch':openPitch(el.dataset.sku);return true;
+    case 'w-save':wSaveVisit(false);return true;
+    case 'w-save-whatsapp':wSaveVisit(true);return true;
+    default:return false;
+  }
+  d._dirty=true;
+  saveDraft();
+  if(refresh) render();
+  return true;
+}
+
+
+const settingsState = { sku:null, restore:null, config:null, auth:null, busy:false, email:'', error:'' };
+const LIST_LABELS = { listedGroupChains:'Group', listedDrugstores:'Drugstore' };
+const MAX_BACKUP_BYTES = 4 * 1024 * 1024;
+
+function validateDatabase(raw) {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('Backup must contain a database object.');
+  const serialized = JSON.stringify(raw);
+  if (new Blob([serialized]).size > MAX_BACKUP_BYTES) throw new Error('Database exceeds the 4 MB local storage safety limit. Export and archive older records first.');
+  const value = JSON.parse(serialized);
+  const walk = (item, depth=0) => {
+    if (depth > 20) throw new Error('Backup structure is too deeply nested.');
+    if (item && typeof item === 'object') for (const key of Object.keys(item)) {
+      if (['__proto__','constructor','prototype'].includes(key)) throw new Error('Backup contains an unsafe property.');
+      walk(item[key],depth+1);
+    }
+    if (typeof item === 'string' && item.length > 30000) throw new Error('A text field exceeds 30,000 characters.');
+  };
+  walk(value);
+  if (value.schemaVersion != null && value.schemaVersion !== 1) throw new Error('Unsupported database version. Expected version 1.');
+  value.schemaVersion = 1;
+  const requireArray = (item, label, max) => { if (!Array.isArray(item) || item.length > max) throw new Error(`${label} must be an array with at most ${max} records.`); };
+  const textValue = (item, label, required=false, max=30000) => {
+    if (item == null && !required) return '';
+    if (typeof item !== 'string' || item.length > max || (required && !item.trim())) throw new Error(`Invalid ${label}.`);
+    return item;
+  };
+  const ids = (items, label) => {
+    const seen = new Set();
+    for (const item of items) {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) throw new Error(`Invalid ${label} record.`);
+      textValue(item.id,`${label} ID`,true,200);
+      if (seen.has(item.id)) throw new Error(`Duplicate ${label} ID: ${item.id}`);
+      seen.add(item.id);
+    }
+    return seen;
+  };
+  const dateValue = (date,label) => {
+    if (!date) return '';
+    if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(Date.parse(date+'T00:00:00Z')) || new Date(date+'T00:00:00Z').toISOString().slice(0,10)!==date) throw new Error(`Invalid ${label} date.`);
+    return date;
+  };
+  const timestamp = (date,label,required=false) => {
+    if (date==null || date==='') { if(required)throw new Error(`Missing ${label} timestamp.`); return null; }
+    if (typeof date!=='string' || !/^\d{4}-\d{2}-\d{2}T/.test(date) || !Number.isFinite(Date.parse(date))) throw new Error(`Invalid ${label} timestamp.`);
+    return new Date(date).toISOString();
+  };
+  if (!value.company_info || typeof value.company_info!=='object') throw new Error('Company details are missing.');
+  for (const key of ['name','address','website','email','phone']) textValue(value.company_info[key],`company ${key}`,true,1000);
+  requireArray(value.skus,'Products',17);
+  if (value.skus.length!==17) throw new Error('The database must contain all 17 Hantco products.');
+  const skuIds = ids(value.skus,'product');
+  for (const original of INITIAL_SKUS) if (!skuIds.has(original.id)) throw new Error(`Missing product ${original.id}.`);
+  for (const sku of value.skus) {
+    for (const key of ['code','section','brand','name']) textValue(sku[key],`product ${key}`,true,500);
+    if (sku.code!==sku.id) throw new Error(`Product ID and code do not match for ${sku.id}.`);
+    if (sku.section!==INITIAL_SKUS.find(original=>original.id===sku.id).section) throw new Error(`Product section must stay unchanged for ${sku.id}.`);
+    for (const key of ['retailExclVatAED','retailInclVatAED','defaultTradeDiscountPct']) {
+      if (typeof sku[key]!=='number' || !Number.isFinite(sku[key]) || sku[key]<0 || sku[key]>(key==='defaultTradeDiscountPct'?100:100000)) throw new Error(`Invalid ${key} for ${sku.code}.`);
+    }
+    requireArray(sku.targetSpecialty,'Product specialties',30);
+    sku.targetSpecialty.forEach(x=>textValue(x,'specialty',true,100));
+    requireArray(sku.uspBullets,'Product talking points',3);
+    if (sku.uspBullets.length!==3) throw new Error(`${sku.code} must have exactly three talking points.`);
+    sku.uspBullets.forEach(x=>textValue(x,'talking point',true,2000));
+  }
+  const config=value.master_config;
+  if (!config || typeof config!=='object') throw new Error('Master configuration is missing.');
+  for (const key of ['listedGroupChains','listedDrugstores','emirates','pipelineStages']) {
+    requireArray(config[key],key,1000);
+    const entries=new Set();
+    for (const name of config[key]) {
+      textValue(name,key,true,200);
+      const normalized=name.trim().toLocaleLowerCase();
+      if (entries.has(normalized)) throw new Error(`Duplicate entry in ${key}: ${name}`);
+      entries.add(normalized);
+    }
+  }
+  if (!config.emirates.length || !config.pipelineStages.length) throw new Error('Emirates and pipeline stages cannot be empty.');
+  const requiredStages=seedDatabase().master_config.pipelineStages;
+  if (config.pipelineStages.length!==requiredStages.length || config.pipelineStages.some((stage,index)=>stage!==requiredStages[index])) throw new Error('The four original Hantco pipeline stages must remain in their original order.');
+  config.supabaseConfig ||= {url:'',anonKey:'',tableName:'hantco_crm_sync',lastSync:null};
+  for(const key of ['url','anonKey','tableName']) config.supabaseConfig[key]=textValue(config.supabaseConfig[key],`cloud ${key}`,key==='tableName',4000);
+  config.supabaseConfig.lastSync=timestamp(config.supabaseConfig.lastSync,'last sync');
+  requireArray(value.accounts,'Accounts',10000);
+  const accountIds=ids(value.accounts,'account');
+  for (const account of value.accounts) {
+    textValue(account.name,'pharmacy name',true,300);
+    if (!config.emirates.includes(account.emirate)) throw new Error(`Unknown emirate on ${account.name}.`);
+    if (!config.pipelineStages.includes(account.stage)) throw new Error(`Unknown stage on ${account.name}.`);
+    if (!['group','drugstore','direct'].includes(account.scenario)) throw new Error(`Invalid supply route on ${account.name}.`);
+    if (account.scenario==='group' && !config.listedGroupChains.includes(account.groupName)) throw new Error(`Unknown group on ${account.name}.`);
+    if (account.scenario==='drugstore' && !config.listedDrugstores.includes(account.drugstoreName)) throw new Error(`Unknown drugstore on ${account.name}.`);
+    for (const key of ['area','groupName','drugstoreName','otherDrugstores','clinicName','orderAction','requests','notes','tradeLicense','trn','paymentTerms']) account[key]=textValue(account[key],`${account.name} ${key}`);
+    account.followUp=dateValue(account.followUp,'follow-up');
+    for (const key of ['createdAt','updatedAt','lastVisit']) account[key]=timestamp(account[key],key,key!=='lastVisit');
+    account.hasOnline=!!account.hasOnline;
+    account.hasClinic=!!account.hasClinic;
+    if (account.gps!=null) {
+      if (typeof account.gps!=='object' || !Number.isFinite(account.gps.lat) || Math.abs(account.gps.lat)>90 || !Number.isFinite(account.gps.lng) || Math.abs(account.gps.lng)>180) throw new Error(`Invalid GPS for ${account.name}.`);
+    }
+    if (!account.stock || typeof account.stock!=='object' || Array.isArray(account.stock)) throw new Error(`Missing shelf audit on ${account.name}.`);
+    for (const sku of value.skus) {
+      const stock=account.stock[sku.id];
+      if (!stock || !['in','oos','not'].includes(stock.status)) throw new Error(`Invalid shelf status for ${sku.code} on ${account.name}.`);
+      stock.note=textValue(stock.note,'shelf note');
+      if (stock.qty!=null && !['string','number'].includes(typeof stock.qty)) throw new Error('Invalid stock quantity.');
+      stock.qty=stock.qty??'';
+      if(stock.qty!=='' && (!Number.isInteger(Number(stock.qty)) || Number(stock.qty)<0 || Number(stock.qty)>999999)) throw new Error(`Invalid stock quantity for ${sku.code} on ${account.name}.`);
+      stock.nearExpiry=!!stock.nearExpiry;
+      stock.talabat=!!stock.talabat;
+    }
+    if(account.requestLines!=null) {
+      if(typeof account.requestLines!=='object' || Array.isArray(account.requestLines)) throw new Error('Invalid requested SKU lines.');
+      for(const [skuId,line] of Object.entries(account.requestLines)) {
+        if(!skuIds.has(skuId) || !line || typeof line!=='object')throw new Error('Requested products reference an unknown SKU.');
+        line.selected=!!line.selected;
+        if(line.selected && (!Number.isInteger(Number(line.qty)) || Number(line.qty)<1 || Number(line.qty)>999999))throw new Error(`Invalid requested quantity for ${skuId}.`);
+      }
+    }
+    account.contacts ||= [];
+    account.doctors ||= [];
+    requireArray(account.contacts,'Contacts',100);
+    requireArray(account.doctors,'Doctors',100);
+    ids(account.contacts,'contact');
+    ids(account.doctors,'doctor');
+    for (const contact of account.contacts) for (const key of ['name','role','phone']) contact[key]=textValue(contact[key],`contact ${key}`,key==='name',500);
+    for (const doctor of account.doctors) for (const key of ['name','specialty','timings']) doctor[key]=textValue(doctor[key],`doctor ${key}`,key==='name',1000);
+  }
+  requireArray(value.timeline_events,'Timeline',50000);
+  requireArray(value.deliverables,'Deliverables',50000);
+  ids(value.timeline_events,'timeline event');
+  ids(value.deliverables,'deliverable');
+  for(const event of value.timeline_events) {
+    if (!accountIds.has(event.accountId)) throw new Error('Timeline references an unknown account.');
+    textValue(event.type,'timeline type',true,200);
+    textValue(event.text,'timeline text',true);
+    event.createdAt=timestamp(event.createdAt,'timeline',true);
+  }
+  for(const task of value.deliverables) {
+    if (!accountIds.has(task.accountId)) throw new Error('Deliverable references an unknown account.');
+    if (!['WE_OWE_THEM','THEY_OWE_US'].includes(task.direction)) throw new Error('Invalid promise direction.');
+    textValue(task.title,'deliverable title',true,3000);
+    textValue(task.category,'deliverable category',true,100);
+    task.dueDate=dateValue(task.dueDate,'deliverable');
+    task.done=!!task.done;
+    task.createdAt=timestamp(task.createdAt,'deliverable',true);
+    task.completedAt=timestamp(task.completedAt,'completion');
+  }
+  value.revision=Number.isSafeInteger(value.revision)&&value.revision>=0?value.revision:0;
+  value.updatedAt=timestamp(value.updatedAt,'database')||new Date().toISOString();
+  return value;
+}
+
+function addMaster(kind,value) {
+  if (!Object.hasOwn(LIST_LABELS,kind)) return false;
+  const name=String(value||'').trim();
+  if (!name || name.length>200) { toast('Enter a name between 1 and 200 characters.'); return false; }
+  if (db.master_config[kind].some(x=>x.toLocaleLowerCase()===name.toLocaleLowerCase())) { toast('This name already exists in your list.'); return false; }
+  return transact(next=>{next.master_config[kind].push(name);});
+}
+
+function masterListMarkup(kind,title,description) {
+  const rows=db.master_config[kind].map((name,index)=>`<div class="list-row stack"><input aria-label="${esc(LIST_LABELS[kind])} name" id="${kind}-${index}" value="${esc(name)}" maxlength="200"><div class="row">${button('Save name','s-list-rename',`data-kind="${kind}" data-index="${index}"`)}${button('Delete','s-list-delete',`data-kind="${kind}" data-index="${index}"`,'danger')}</div></div>`).join('');
+  return `<section class="card stack"><h2 class="section-title">${esc(title)}</h2><p class="muted tiny">${esc(description)}</p>${rows||'<p class="muted">Your list is empty. Add your first real partner.</p>'}<label class="field"><span>New ${esc(LIST_LABELS[kind].toLowerCase())} name</span><input id="new-${kind}" maxlength="200" autocomplete="organization"></label>${button(`+ Add New ${LIST_LABELS[kind]}`,'s-list-add',`data-kind="${kind}"`)}</section>`;
+}
+
+function supabaseSQL(table) {
+  const name=/^[a-z][a-z0-9_]{0,62}$/.test(table)?table:'hantco_crm_sync';
+  return `create table if not exists public.${name} (\n  id uuid primary key references auth.users(id) on delete cascade,\n  payload jsonb not null,\n  updated_at timestamptz not null default now()\n);\nalter table public.${name} enable row level security;\nrevoke all on public.${name} from anon;\ngrant select, insert, update on public.${name} to authenticated;\ndrop policy if exists "Own CRM snapshot" on public.${name};\ncreate policy "Own CRM snapshot" on public.${name}\n  for all to authenticated\n  using ((select auth.uid()) = id)\n  with check ((select auth.uid()) = id);`;
+}
+
+function renderSettings() {
+  const config=settingsState.config||db.master_config.supabaseConfig;
+  const size=new Blob([JSON.stringify(db)]).size;
+  return `<div class="stack">
+    <section class="card"><div class="row"><span class="badge good">Local-first</span><span class="tiny muted">Database v1</span></div><div class="grid3"><div><strong>${db.accounts.length}</strong><p class="tiny muted">Pharmacies</p></div><div><strong>${db.timeline_events.length}</strong><p class="tiny muted">Activities</p></div><div><strong>${(size/1024).toFixed(0)} KB</strong><p class="tiny muted">Local data</p></div></div><p class="tiny muted">Stored in this browser on this device. Export a backup before clearing browser data or changing devices.</p></section>
+    ${masterListMarkup('listedGroupChains','My listed group pharmacies','Groups where Hantco is listed in the main store or warehouse.')}
+    ${masterListMarkup('listedDrugstores','My partner drugstores','The exact sub-distributors Hantco supplies to.')}
+    <section class="card stack"><div><h2 class="section-title">Product master</h2><p class="muted tiny">All 17 products • AED • editable prices and talking points</p></div>${db.skus.map(s=>`<div class="list-row"><div><span class="eyebrow">${esc(s.code)}</span><p>${esc(s.name)}</p><span class="tiny muted">${money(s.retailExclVatAED)} excl. VAT · ${money(s.retailInclVatAED)} incl. VAT · ${money(s.defaultTradeDiscountPct)}% trade</span></div>${button('Edit','s-sku-open',`data-id="${esc(s.id)}"`)}</div>`).join('')}</section>
+    <section class="card stack"><h2 class="section-title">Excel exports</h2><p class="tiny muted">UTF-8 CSV files open in Excel. The pharmacy export includes every SKU status, quantity, note, expiry flag and online listing.</p>${button('Export All Pharmacies & 17-SKU Audit (CSV)','s-csv-accounts')}${button('Export Visit History & Requirements (CSV)','s-csv-history')}</section>
+    <section class="card stack"><h2 class="section-title">Backup &amp; restore</h2><p class="tiny muted">A JSON backup contains all accounts, contacts, prices, lists, activities and promises. Cloud passwords and session tokens are never included.</p>${button('Download Full JSON Backup','s-backup')}<label class="btn secondary" for="restore-file">Choose JSON to Restore</label><input id="restore-file" type="file" accept=".json,application/json" data-settings="restore-file" hidden><p class="tiny muted">A restore replaces this device’s database after validation and confirmation. A recovery copy is kept locally.</p>${button('Download Previous Recovery Copy','s-recovery')}</section>
+    <section class="card stack"><div class="row"><h2 class="section-title">Optional cloud sync</h2><span class="badge">Supabase</span></div><p class="tiny muted">Manual, private snapshots for your signed-in user. Upload or restore explicitly; this is not automatic multi-rep merging.</p>
+      <label class="field"><span>Supabase project URL</span><input type="url" data-settings="url" value="${esc(config.url)}" placeholder="https://your-project.supabase.co" autocomplete="off"></label>
+      <label class="field"><span>Publishable / anonymous API key</span><input type="password" data-settings="anonKey" value="${esc(config.anonKey)}" autocomplete="off" spellcheck="false"></label>
+      <label class="field"><span>Snapshot table name</span><input data-settings="tableName" value="${esc(config.tableName)}" spellcheck="false"></label>
+      ${button('Save Cloud Configuration','s-cloud-config')}
+      <details><summary>One-time Supabase setup</summary><div class="stack"><p class="tiny muted">Create an email/password user in Supabase Authentication. Run this SQL once in the project SQL Editor, then sign in below. Keep Row Level Security enabled. Use only a publishable or anonymous API key in this browser.</p><pre style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;line-height:1.6">${esc(supabaseSQL(config.tableName))}</pre>${button('Copy Setup SQL','s-cloud-sql')}<p class="tiny muted">Reference: <a href="https://supabase.com/docs/guides/database/postgres/row-level-security" target="_blank" rel="noopener noreferrer">Supabase Row Level Security</a> · <a href="https://supabase.com/docs/guides/auth/passwords" target="_blank" rel="noopener noreferrer">Password authentication</a></p></div></details>
+      ${settingsState.auth?`<p class="tiny good">Signed in as ${esc(settingsState.auth.email)}. Session stays in memory only.</p><div class="grid2">${button('Upload Local Snapshot','s-cloud-push',settingsState.busy?'disabled':'','primary')}${button('Restore Cloud Snapshot','s-cloud-pull',settingsState.busy?'disabled':'')}</div>${button('Sign Out','s-cloud-logout',settingsState.busy?'disabled':'')}`:`<label class="field"><span>Cloud account email</span><input id="cloud-email" type="email" autocomplete="username" value="${esc(settingsState.email)}"></label><label class="field"><span>Password</span><input id="cloud-password" type="password" autocomplete="current-password"></label>${button(settingsState.busy?'Signing in…':'Sign In to Supabase','s-cloud-login',settingsState.busy?'disabled':'','primary')}`}
+      <p class="tiny muted">Last successful sync: ${config.lastSync?esc(new Date(config.lastSync).toLocaleString('en-AE',{timeZone:'Asia/Dubai'}))+' GST':'Never'}</p>${settingsState.error?`<p role="alert" class="notice bad">${esc(settingsState.error)}</p>`:''}
+    </section>
+    <section class="card stack"><h2 class="section-title">Demo &amp; reset</h2><p class="tiny muted">Demo accounts are explicitly labelled and use direct supply. Your real lists are never filled with invented group or drugstore names.</p>${button('Load Demo Sample Accounts','s-demo')}${button('Clear All Data','s-clear','','danger')}</section>
+    <footer class="tiny muted"><strong>${esc(db.company_info.name)}</strong><p>${esc(db.company_info.address)}</p><p>${esc(db.company_info.website)} · ${esc(db.company_info.email)}<br>${esc(db.company_info.phone)}</p><p>Install from your browser after opening over HTTPS. Offline visits work after the first successful page load and service worker activation.</p></footer>
+  </div>`;
+}
+
+function openSkuEditor(id) {
+  const sku=db.skus.find(x=>x.id===id); if(!sku)return;
+  settingsState.sku=clone(sku);
+  showDialog(`Edit ${sku.code}`,`<div class="stack"><p>${esc(sku.name)}</p><div class="grid2"><label class="field"><span>Retail excl. VAT (AED)</span><input type="number" min="0" max="100000" step="0.01" data-settings-sku="retailExclVatAED" value="${sku.retailExclVatAED}"></label><label class="field"><span>Retail incl. VAT (AED)</span><input type="number" min="0" max="100000" step="0.01" data-settings-sku="retailInclVatAED" value="${sku.retailInclVatAED}"></label></div>${button('Calculate Inclusive Price at 5% VAT','s-sku-vat')}<label class="field"><span>Default trade discount (%)</span><input type="number" min="0" max="100" step="0.01" data-settings-sku="defaultTradeDiscountPct" value="${sku.defaultTradeDiscountPct}"></label>${sku.uspBullets.map((line,index)=>`<label class="field"><span>Talking point ${index+1}</span><textarea rows="3" maxlength="2000" data-settings-usp="${index}">${esc(line)}</textarea></label>`).join('')}<p class="tiny muted">Prices are maintained independently so official VAT-inclusive rounding can be preserved.</p>${button('Save Product Changes','s-sku-save','','primary')}${button('Cancel','close-modal')}</div>`);
+}
+
+function csvCell(value) {
+  if (value==null) return '""';
+  let text=typeof value==='object'?JSON.stringify(value):String(value);
+  if (typeof value!=='number' && /^[\s\uFEFF]*[=+\-@]/.test(text)) text="'"+text;
+  if (/^[\t\r\n]/.test(text)) text="'"+text;
+  return '"'+text.replace(/"/g,'""')+'"';
+}
+
+function makeCSV(rows) { return '\uFEFF'+rows.map(row=>row.map(csvCell).join(',')).join('\r\n')+'\r\n'; }
+
+function requestedProductsText(account) {
+  return db.skus.filter(sku=>account.requestLines?.[sku.id]?.selected).map(sku=>`${sku.code} | ${sku.name} | ${account.requestLines[sku.id].qty} pack(s)`).join('\n');
+}
+
+function exportAccountsCSV() {
+  const headers=['Account ID','Pharmacy','Emirate','Area','Pipeline stage','Supply route','Group','Drugstore','Other drugstores','Latitude','Longitude','GPS accuracy metres','Contacts','Clinic attached','Clinic name','Doctors','Follow-up date','Last visit','Order action','Requested SKU packs','Additional requirements','Trade license','TRN','Payment terms','Account notes','Created at','Updated at'];
+  for(const sku of db.skus) headers.push(`${sku.code} Product`,`${sku.code} Status`,`${sku.code} Quantity`,`${sku.code} Note`,`${sku.code} Near expiry`,`${sku.code} Listed online`,`${sku.code} Retail excl VAT AED`,`${sku.code} Retail incl VAT AED`);
+  const rows=db.accounts.map(a=>{
+    const row=[a.id,a.name,a.emirate,a.area,a.stage,routeLabel(a),a.groupName,a.drugstoreName,a.otherDrugstores,a.gps?.lat??'',a.gps?.lng??'',a.gps?.accuracy??'',a.contacts.map(c=>`${c.name} | ${c.role} | ${c.phone}`).join('\n'),a.hasClinic?'Yes':'No',a.clinicName,a.doctors.map(d=>`${d.name} | ${d.specialty} | ${d.timings} | Samples needed: ${d.samplesNeeded?'Yes':'No'} | Samples given: ${d.samplesGiven?'Yes':'No'}`).join('\n'),a.followUp,a.lastVisit,a.orderAction,requestedProductsText(a),a.requests,a.tradeLicense,a.trn,a.paymentTerms,a.notes,a.createdAt,a.updatedAt];
+    for(const sku of db.skus) { const s=a.stock[sku.id]; row.push(sku.name,statusLabel(s.status),s.qty,s.note,s.nearExpiry?'Yes':'No',a.hasOnline?(s.talabat?'Yes':'No'):'No online store',sku.retailExclVatAED,sku.retailInclVatAED); }
+    return row;
+  });
+  download(`Hantco-Pharmacies-${today()}.csv`,makeCSV([headers,...rows]),'text/csv;charset=utf-8');
+}
+
+function exportHistoryCSV() {
+  const names=new Map(db.accounts.map(a=>[a.id,a.name]));
+  const header=['Record type','Record ID','Account ID','Pharmacy','Date created','Visit ID','Event type / Category','Description','Direction','Due date','Completed','Completed at','Requested SKU packs at visit','Additional requirements at visit','Visit snapshot JSON'];
+  const rows=[...db.timeline_events.map(e=>['Activity',e.id,e.accountId,names.get(e.accountId),e.createdAt,e.visitId||'',e.type,e.text,'','','','',e.snapshot?requestedProductsText(e.snapshot):'',e.snapshot?.requests||'',e.snapshot?JSON.stringify(e.snapshot):'']),...db.deliverables.map(t=>['Requirement / Promise',t.id,t.accountId,names.get(t.accountId),t.createdAt,t.visitId||'',t.category,t.title,t.direction,t.dueDate,t.done?'Yes':'No',t.completedAt||'','','',''])].sort((a,b)=>String(a[4]).localeCompare(String(b[4])));
+  download(`Hantco-Visits-Requirements-${today()}.csv`,makeCSV([header,...rows]),'text/csv;charset=utf-8');
+}
+
+function backupText(database=db,includeConfig=true) {
+  const data=clone(database);
+  if (!includeConfig) data.master_config.supabaseConfig={url:'',anonKey:'',tableName:'hantco_crm_sync',lastSync:null};
+  return JSON.stringify(data,null,2);
+}
+
+function stageRestore(candidate,source) {
+  const validated=validateDatabase(candidate);
+  settingsState.restore={database:validated,source,revision:db.revision};
+  showDialog('Review database restore',`<div class="stack"><p>Restore from <strong>${esc(source)}</strong>?</p><div class="notice"><strong>${validated.accounts.length} pharmacies · ${validated.skus.length} products</strong><p class="tiny">${validated.timeline_events.length} activities · ${validated.deliverables.length} promises<br>${validated.master_config.listedGroupChains.length} groups · ${validated.master_config.listedDrugstores.length} drugstores</p></div><p>This replaces the current ${db.accounts.length} pharmacies and all local prices, lists and history. Your current database will be kept as a recovery copy. Any open visit draft will be cleared.</p>${button('Download Current Backup First','s-backup')}${button('Replace Local Database','s-restore-confirm','','danger')}${button('Cancel','s-restore-cancel')}</div>`);
+}
+
+function finishRestore() {
+  const pending=settingsState.restore; if(!pending)return;
+  if(db.revision!==pending.revision) {toast('Local data changed. Review the restore again before replacing it.');stageRestore(pending.database,pending.source);return;}
+  try {localStorage.setItem('HANTCO_CRM_PRE_RESTORE_V1',backupText());} catch(error) {toast('Could not create a recovery copy. Download a backup and free browser storage first.');return;}
+  const nextData=clone(pending.database);
+  if(transact(next=>{for(const key of Object.keys(next))delete next[key];Object.assign(next,nextData);})) {
+    settingsState.restore=null; settingsState.config=null; settingsState.auth=null; settingsState.sku=null; ui.draft=null; ui.profileId=null;
+    try{localStorage.removeItem('HANTCO_VISIT_DRAFT_V1');}catch(error){}
+    closeModal();ui.tab='settings';render();toast('Database restored successfully.');
+  }
+}
+
+function validateCloudConfig(config) {
+  let url;
+  try {url=new URL(config.url.trim());} catch(error){throw new Error('Enter a valid HTTPS Supabase project URL.');}
+  if(url.protocol!=='https:' || url.username || url.password || url.search || url.hash || !['','/'].includes(url.pathname)) throw new Error('Use the HTTPS project origin only, without a path or credentials.');
+  const key=config.anonKey.trim();
+  if(!key || key.length<20)throw new Error('Enter the project publishable or anonymous API key.');
+  if(key.startsWith('sb_secret_'))throw new Error('Secret API keys cannot be stored in this app. Use the publishable key.');
+  if(key.split('.').length===3) {
+    let claims;
+    try{claims=JSON.parse(atob(key.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));}catch(error){throw new Error('The anonymous API key is malformed.');}
+    if(claims.role!=='anon')throw new Error('Only an anonymous API key is allowed. Service role or user access tokens must not be used here.');
+  } else if(!key.startsWith('sb_publishable_')) throw new Error('Use a Supabase publishable key or legacy anonymous JWT key.');
+  if(!/^[a-z][a-z0-9_]{0,62}$/.test(config.tableName.trim()))throw new Error('Table name must use lowercase letters, numbers and underscores, starting with a letter.');
+  return {url:url.origin,anonKey:key,tableName:config.tableName.trim(),lastSync:config.lastSync||null};
+}
+
+async function cloudFetch(path,options={},config=db.master_config.supabaseConfig) {
+  const aborter=new AbortController();const timer=setTimeout(()=>aborter.abort(),20000);
+  try {
+    const response=await fetch(config.url+path,{...options,headers:{apikey:config.anonKey,'Content-Type':'application/json',...(options.headers||{})},signal:aborter.signal,cache:'no-store',credentials:'omit'});
+    const text=await response.text();let result=null;
+    try{result=text?JSON.parse(text):null;}catch(error){throw new Error('The cloud endpoint returned an invalid response.');}
+    if(!response.ok)throw new Error(result?.msg||result?.message||result?.error_description||`Cloud request failed (${response.status}).`);
+    return result;
+  } catch(error){if(error.name==='AbortError')throw new Error('Cloud request timed out. Local data is unchanged.');throw error;}finally{clearTimeout(timer);}
+}
+
+async function cloudToken() {
+  const auth=settingsState.auth;if(!auth)throw new Error('Sign in to Supabase first.');
+  if(auth.expiresAt>Date.now()+30000)return auth.token;
+  const next=await cloudFetch('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:JSON.stringify({refresh_token:auth.refresh})});
+  if(!next?.access_token || !next.user?.id)throw new Error('Cloud session expired. Sign in again.');
+  settingsState.auth={token:next.access_token,refresh:next.refresh_token,userId:next.user.id,email:next.user.email||auth.email,expiresAt:Date.now()+(next.expires_in||3600)*1000};
+  return settingsState.auth.token;
+}
+
+async function cloudRead(token,config) {
+  const userId=settingsState.auth.userId;
+  const rows=await cloudFetch(`/rest/v1/${config.tableName}?id=eq.${encodeURIComponent(userId)}&select=id,payload,updated_at`,{headers:{Authorization:`Bearer ${token}`}},config);
+  if(!Array.isArray(rows) || rows.length>1)throw new Error('Cloud snapshot response has an unexpected format.');
+  return rows[0]||null;
+}
+
+async function runCloud(action) {
+  if(settingsState.busy)return;
+  if(!navigator.onLine){toast('Cloud sync needs an internet connection. Your local data is available.');return;}
+  settingsState.busy=true;settingsState.error='';
+  try {
+    if(action==='login') {
+      const config=validateCloudConfig(settingsState.config||db.master_config.supabaseConfig);
+      const email=document.getElementById('cloud-email')?.value.trim()||settingsState.email;
+      const password=document.getElementById('cloud-password')?.value||'';
+      if(!email || !password)throw new Error('Enter your Supabase account email and password.');
+      if(!transact(next=>{next.master_config.supabaseConfig=config;}))throw new Error('Cloud configuration could not be saved.');
+      settingsState.config=null;settingsState.email=email;
+      const passwordEl=document.getElementById('cloud-password');if(passwordEl)passwordEl.value='';
+      render();
+      const auth=await cloudFetch('/auth/v1/token?grant_type=password',{method:'POST',body:JSON.stringify({email,password})},config);
+      if(!auth?.access_token || !auth.user?.id)throw new Error('Cloud sign-in response is incomplete.');
+      settingsState.auth={token:auth.access_token,refresh:auth.refresh_token,userId:auth.user.id,email:auth.user.email||email,expiresAt:Date.now()+(auth.expires_in||3600)*1000};
+      toast('Signed in. Choose upload or restore.');
+    } else {
+      const config=validateCloudConfig(db.master_config.supabaseConfig);
+      const token=await cloudToken();const cloud=await cloudRead(token,config);
+      if(action==='pull') {
+        if(!cloud)throw new Error('There is no cloud snapshot for this user yet. Upload this device first.');
+        const candidate=validateDatabase(cloud.payload);
+        candidate.master_config.supabaseConfig={...config,lastSync:stamp()};
+        stageRestore(candidate,`cloud snapshot from ${new Date(cloud.updated_at).toLocaleString('en-AE',{timeZone:'Asia/Dubai'})} GST`);
+      } else if(action==='push') {
+        const prompt=cloud?`Replace your cloud snapshot from ${new Date(cloud.updated_at).toLocaleString('en-AE',{timeZone:'Asia/Dubai'})} GST with this device’s ${db.accounts.length} pharmacies?`:`Upload this device’s ${db.accounts.length} pharmacies to your private cloud snapshot?`;
+        if(!confirm(prompt))return;
+        const data=JSON.parse(backupText(db,false));const now=stamp();const userId=settingsState.auth.userId;
+        const query=cloud?`?id=eq.${encodeURIComponent(userId)}&updated_at=eq.${encodeURIComponent(cloud.updated_at)}`:'';
+        const body=cloud?{payload:data,updated_at:now}:{id:userId,payload:data,updated_at:now};
+        const result=await cloudFetch(`/rest/v1/${config.tableName}${query}`,{method:cloud?'PATCH':'POST',headers:{Authorization:`Bearer ${token}`,Prefer:'return=representation'},body:JSON.stringify(body)},config);
+        if(!Array.isArray(result) || result.length!==1)throw new Error('Cloud data changed on another device. Recheck before uploading again.');
+        if(transact(next=>{next.master_config.supabaseConfig.lastSync=now;}))toast('Private cloud snapshot uploaded.');
+      }
+    }
+  } catch(error){settingsState.error=error.message||'Cloud sync failed. Local data is unchanged.';toast(settingsState.error);}finally{settingsState.busy=false;if(ui.tab==='settings')render();}
+}
+
+function loadDemoAccounts() {
+  if(db.accounts.some(a=>a.isDemo)){toast('Demo accounts are already loaded.');return;}
+  const when=stamp();
+  const result=transact(next=>{
+    const names=['Demo Pharmacy A','Demo Pharmacy B','Demo Pharmacy C'];
+    names.forEach((name,index)=>{
+      const id=uid();const stock=Object.fromEntries(next.skus.map((sku,i)=>[sku.id,{status:i%(index+3)===0?'oos':i%5===0?'not':'in',qty:i%5===0?'':'6',note:'Demo audit',nearExpiry:i===2&&index===0,talabat:i%4!==0}]));
+      const account={id,name,isDemo:true,emirate:next.master_config.emirates[index%next.master_config.emirates.length],area:'Demo territory',scenario:'direct',groupName:'',drugstoreName:'',otherDrugstores:'',gps:null,stage:next.master_config.pipelineStages[index%next.master_config.pipelineStages.length],stock,hasOnline:true,hasClinic:index===1,clinicName:index===1?'Demo Clinic':'',doctors:index===1?[{id:uid(),name:'Demo Doctor',specialty:'Pediatrics',timings:'10 AM – 1 PM',samplesNeeded:true,samplesGiven:false}]:[],contacts:[{id:uid(),name:'Demo Pharmacist',role:'Pharmacist',phone:''}],followUp:today(),orderAction:'Follow-Up Required',requests:'Demo follow-up on missing products',notes:'Sample account for testing. Delete when finished.',tradeLicense:'',trn:'',paymentTerms:'',createdAt:when,updatedAt:when,lastVisit:when};
+      next.accounts.push(account);
+      next.timeline_events.push({id:uid(),accountId:id,type:'Field Visit',text:'Demo visit created for testing.',createdAt:when});
+      next.deliverables.push({id:uid(),accountId:id,direction:index===2?'THEY_OWE_US':'WE_OWE_THEM',category:index===2?'order':'samples',title:index===2?'Demo: verify direct order':'Demo: deliver requested samples',dueDate:today(),done:false,createdAt:when,completedAt:null});
+    });
+  });
+  if(result){render();toast('Three clearly labelled demo accounts added.');}
+}
+
+async function handleSettingsInput(el) {
+  if(el.dataset.settingsSku && settingsState.sku) {settingsState.sku[el.dataset.settingsSku]=el.value===''?NaN:Number(el.value);return true;}
+  if(el.dataset.settingsUsp!=null && settingsState.sku) {settingsState.sku.uspBullets[Number(el.dataset.settingsUsp)]=el.value;return true;}
+  const key=el.dataset.settings;
+  if(!key)return false;
+  if(key==='restore-file') {
+    const file=el.files?.[0];if(!file)return true;
+    try {
+      if(file.size>MAX_BACKUP_BYTES)throw new Error('Backup is larger than the 4 MB safety limit.');
+      const text=await file.text();const data=JSON.parse(text.replace(/^\uFEFF/,''));stageRestore(data,file.name);
+    } catch(error){toast(`Restore rejected: ${error.message}`);}finally{el.value='';}
+  } else if(['url','anonKey','tableName'].includes(key)) {
+    settingsState.config||=clone(db.master_config.supabaseConfig);settingsState.config[key]=el.value;
+  }
+  return true;
+}
+
+async function handleSettingsAction(action,el) {
+  if(!action.startsWith('s-'))return false;
+  if(action==='s-list-add') {
+    const kind=el.dataset.kind;const inputEl=document.getElementById('new-'+kind);
+    if(addMaster(kind,inputEl?.value)){render();toast(`${LIST_LABELS[kind]} added.`);}
+  } else if(action==='s-list-rename') {
+    const kind=el.dataset.kind,index=Number(el.dataset.index),old=db.master_config[kind]?.[index];if(!old)return true;
+    const name=document.getElementById(`${kind}-${index}`)?.value.trim();
+    if(!name || name.length>200){toast('Enter a name between 1 and 200 characters.');return true;}
+    if(db.master_config[kind].some((x,i)=>i!==index&&x.toLocaleLowerCase()===name.toLocaleLowerCase())){toast('This name already exists.');return true;}
+    const fieldName=kind==='listedGroupChains'?'groupName':'drugstoreName';
+    if(transact(next=>{next.master_config[kind][index]=name;for(const a of next.accounts)if(a[fieldName]===old){a[fieldName]=name;a.updatedAt=stamp();}})) {
+      if(ui.draft?.[fieldName]===old){ui.draft[fieldName]=name;saveDraft();}render();toast('Name updated, including linked pharmacies.');
+    }
+  } else if(action==='s-list-delete') {
+    const kind=el.dataset.kind,index=Number(el.dataset.index),old=db.master_config[kind]?.[index];if(!old)return true;
+    const fieldName=kind==='listedGroupChains'?'groupName':'drugstoreName';
+    const count=db.accounts.filter(a=>a[fieldName]===old).length;
+    if(count || ui.draft?.[fieldName]===old){toast(`This ${LIST_LABELS[kind].toLowerCase()} is used by ${count} account(s) or an open visit. Change their supply routing first.`);return true;}
+    if(confirm(`Delete “${old}” from your list?`)&&transact(next=>{next.master_config[kind].splice(index,1);})){render();toast('List entry deleted.');}
+  } else if(action==='s-sku-open')openSkuEditor(el.dataset.id);
+  else if(action==='s-sku-vat') {
+    const sku=settingsState.sku;if(!sku || !Number.isFinite(sku.retailExclVatAED)||sku.retailExclVatAED<0){toast('Enter a valid exclusive price first.');return true;}
+    sku.retailInclVatAED=Math.round((sku.retailExclVatAED*1.05+Number.EPSILON)*100)/100;
+    document.querySelector('[data-settings-sku="retailInclVatAED"]').value=money(sku.retailInclVatAED);
+  } else if(action==='s-sku-save') {
+    const sku=settingsState.sku;if(!sku)return true;
+    if([sku.retailExclVatAED,sku.retailInclVatAED,sku.defaultTradeDiscountPct].some(x=>!Number.isFinite(x)||x<0)||sku.defaultTradeDiscountPct>100||sku.retailExclVatAED>100000||sku.retailInclVatAED>100000||sku.uspBullets.some(x=>!x.trim())){toast('Enter valid prices, a discount between 0 and 100%, and three talking points.');return true;}
+    if(transact(next=>{next.skus[next.skus.findIndex(x=>x.id===sku.id)]=clone(sku);})){settingsState.sku=null;closeModal();render();toast('Product master updated.');}
+  } else if(action==='s-csv-accounts')exportAccountsCSV();
+  else if(action==='s-csv-history')exportHistoryCSV();
+  else if(action==='s-backup')download(`Hantco-Backup-${today()}.json`,backupText(),'application/json');
+  else if(action==='s-recovery') {
+    const backup=localStorage.getItem('HANTCO_CRM_PRE_RESTORE_V1');if(backup)download(`Hantco-Recovery-${today()}.json`,backup,'application/json');else toast('No previous restore or reset recovery copy is available.');
+  } else if(action==='s-restore-confirm')finishRestore();
+  else if(action==='s-restore-cancel'){settingsState.restore=null;closeModal();}
+  else if(action==='s-demo')loadDemoAccounts();
+  else if(action==='s-clear') {
+    if(prompt('This resets all accounts, visits, tasks, partner lists and edited prices. Type CLEAR to continue. A recovery copy will be kept.')!=='CLEAR')return true;
+    try{localStorage.setItem('HANTCO_CRM_PRE_RESTORE_V1',backupText());}catch(error){toast('A recovery copy could not be saved. Download your backup and free browser storage first.');return true;}
+    if(transact(next=>{for(const key of Object.keys(next))delete next[key];Object.assign(next,seedDatabase());})){ui.draft=null;ui.profileId=null;settingsState.config=null;settingsState.auth=null;localStorage.removeItem('HANTCO_VISIT_DRAFT_V1');closeModal();render();toast('Reset complete. Your database is clean.');}
+  } else if(action==='s-cloud-config') {
+    try{const config=validateCloudConfig(settingsState.config||db.master_config.supabaseConfig);if(transact(next=>{next.master_config.supabaseConfig=config;})){settingsState.config=null;settingsState.auth=null;settingsState.error='';render();toast('Cloud configuration saved. Sign in to sync.');}}catch(error){toast(error.message);}
+  } else if(action==='s-cloud-sql') {
+    const sql=supabaseSQL((settingsState.config||db.master_config.supabaseConfig).tableName);
+    try{await navigator.clipboard.writeText(sql);toast('Setup SQL copied.');}catch(error){showDialog('Supabase setup SQL',`<label class="field"><span>Select and copy this SQL</span><textarea rows="16" readonly>${esc(sql)}</textarea></label>${button('Close','close-modal')}`);}
+  } else if(action==='s-cloud-login')await runCloud('login');
+  else if(action==='s-cloud-push')await runCloud('push');
+  else if(action==='s-cloud-pull')await runCloud('pull');
+  else if(action==='s-cloud-logout') {
+    const auth=settingsState.auth;settingsState.auth=null;render();toast('Signed out on this device.');
+    if(auth)try{await cloudFetch('/auth/v1/logout?scope=local',{method:'POST',headers:{Authorization:`Bearer ${auth.token}`}});}catch(error){}
+  }
+  return true;
+}
+
+
+async function handleClick(event){
+ const el=event.target.closest('[data-action]');if(!el||el.disabled)return;
+ const action=el.dataset.action,id=el.dataset.id,a=id?db?.accounts.find(a=>a.id===id):null;
+ try{
+  switch(action){
+   case 'tab':navigate(el.dataset.tab);return;
+   case 'new-visit':startVisit();return;
+   case 'revisit':startVisit(id);return;
+   case 'profile':renderProfile(id);return;
+   case 'close-modal':closeModal();return;
+   case 'stage-filter':ui.stage=ui.stage===el.dataset.stage?'':el.dataset.stage;render();return;
+   case 'filter':ui.filter=el.dataset.filter;render();return;
+   case 'reset-filters':Object.assign(ui,{stage:'',filter:'all',search:'',emirate:''});render();return;
+   case 'queue-open':ui.queue=el.dataset.queue;navigate('deliverables');return;
+   case 'pitch':openPitch(el.dataset.sku);return;
+   case 'pitch-prev':case 'pitch-next':{const i=db.skus.findIndex(s=>s.id===pitchId);openPitch(db.skus[(i+(action==='pitch-next'?1:16))%17].id);return;}
+   case 'whatsapp':if(a){if(!a.contacts?.[0]?.phone){toast('Add the pharmacist’s mobile number in the account profile.');renderProfile(a.id);}else openWhatsApp(a.contacts[0].phone,visitSummary(a));}return;
+   case 'order-check':if(a){if(!a.contacts?.[0]?.phone){toast('Add the pharmacist’s mobile number first.');renderProfile(a.id);}else{const route=a.scenario==='group'?`your main store (${a.groupName})`:a.scenario==='drugstore'?a.drugstoreName:'Hantco direct supply';openWhatsApp(a.contacts[0].phone,`Dear ${a.contacts[0].name},\nThis is Hantco International following up with ${a.name}. Could you please confirm whether your requested Hantco products were ordered and received through ${route}?\n\n${a.requests||''}\nwww.hantco.ae | +971-5857 55 666`);}}return;
+   case 'contact-whatsapp':{const account=db.accounts.find(a=>a.id===el.dataset.account);const c=account?.contacts.find(c=>c.id===el.dataset.contact);if(!c?.phone)toast('Add a mobile number for this contact.');else openWhatsApp(c.phone,`Dear ${c.name},\nFollowing up with ${account.name} from Hantco International.\n\nwww.hantco.ae | +971-5857 55 666`);return;}
+   case 'call':{const number=normalizedPhone(a?.contacts?.[0]?.phone);if(number)window.location.href='tel:+'+number;else toast('Add a valid mobile number to this account.');return;}
+   case 'maps':if(a){const q=a.gps?`${a.gps.lat},${a.gps.lng}`:[a.name,a.area,a.emirate,'UAE'].filter(Boolean).join(', ');window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q),'_blank','noopener,noreferrer');}return;
+   case 'share-prices':openWhatsApp('',[`*Hantco International — Retail Price List*`,'Prices in AED · excluding / including 5% VAT','',...db.skus.map(s=>`${s.code} · ${s.name}\nAED ${money(s.retailExclVatAED)} / ${money(s.retailInclVatAED)}`),'',`${db.company_info.website} | ${db.company_info.phone}`].join('\n'));return;
+   case 'edit-account':if(a)editAccount(id);return;
+   case 'save-account-edit':{const form=document.getElementById('edit-account-form');if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));if(!data.name.trim()){toast('Enter the pharmacy name.');return;}if(transact(next=>{const account=next.accounts.find(a=>a.id===id);Object.assign(account,{name:data.name.trim(),emirate:data.emirate,area:data.area.trim(),notes:data.notes,updatedAt:stamp()});next.timeline_events.push(logEvent(id,'Account Updated','Pharmacy details updated.'));})){closeModal();render();renderProfile(id);toast('Account updated.');}return;}
+   case 'delete-account':if(a&&confirm(`Delete ${a.name}, its visit history and all related promises? This cannot be undone without a backup.`)){if(transact(next=>{next.accounts=next.accounts.filter(x=>x.id!==id);next.timeline_events=next.timeline_events.filter(x=>x.accountId!==id);next.deliverables=next.deliverables.filter(x=>x.accountId!==id);})){if(ui.draft?.id===id){ui.draft=null;localStorage.removeItem(W_DRAFT_KEY);}closeModal();ui.profileId=null;render();toast('Pharmacy and related records deleted.');}}return;
+   case 'add-contact':if(a)editContact(id);return;
+   case 'edit-contact':if(a)editContact(id,el.dataset.contact);return;
+   case 'save-contact':{const form=document.getElementById('contact-form');if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));if(!data.name.trim()){toast('Enter a contact name.');return;}if(data.phone&&!normalizedPhone(data.phone)){toast('Enter a valid international mobile number.');return;}const contact={id:el.dataset.contact||uid(),name:data.name.trim(),role:data.role,phone:data.phone?'+'+normalizedPhone(data.phone):''};if(transact(next=>{const account=next.accounts.find(a=>a.id===id);const pos=account.contacts.findIndex(c=>c.id===contact.id);if(pos>=0)account.contacts[pos]=contact;else account.contacts.push(contact);account.updatedAt=stamp();next.timeline_events.push(logEvent(id,'Contact Updated',`${contact.name} · ${contact.role}`));})){closeModal();render();renderProfile(id);toast('Contact saved.');}return;}
+   case 'remove-contact':if(a&&confirm('Remove this contact from the pharmacy?')){if(transact(next=>{const account=next.accounts.find(a=>a.id===id);account.contacts=account.contacts.filter(c=>c.id!==el.dataset.contact);account.updatedAt=stamp();})){render();renderProfile(id);}}return;
+   case 'add-promise':if(a)addPromise(id);return;
+   case 'save-promise':{const form=document.getElementById('promise-form');if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));if(!data.title.trim()){toast('Enter the commitment.');return;}if(transact(next=>{next.deliverables.push({id:uid(),accountId:id,direction:data.direction,category:'promise',title:data.title.trim(),dueDate:data.dueDate,done:false,createdAt:stamp(),completedAt:null});next.timeline_events.push(logEvent(id,'Promise Logged',`${data.direction==='WE_OWE_THEM'?'We owe them':'They owe us'}: ${data.title.trim()}`));})){closeModal();render();renderProfile(id);toast('Promise saved.');}return;}
+   case 'log-note':{const note=document.getElementById('profile-note').value.trim(),type=document.getElementById('note-type').value;if(!note){toast('Write a note before logging the activity.');return;}if(transact(next=>next.timeline_events.push(logEvent(id,type,note)))){render();renderProfile(id);toast('Activity logged.');}return;}
+   case 'reschedule':if(a)showDialog('Set next follow-up',`<form id="followup-form" class="stack"><p>${esc(a.name)}</p><label class="field">Next visit date<input type="date" name="date" value="${esc(a.followUp)}"></label><p class="tiny muted">Leave the date empty to remove this account from the visit schedule.</p>${button('Save follow-up','save-followup',`data-id="${esc(id)}"`,'primary')}</form>`);return;
+   case 'save-followup':{const form=document.getElementById('followup-form');if(!form.reportValidity())return;const value=new FormData(form).get('date');if(transact(next=>{const account=next.accounts.find(a=>a.id===id);account.followUp=value;account.updatedAt=stamp();next.timeline_events.push(logEvent(id,'Follow-Up Scheduled',value?'Next visit: '+value:'Follow-up date removed.'));})){closeModal();render();refreshProfile();toast('Follow-up updated.');}return;}
+   case 'install':if(deferredInstall){deferredInstall.prompt();const result=await deferredInstall.userChoice;deferredInstall=null;document.getElementById('install-banner').hidden=true;if(result.outcome==='accepted')toast('FieldPulse installation requested.');}return;
+   case 'recover-download':download('Hantco-Storage-Recovery-'+today()+'.json',localStorage.getItem(DB_KEY)||'','application/json');return;
+   case 'recover-reset':if(prompt('Type RESET to replace unreadable data with a clean database. Download the recovery file first.')==='RESET'){const raw=localStorage.getItem(DB_KEY);if(raw)localStorage.setItem('HANTCO_CRM_PRE_RESTORE_V1',raw);localStorage.removeItem(DB_KEY);localStorage.removeItem(W_DRAFT_KEY);location.reload();}return;
+  }
+  if(handleWizardAction(action,el))return;
+  await handleSettingsAction(action,el);
+ }catch(error){console.error('FieldPulse action failed',error);toast(error.message||'This action could not be completed. Your last saved data is preserved.');}
+}
+async function handleInput(event){
+ const el=event.target;if(!(el instanceof HTMLElement))return;
+ if(event.type==='input'&&(el.tagName==='SELECT'||['checkbox','radio','file'].includes(el.type)))return;
+ if(event.type==='change'&&el.tagName!=='SELECT'&&!['checkbox','radio','file','date'].includes(el.type))return;
+ try{
+  if(el.dataset.pipeline){ui[el.dataset.pipeline]=el.value;document.getElementById('account-results').innerHTML=accountResults();return;}
+  if(el.dataset.calculator){const root=el.closest('[data-calc-root]');if(el.dataset.calculator==='sku')root.querySelector('[data-calculator="discount"]').value=skuById(el.value).defaultTradeDiscountPct;updateCalculator(root);return;}
+  if(el.dataset.task){const done=el.checked;const old=db.deliverables.find(t=>t.id===el.dataset.task);if(transact(next=>{const task=next.deliverables.find(t=>t.id===el.dataset.task);task.done=done;task.completedAt=done?stamp():null;next.timeline_events.push(logEvent(task.accountId,done?'Promise Completed':'Promise Reopened',task.title));})){render();refreshProfile();toast(done?'Promise completed.':'Promise reopened.');}else el.checked=old.done;return;}
+  if(el.dataset.profile==='stage'){const previous=db.accounts.find(a=>a.id===el.dataset.id).stage,value=el.value;if(transact(next=>{const account=next.accounts.find(a=>a.id===el.dataset.id);account.stage=value;account.updatedAt=stamp();next.timeline_events.push(logEvent(account.id,'Pipeline Updated',value));})){render();toast('Pipeline stage saved.');}else el.value=previous;return;}
+  if(handleWizardInput(el))return;
+  await handleSettingsInput(el);
+ }catch(error){console.error('FieldPulse input failed',error);toast(error.message||'This change could not be saved.');}
+}
+document.addEventListener('keydown',()=>document.documentElement.classList.add('keyboard-mode'));
+document.addEventListener('pointerdown',()=>document.documentElement.classList.remove('keyboard-mode'));
+document.addEventListener('click',handleClick);
+document.addEventListener('input',handleInput);
+document.addEventListener('change',handleInput);
+document.addEventListener('submit',e=>e.preventDefault());
+document.getElementById('modal-account-360').addEventListener('close',()=>{ui.profileId=null;});
+window.addEventListener('online',refreshConnection);window.addEventListener('offline',refreshConnection);
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstall=event;document.getElementById('install-banner').hidden=false;});
+window.addEventListener('appinstalled',()=>{document.getElementById('install-banner').hidden=true;deferredInstall=null;});
+window.addEventListener('storage',event=>{
+ if(event.key===DB_KEY&&event.newValue&&event.newValue!==lastStoredRaw){try{db=validateDatabase(JSON.parse(event.newValue));lastStoredRaw=event.newValue;render();refreshProfile();toast('CRM updated from another tab. Your visit draft is preserved.');}catch(error){toast('Another tab saved unreadable data. Export your current backup.');storageBlocked=true;}}
+ if(event.key===DB_KEY&&event.newValue===null){storageBlocked=true;toast('CRM storage was cleared in another tab. Reload before making changes.');}
+});
+window.addEventListener('pagehide',()=>{if(ui.draft)saveDraft();});
+let pitchTouch=null;
+document.getElementById('modal-pitch').addEventListener('touchstart',e=>{if(!e.target.closest('input,select,textarea,button'))pitchTouch={x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY};},{passive:true});
+document.getElementById('modal-pitch').addEventListener('touchend',e=>{if(!pitchTouch)return;const dx=e.changedTouches[0].clientX-pitchTouch.x,dy=e.changedTouches[0].clientY-pitchTouch.y;pitchTouch=null;if(Math.abs(dx)>85&&Math.abs(dy)<55){const i=db.skus.findIndex(s=>s.id===pitchId);openPitch(db.skus[(i+(dx<0?1:16))%17].id);}},{passive:true});
+function boot(){
+ try{lastStoredRaw=localStorage.getItem(DB_KEY);if(lastStoredRaw){db=validateDatabase(JSON.parse(lastStoredRaw));}else{db=validateDatabase(seedDatabase());lastStoredRaw=JSON.stringify(db);localStorage.setItem(DB_KEY,lastStoredRaw);}}
+ catch(error){storageBlocked=true;document.getElementById('app').innerHTML=`<section id="boot-error"><div class="eyebrow">DATA RECOVERY</div><h1>Your saved records need attention.</h1><p class="muted" style="margin-top:20px">${esc(error.message)}. The original stored data has not been replaced.</p><div class="stack">${button('Download stored data','recover-download','','primary')}${button('Reset after backup','recover-reset','','danger')}</div><p class="tiny muted" style="margin-top:18px">If browser storage is blocked, enable site storage and reload. Keep the downloaded file to recover your records.</p></section>`;return;}
+ const requested=new URLSearchParams(location.search).get('view');if(['pipeline','wizard','deliverables','showroom','settings'].includes(requested))ui.tab=requested;
+ render();
+ if('serviceWorker' in navigator&&isSecureContext&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').then(reg=>{reg.addEventListener('updatefound',()=>{const worker=reg.installing;worker?.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)toast('An app update is ready. Close all FieldPulse tabs and reopen to apply it.');});});}).catch(()=>toast('Offline shell could not be cached. Reopen online before field use.'));
+ if(location.protocol==='file:')toast('For offline installation, serve these three files over HTTPS or localhost.');
+}
+window.addEventListener('load',()=>{if(window.tailwind)window.tailwind.config={corePlugins:{preflight:false}};});
+boot();
+
+</script>
+</body>
+</html>
