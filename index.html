@@ -57,6 +57,48 @@ body:has(#view-wizard) .header-meta{padding-top:12px}
 .wizard-content section.stack>.section-title{margin:12px 0 0}
 .pitch-hero{background:#111114}
 h1,h2,h3,h4{overflow-wrap:anywhere}
+/* Compact field controls; the rest of the light interface retains its layout. */
+#view-wizard .audit-card{padding:12px 14px;gap:8px}
+#view-wizard .audit-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+#view-wizard .audit-title{min-width:0;flex:1}
+#view-wizard .audit-title h4{font-size:13px;line-height:1.4;margin:3px 0}
+#view-wizard .audit-meta{font-size:11px;line-height:1.5;color:var(--muted)}
+#view-wizard .audit-header .btn{font-size:10px;padding:7px 8px;flex-shrink:0}
+#view-wizard .stock-toggle button{height:42px;min-height:42px;padding:7px 3px;display:block;font-size:11px;white-space:nowrap}
+#view-wizard .stock-toggle strong{font-size:11px}
+#view-wizard .quick-stock-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+#view-wizard .quick-qty{display:flex;gap:4px;align-items:center}
+#view-wizard .quick-qty button{min-width:30px;min-height:38px;height:38px;padding:5px;border-radius:12px;background:#eeedf2;color:var(--ink);font-size:12px}
+#view-wizard .quick-qty button.selected,#view-wizard .quick-qty button[aria-pressed=true]{background:var(--ink);color:white}
+#view-wizard .quick-stock-qty{width:64px;flex-shrink:0}
+#view-wizard .quick-stock-qty>span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+#view-wizard .quick-stock-qty input{width:64px;min-height:38px;height:38px;padding:6px 8px;border-radius:11px;font-size:12px}
+#view-wizard .quick-stock-bar .check-row{min-height:38px;gap:5px;font-size:11px}
+#view-wizard .quick-stock-bar .check-row span{font-size:11px}
+#view-wizard .audit-note .field{display:flex;align-items:center;gap:8px}
+#view-wizard .audit-note .field>span{flex-shrink:0}
+#view-wizard .audit-note input,#view-wizard input.audit-note{min-height:38px;padding:6px 9px;font-size:12px;border-radius:11px}
+#view-wizard .audit-unlisted{background:#f7f6fa;border-style:dashed}
+#view-wizard .contact-row+.contact-row{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+#view-wizard .request-details{margin-top:12px}
+#view-wizard .request-details summary{min-height:44px;padding:12px 0;cursor:pointer;font-size:12px;line-height:1.5}
+#view-wizard .w-group-supply{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#view-wizard .w-group-supply button{font-size:12px;white-space:normal;line-height:1.5}
+@media(max-width:360px){#view-wizard .quick-qty{gap:3px}#view-wizard .quick-qty button{min-width:27px}#view-wizard .stock-toggle button,#view-wizard .stock-toggle strong{font-size:10px}#view-wizard .w-group-supply{grid-template-columns:1fr}}
+/* Clinic entry and visit controls share the existing field-workspace theme. */
+#view-pipeline .accounts-heading{gap:8px;flex-wrap:wrap}
+#view-pipeline .accounts-heading h2{font-size:18px;flex:1;min-width:125px}
+#view-pipeline .account-create{gap:6px;flex-wrap:nowrap}
+#view-pipeline .account-create .btn{min-height:44px;padding:9px 10px;font-size:11px;white-space:nowrap}
+.clinic-card-summary{margin-top:18px;overflow-wrap:anywhere}
+.clinic-card-summary p:last-child{margin-bottom:0}
+#view-wizard .wizard-mode{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;background:#eeedf2;border-radius:25px;padding:5px;margin-bottom:18px}
+#view-wizard .wizard-mode .btn{min-height:54px;padding:9px 10px;font-size:12px;line-height:1.45;border-radius:21px}
+#view-wizard .clinic-doctor+.clinic-doctor{border-top:1px solid var(--line);padding-top:20px;margin-top:4px}
+#view-wizard .clinic-doctor .notice .btn{font-size:12px;line-height:1.5}
+#view-wizard .clinic-visit .manager-escalation{border-top:1px solid var(--line);padding-top:18px;margin-top:4px}
+#view-wizard .clinic-draft-status{text-align:center;margin-top:18px}
+@media(max-width:360px){#view-pipeline .accounts-heading h2{font-size:17px}#view-wizard .wizard-mode .btn{font-size:11px;padding-inline:8px}}
 
 </style>
 </head>
@@ -423,7 +465,9 @@ function seedDatabase() {
     master_config: {
       listedGroupChains: [],
       listedDrugstores: [],
-      emirates: ['Dubai', 'Sharjah', 'Ajman', 'Abu Dhabi', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain'],
+      groupListedSkus: {},
+      drugstoreListedSkus: {},
+      emirates: ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain'],
       pipelineStages: ['Cold / Unaudited', 'Pitched - Pending Order', 'Stocked - Needs Velocity', 'Active VIP'],
       supabaseConfig: {url: '', anonKey: '', tableName: 'hantco_crm_sync', lastSync: null}
     },
@@ -446,8 +490,11 @@ const uid = () => globalThis.crypto?.randomUUID?.() || 'id-'+Date.now().toString
 const checked = b => b ? 'checked' : '';
 const selected = (a,b) => String(a)===String(b) ? 'selected' : '';
 const skuById = id => db.skus.find(s=>s.id===id);
+const listedSkuIds = a => Array.isArray(a?.listedSkuIds) ? db.skus.filter(s=>a.listedSkuIds.includes(s.id)).map(s=>s.id) : db.skus.map(s=>s.id);
+const listedStockCount = a => listedSkuIds(a).filter(id=>a.stock?.[id]?.status==='in').length;
 const missingSkus = a => db.skus.filter(s=>a.stock?.[s.id]?.status!=='in');
-const talabatMissing = a => a.hasOnline ? db.skus.filter(s=>a.stock?.[s.id]?.status==='in'&&!a.stock[s.id].talabat) : [];
+const talabatMissing = a => a.hasOnline ? db.skus.filter(s=>listedSkuIds(a).includes(s.id)&&a.stock?.[s.id]?.status==='in'&&!a.stock[s.id].talabat) : [];
+const onlineStatusLabel = a => !a.hasOnline ? 'No active online store' : a.allListedOnline===false ? 'Some products missing online' : a.allListedOnline===true ? 'All available products online' : `${talabatMissing(a).length} missing online`;
 const statusLabel = state => ({in:'IN STOCK',oos:'OUT OF STOCK',not:'NOT LISTED'}[state] || 'NOT LISTED');
 const statusClass = state => ({in:'good',oos:'warn',not:'bad'}[state] || 'bad');
 const dateLabel = date => date ? new Intl.DateTimeFormat('en-AE',{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Dubai'}).format(new Date(date.length===10?date+'T12:00:00+04:00':date)) : 'No date set';
@@ -468,10 +515,25 @@ function transact(fn){
  }catch(err){toast('Not saved: '+(err.message||'device storage is full or unavailable.'));return false;}
 }
 function download(name,text,mime='text/plain;charset=utf-8'){const url=URL.createObjectURL(new Blob([text],{type:mime}));const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),15000);}
-function normalizedPhone(phone){let s=String(phone||'').trim().replace(/[\s().-]/g,'');if(s.startsWith('00'))s='+'+s.slice(2);if(/^05\d{8}$/.test(s))s='+971'+s.slice(1);if(!/^\+?[1-9]\d{7,14}$/.test(s))return '';return s.replace(/^\+/,'');}
-function openWhatsApp(phone,text){const n=normalizedPhone(phone);if(phone&&!n){toast('Enter a valid WhatsApp number, including country code.');return false;}window.open('https://wa.me/'+n+'?text='+encodeURIComponent(text),'_blank','noopener,noreferrer');return true;}
-function routeLabel(a){return a.scenario==='group'?`${a.groupName} · Main store transfer`:a.scenario==='drugstore'?`${a.drugstoreName} · Partner drugstore`:'Hantco direct supply';}
-function routeGuide(a){return a.scenario==='group'?`MAIN STORE / WAREHOUSE LISTED (${a.groupName}): Products are listed in their central store. Pitch the branch pharmacist to request transfer/stock of missing SKUs from their main branch/warehouse.`:a.scenario==='drugstore'?`ROUTE VIA PARTNER DRUGSTORE (${a.drugstoreName}): Do not open direct credit unless required. Instruct pharmacy to purchase our SKUs through ${a.drugstoreName} for fast supply and easy payment collection.`:'DIRECT HANTCO SUPPLY REQUIRED: Pharmacy does not deal with our listed drugstores. Supply directly from Hantco International (Collect Trade License, TRN & Payment Terms).';}
+function normalizedPhone(phone,context={}){
+ let s=String(phone||'').trim().replace(/[\s().\-\/]/g,'');
+ if(s.startsWith('00'))s='+'+s.slice(2);
+ if(/^\+?9710[2345679]\d{7,8}$/.test(s))s='+971'+s.replace(/^\+?9710/,'');
+ if(/^0[234679]\d{7}$/.test(s)||/^05\d{8}$/.test(s))s='+971'+s.slice(1);
+ if(/^\+?(?:800\d{3,10}|600\d{6,10})$/.test(s))return s.replace(/^\+/,'');
+ if(/^[2-9]\d{6}$/.test(s)){
+  const area=String(context?.area||'').toLowerCase();
+  const areaCode=/al[\s-]*ain/.test(area)?'3':({'Abu Dhabi':'2','Dubai':'4','Sharjah':'6','Ajman':'6','Umm Al Quwain':'6','Ras Al Khaimah':'7','Fujairah':'9'}[context?.emirate]||'');
+  s='+971'+areaCode+s;
+ }
+ return /^\+?\d{6,15}$/.test(s)?s.replace(/^\+/,''):'';
+}
+function contactPhone(phone,context){const number=normalizedPhone(phone,context);return number?(/^(800\d{3,10}|600\d{6,10})$/.test(number)?number:'+'+number):'';}
+function openWhatsApp(phone,text,context){const n=normalizedPhone(phone,context);if(phone&&!n){toast('Enter a phone number with at least 6 digits.');return false;}window.open('https://wa.me/'+n+'?text='+encodeURIComponent(text),'_blank','noopener,noreferrer');return true;}
+function routeLabel(a){return a.accountType==='clinic'?'Clinic / Medical Center':a.scenario==='group'?(a.groupSupplyType==='group_drugstore'?`${a.groupName} · Central Drugstore (${a.groupDrugstoreName || 'Wholesale'})`:`${a.groupName} · Main store transfer`):a.scenario==='drugstore'?`${a.drugstoreName} · Partner drugstore`:'Hantco direct supply';}
+function routeGuide(a){return a.accountType==='clinic'?`Clinic visit · doctor detailing, samples and follow-up${a.nearbyPharmacy?' · Nearby pharmacy: '+a.nearbyPharmacy:''}.`:a.scenario==='group'?(a.groupSupplyType==='group_drugstore'?`${routeLabel(a)}: Central purchasing is handled by the group's wholesale drugstore. Ask the branch to request listed products through ${a.groupDrugstoreName || 'their group wholesale drugstore'} and confirm availability with the central purchaser.`:`MAIN STORE / WAREHOUSE LISTED (${a.groupName}): Products are listed in their central store. Pitch the branch pharmacist to request transfer/stock of missing SKUs from their main branch/warehouse.`):a.scenario==='drugstore'?`ROUTE VIA PARTNER DRUGSTORE (${a.drugstoreName}): Do not open direct credit unless required. Instruct pharmacy to purchase our SKUs through ${a.drugstoreName} for fast supply and easy payment collection.`:'DIRECT HANTCO SUPPLY REQUIRED: Pharmacy does not deal with our listed drugstores. Supply directly from Hantco International (Collect Trade License, TRN & Payment Terms).';}
+function escalationSummary(a){const clinic=a.accountType==='clinic';const contacts=(a.visitContacts||a.contacts||[]).filter(c=>c.phone).map(c=>`${c.role||(clinic?'Clinic Reception / Landline':'Pharmacy / Branch')}${c.name&&c.name!==c.role?' ('+c.name+')':''}: ${contactPhone(c.phone,a)||c.phone}`);return [`*Hantco Field Escalation — ${a.name || (clinic?'Clinic Visit':'Pharmacy Visit')}*`,`Location: ${a.emirate||'Abu Dhabi'}${a.area?' · '+a.area:''}`,...(clinic?[`Visit: Clinic / Medical Center`,`Doctors: ${(a.doctors||[]).filter(d=>d.name||d.note||d.samplesNeeded||d.samplesGiven).map(d=>`${d.name||'Doctor / Clinic Staff'} (${d.specialty||'General'})`).join('; ')||'General clinic visit'}`,a.nearbyPharmacy?'Nearby Pharmacy: '+a.nearbyPharmacy:'']:[`Supply Route: ${routeLabel(a)}`]),`Contacts: ${contacts.join('; ')||'Not captured'}`,...(clinic?[]:[`Shelf Status: ${listedStockCount(a)}/${listedSkuIds(a).length} listed SKUs in stock`]),'',`*Escalation Note:* ${a.escalationNote||''}`].filter(line=>line!==null).join('\n');}
+function sendEscalation(a){return openWhatsApp('971585755666',escalationSummary(a));}
 function navigate(tab){if(!['pipeline','wizard','deliverables','showroom','settings'].includes(tab))return;ui.tab=tab;render();window.scrollTo({top:0,behavior:'instant'});}
 function render(){
  if(!db)return;
@@ -498,31 +560,48 @@ function renderPipeline(){
  const dueCopy=due?'See today’s visits and overdue accounts':'Your next visits, all in one place';
  const hasAccounts=db.accounts.length>0;
  return `<button class="today-pulse" data-action="queue-open" data-queue="schedule" aria-label="${dueHeading}. Open follow-up schedule"><span class="pulse-symbol">${icon('pulse')}</span><span class="pulse-copy"><strong>${dueHeading}</strong><small>${dueCopy}</small></span>${icon('chevron').replace('<svg ','<svg class="pulse-arrow" ')}</button>
- <div class="section-heading-row"><h2>Pipeline at a glance</h2><button class="text-button" data-action="reset-filters" aria-label="Show all pharmacy accounts">${hasAccounts?db.accounts.length+' accounts':'All accounts'}</button></div>
+ <div class="section-heading-row"><h2>Pipeline at a glance</h2><button class="text-button" data-action="reset-filters" aria-label="Show all accounts">${hasAccounts?db.accounts.length+' accounts':'All accounts'}</button></div>
  <div class="kpis" role="group" aria-label="Filter accounts by pipeline stage">${stages.map((stage,i)=>`<button class="kpi ${i===1?'featured':''} ${ui.stage===stage?'active':''}" data-action="stage-filter" data-stage="${esc(stage)}" aria-pressed="${ui.stage===stage}" aria-label="${esc(stage)}: ${counts[i]} accounts"><span class="kpi-icon">${icon(['store','box','check','star'][i])}</span><span class="kpi-label">${['Cold accounts','Pending orders','Stocked','Active VIP'][i]}</span><b>${counts[i]}</b></button>`).join('')}</div>
  ${hasAccounts?`<div class="alert-row">${button(`${icon('clock')} Due / overdue <b>${due}</b>`,'queue-open','data-queue="schedule"','ghost')}${button(`${icon('box')} Pending promises <b>${promises}</b>`,'queue-open','data-queue="we"','ghost')}</div>`:''}
- <div class="section-heading-row"><h2>Your pharmacies</h2>${button(icon('plus'),'new-visit','aria-label="Start pharmacy visit" title="Start pharmacy visit"','circle-action')}</div>
- ${hasAccounts?`<div class="pipeline-tools"><label class="search-box"><span class="screen-reader-only">Search pharmacies, contacts or doctors</span>${icon('search')}<input type="search" id="account-search" data-pipeline="search" placeholder="Pharmacy, area, pharmacist…" value="${esc(ui.search)}"></label><div class="chips" aria-label="Account filters">${[['all','All accounts'],['group','Group branch'],['drugstore','Via drugstore'],['direct','Direct supply'],['clinic','Has clinic'],['talabat','Talabat missing']].map(([v,l])=>`<button class="chip ${ui.filter===v?'selected':''}" data-action="filter" data-filter="${v}" aria-pressed="${ui.filter===v}">${l}</button>`).join('')}</div><label class="field"><span class="screen-reader-only">Emirate</span><select data-pipeline="emirate"><option value="">All emirates</option>${db.master_config.emirates.map(e=>`<option ${selected(e,ui.emirate)}>${esc(e)}</option>`).join('')}</select></label></div>`:''}
+ <div class="section-heading-row accounts-heading"><h2>Pharmacies &amp; clinics</h2><div class="row account-create">${button('+ Pharmacy','new-visit','aria-label="Start pharmacy visit"','ghost')}${button('+ Clinic','new-clinic-visit','aria-label="Start clinic visit"','ghost')}</div></div>
+ ${hasAccounts?`<div class="pipeline-tools"><label class="search-box"><span class="screen-reader-only">Search pharmacies, clinics, contacts or doctors</span>${icon('search')}<input type="search" id="account-search" data-pipeline="search" placeholder="Pharmacy, clinic, area, doctor…" value="${esc(ui.search)}"></label><div class="chips" aria-label="Account filters">${[['all','All accounts'],['clinic_account','Clinics only'],['pharmacy_account','Pharmacies only'],['group','Group branch'],['drugstore','Via drugstore'],['direct','Direct supply'],['clinic','Has clinic'],['talabat','Talabat missing']].map(([v,l])=>`<button class="chip ${ui.filter===v?'selected':''}" data-action="filter" data-filter="${v}" aria-pressed="${ui.filter===v}">${l}</button>`).join('')}</div><label class="field"><span class="screen-reader-only">Emirate</span><select data-pipeline="emirate"><option value="">All emirates</option>${db.master_config.emirates.map(e=>`<option ${selected(e,ui.emirate)}>${esc(e)}</option>`).join('')}</select></label></div>`:''}
  <div id="account-results" class="stack" ${hasAccounts?'style="margin-top:9px"':''}>${accountResults()}</div>
  ${!hasAccounts?`<div class="alert-row">${button(`${icon('clock')} Follow-ups <b>${due}</b>`,'queue-open','data-queue="schedule"','ghost')}${button(`${icon('box')} Promises <b>${promises}</b>`,'queue-open','data-queue="we"','ghost')}</div>`:''}
  <div class="hint-line">${icon('shield')} Saved on this device. Back up in Settings.</div>`;
 }
 function accountResults(){
  const q=ui.search.trim().toLowerCase();
- const list=db.accounts.filter(a=>(!ui.stage||a.stage===ui.stage)&&(!ui.emirate||a.emirate===ui.emirate)&&(ui.filter==='all'||a.scenario===ui.filter||(ui.filter==='clinic'&&a.hasClinic)||(ui.filter==='talabat'&&talabatMissing(a).length))&&(!q||[a.name,a.area,a.emirate,a.groupName,a.drugstoreName,a.otherDrugstores,...(a.contacts||[]).map(c=>c.name),...(a.doctors||[]).map(d=>d.name)].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
- if(!list.length)return db.accounts.length?empty('No matching pharmacies','Try another name, supply route or pipeline stage.')+button('Reset filters','reset-filters','','ghost full'):`<div class="territory-empty"><div class="empty-icon" aria-hidden="true">${icon('store')}</div><h3>Your next visit<br>starts here.</h3><p>Meet the pharmacy. Check the shelf.<br>Keep every next step in one place.</p>${button(`Start first pharmacy visit ${icon('arrow')}`,'new-visit','','primary')}</div>`;
+ const list=db.accounts.filter(a=>(!ui.stage||a.stage===ui.stage)&&(!ui.emirate||a.emirate===ui.emirate)&&(ui.filter==='all'||(ui.filter==='clinic_account'&&a.accountType==='clinic')||(ui.filter==='pharmacy_account'&&a.accountType!=='clinic')||(a.accountType!=='clinic'&&(a.scenario===ui.filter||(ui.filter==='clinic'&&a.hasClinic)||(ui.filter==='talabat'&&a.hasOnline&&(a.allListedOnline===false||talabatMissing(a).length)))))&&(!q||[a.name,a.area,a.emirate,a.groupName,a.drugstoreName,a.groupDrugstoreName,a.otherDrugstores,a.nearbyPharmacy,...(a.contacts||[]).map(c=>c.name),...(a.doctors||[]).map(d=>d.name)].join(' ').toLowerCase().includes(q))).sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
+ if(!list.length)return db.accounts.length?empty('No matching accounts','Try another name, supply route or pipeline stage.')+button('Reset filters','reset-filters','','ghost full'):`<div class="territory-empty"><div class="empty-icon" aria-hidden="true">${icon('store')}</div><h3>Your next visit<br>starts here.</h3><p>Meet the pharmacy. Check the shelf.<br>Keep every next step in one place.</p>${button(`Start first pharmacy visit ${icon('arrow')}`,'new-visit','','primary')}</div>`;
  return list.map(a=>{
-  const stock=db.skus.filter(s=>a.stock?.[s.id]?.status==='in').length;
-  const oos=db.skus.filter(s=>a.stock?.[s.id]?.status==='oos').length;
+  if(a.accountType==='clinic')return clinicAccountCard(a);
+  const listed=listedSkuIds(a),stock=listedStockCount(a);
+  const oos=listed.filter(id=>a.stock?.[id]?.status==='oos').length;
   return `<article class="card account-card"><div class="account-top"><span class="account-emblem" aria-hidden="true">${icon('store')}</span><div class="account-heading"><h2 class="account-name">${esc(a.name)}</h2><p class="account-meta">${esc(a.emirate)}${a.area?' · '+esc(a.area):''}</p></div>${button(icon('chevron'),'profile',`data-id="${esc(a.id)}" aria-label="Open ${esc(a.name)} profile"`,'ghost icon-only')}</div>
   <span class="badge ${a.scenario==='group'?'purple':a.scenario==='drugstore'?'good':'warn'}">${esc(routeLabel(a))}</span><div class="account-status-line"><span class="badge">${esc(a.stage)}</span>${a.followUp?`<span class="account-due ${a.followUp<today()?'warn':''}">${a.followUp<today()?'Overdue · ':''}${esc(dateLabel(a.followUp))}</span>`:''}</div>
-  <div class="row between tiny" style="margin-top:20px"><span class="muted">Shelf coverage</span><b style="font-weight:500">${stock} <span class="muted">/ 17</span></b></div><div class="coverage" role="progressbar" aria-label="Shelf coverage" aria-valuemin="0" aria-valuemax="17" aria-valuenow="${stock}"><span style="width:${stock/17*100}%"></span></div><div class="row tiny muted">${oos} out of stock <span>·</span> ${talabatMissing(a).length} missing online</div>
+  <div class="row between tiny" style="margin-top:20px"><span class="muted">Shelf coverage</span><b style="font-weight:500">${stock} / ${listed.length} listed <span class="muted">· 17 total</span></b></div><div class="coverage" role="progressbar" aria-label="Shelf coverage" aria-valuemin="0" aria-valuemax="${listed.length||1}" aria-valuenow="${stock}" aria-valuetext="${stock} of ${listed.length} listed SKUs in stock; 17 total"><span style="width:${listed.length?stock/listed.length*100:0}%"></span></div><div class="row tiny muted">${oos} out of stock <span>·</span> ${esc(onlineStatusLabel(a))}</div>
   <div class="account-actions">${button('Open 360° profile','profile',`data-id="${esc(a.id)}"`,'primary')}${button('+ Re-visit','revisit',`data-id="${esc(a.id)}"`,'ghost')}${button(icon('chat'),'whatsapp',`data-id="${esc(a.id)}" aria-label="WhatsApp pharmacist"`,'ghost icon-only')}</div></article>`;
  }).join('');
 }
+function clinicAccountCard(a){return `<article class="card account-card"><div class="account-top"><span class="account-emblem" aria-hidden="true">${icon('visit')}</span><div class="account-heading"><h2 class="account-name">${esc(a.name)}</h2><p class="account-meta">${esc(a.emirate)}${a.area?' · '+esc(a.area):''}</p></div>${button(icon('chevron'),'profile',`data-id="${esc(a.id)}" aria-label="Open ${esc(a.name)} profile"`,'ghost icon-only')}</div><span class="badge good">CLINIC / MEDICAL CENTER</span><div class="account-status-line"><span class="badge">${esc(a.stage)}</span>${a.followUp?`<span class="account-due ${a.followUp<today()?'warn':''}">${a.followUp<today()?'Overdue · ':''}${esc(dateLabel(a.followUp))}</span>`:''}</div><div class="clinic-card-summary"><p class="tiny"><strong>Doctors:</strong> ${esc(a.doctors?.length?a.doctors.map(d=>d.name+' ('+d.specialty+')').join(', '):'General clinic visit')}</p>${a.nearbyPharmacy?`<p class="tiny muted">Nearby Pharmacy: ${esc(a.nearbyPharmacy)}</p>`:''}</div><div class="account-actions">${button('Open 360° profile','profile',`data-id="${esc(a.id)}"`,'primary')}${button('+ Re-visit','revisit',`data-id="${esc(a.id)}"`,'ghost')}${button(icon('chat'),'whatsapp',`data-id="${esc(a.id)}" aria-label="WhatsApp clinic"`,'ghost icon-only')}</div></article>`;}
+function renderClinicDoctors(a){return `<div class="card"><h3>${esc(a.name)}</h3>${a.nearbyPharmacy?`<p class="tiny muted" style="margin-top:12px">Nearby Pharmacy: ${esc(a.nearbyPharmacy)}</p>`:''}${a.doctors?.length?a.doctors.map(doc=>`<div class="list-row"><h4>${esc(doc.name)}</h4><p class="tiny muted" style="margin:6px 0">${esc(doc.specialty)} · ${esc(doc.timings||'Timings not recorded')}</p>${doc.note?`<p class="tiny" style="white-space:pre-wrap">${esc(doc.note)}</p>`:''}<div class="row">${doc.samplesGiven?'<span class="badge good">Samples given</span>':''}${doc.samplesNeeded?'<span class="badge warn">Samples needed</span>':''}</div></div>`).join(''):'<p class="tiny muted" style="margin-top:12px">General clinic visit · no specific doctor recorded.</p>'}</div>`;}
+function renderClinicProfile(a){
+ const id=a.id;ui.profileId=id;const d=document.getElementById('modal-account-360');
+ const tasks=db.deliverables.filter(t=>t.accountId===id),events=db.timeline_events.filter(e=>e.accountId===id).sort((x,y)=>y.createdAt.localeCompare(x.createdAt));
+ d.innerHTML=`<div class="modal-head"><div><div class="eyebrow" style="margin:0">CLINIC · 360° PROFILE</div><span class="tiny muted">${esc(a.emirate)} · ${esc(a.area)}</span></div>${button(icon('close'),'close-modal','aria-label="Close account profile"','ghost icon-only')}</div>
+ <div class="modal-content"><h2 id="profile-title" style="font-size:27px;margin-bottom:18px">${esc(a.name)}</h2><label class="field">Pipeline stage<select data-profile="stage" data-id="${esc(id)}">${db.master_config.pipelineStages.map(s=>`<option ${selected(s,a.stage)}>${esc(s)}</option>`).join('')}</select></label>
+ <div class="row" style="margin:14px 0">${button(`${icon('plus')} Start clinic visit`,'revisit',`data-id="${esc(id)}"`,'primary full')}${button(icon('chat')+' WhatsApp','whatsapp',`data-id="${esc(id)}"`)}${button(icon('phone')+' Call','call',`data-id="${esc(id)}"`)}${button(icon('pin')+' Maps','maps',`data-id="${esc(id)}"`)}</div>
+ <div class="row">${button('Edit account','edit-account',`data-id="${esc(id)}"`,'ghost')}${button('Delete account','delete-account',`data-id="${esc(id)}"`,'danger')}</div><h3 class="section-title">Clinic &amp; doctors summary</h3>${renderClinicDoctors(a)}
+ <h3 class="section-title">Clinic contacts ${button('+ Add','add-contact',`data-id="${esc(id)}"`,'ghost')}</h3><div class="card">${a.contacts?.length?a.contacts.map(c=>`<div class="list-row"><div class="row between"><div><h4>${esc(c.name)}</h4><span class="tiny muted">${esc(c.role)} · ${esc(c.phone||'No phone number')}</span></div>${button(icon('chat'),'contact-whatsapp',`data-account="${esc(id)}" data-contact="${esc(c.id)}" aria-label="WhatsApp ${esc(c.name)}"`,'ghost icon-only')}</div><div class="row" style="margin-top:8px">${button('Edit','edit-contact',`data-id="${esc(id)}" data-contact="${esc(c.id)}"`,'ghost')}${button('Remove','remove-contact',`data-id="${esc(id)}" data-contact="${esc(c.id)}"`,'ghost')}</div></div>`).join(''):'<p class="tiny muted">Add clinic reception, doctors or coordinators.</p>'}</div>
+ <h3 class="section-title">Notes &amp; follow-up</h3><div class="card"><div class="row between"><span class="tiny">Follow-up: ${esc(dateLabel(a.followUp))}</span>${button('Set date','reschedule',`data-id="${esc(id)}"`,'ghost')}</div>${a.notes?`<p class="tiny muted" style="white-space:pre-wrap;margin-top:12px">${esc(a.notes)}</p>`:''}</div>
+ ${a.escalationNote?`<h3 class="section-title">Manager escalation</h3><div class="card"><p class="tiny" style="white-space:pre-wrap">${esc(a.escalationNote)}</p>${button('Send Escalation to Manager on WhatsApp (+971585755666)','escalate-whatsapp',`data-id="${esc(id)}"`,'primary full')}</div>`:''}
+ <h3 class="section-title">Two-way promises ${button('+ Add','add-promise',`data-id="${esc(id)}"`,'ghost')}</h3><div class="stack">${tasks.length?renderTasks(tasks):'<div class="notice">No open promises. Log a commitment to keep both sides accountable.</div>'}</div>
+ <h3 class="section-title">Relationship timeline</h3><div class="card"><label class="field">Activity type<select id="note-type">${['Clinic Visit','WhatsApp Follow-Up','Sample/Stand Delivered','Note'].map(t=>`<option>${t}</option>`).join('')}</select></label><label class="field" style="margin-top:12px">Quick note<textarea id="profile-note" maxlength="6000" placeholder="What was discussed at the clinic?"></textarea></label>${button('Log activity','log-note',`data-id="${esc(id)}" style="margin-top:12px"`,'primary full')}</div><div class="timeline">${events.length?events.map(e=>`<article class="timeline-item"><h4>${esc(e.type)}</h4><small>${esc(dateLabel(e.createdAt))} · ${new Intl.DateTimeFormat('en-AE',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Dubai'}).format(new Date(e.createdAt))}</small><p>${esc(e.text)}</p></article>`).join(''):'<p class="tiny muted">Your clinic history starts with the first saved visit.</p>'}</div></div>`;
+ if(!d.open)d.showModal();
+}
 function renderDeliverables(){const items=db.deliverables;const q=ui.queue;return `<p class="muted tiny">Close the loop on every conversation.</p><div class="queue-tabs">${[['schedule','Visit schedule'],['we','We owe them'],['orders','Orders to verify']].map(([v,l])=>`<button class="chip ${q===v?'selected':''}" data-action="queue-open" data-queue="${v}" aria-pressed="${q===v}">${l}</button>`).join('')}</div>${q==='schedule'?renderSchedule():`<div class="stack">${renderTasks(items.filter(d=>q==='we'?d.direction==='WE_OWE_THEM':d.direction==='THEY_OWE_US'))}</div>`}`;}
 function renderSchedule(){const list=db.accounts.filter(a=>a.followUp).sort((a,b)=>a.followUp.localeCompare(b.followUp));return list.length?`<div class="stack">${list.map(a=>`<article class="card"><div class="row between"><span class="badge ${a.followUp<today()?'bad':a.followUp===today()?'warn':'good'}">${a.followUp<today()?'OVERDUE':a.followUp===today()?'DUE TODAY':'UPCOMING'}</span><span class="tiny muted">${esc(dateLabel(a.followUp))}</span></div><h3 style="margin:14px 0 7px">${esc(a.name)}</h3><p class="muted tiny">${esc(routeLabel(a))}</p><div class="row">${button('Re-visit','revisit',`data-id="${esc(a.id)}"`,'primary')}${button('WhatsApp','whatsapp',`data-id="${esc(a.id)}"`)}${button('Reschedule','reschedule',`data-id="${esc(a.id)}"`,'ghost')}</div></article>`).join('')}</div>`:empty('No visits scheduled','Set the next follow-up date in a guided visit or account profile.');}
-function renderTasks(items){if(!items.length)return empty('No promises in this queue','Requirements and order commitments from your visits will appear here.');return [...items].sort((a,b)=>Number(a.done)-Number(b.done)||(a.dueDate||'9999').localeCompare(b.dueDate||'9999')).map(d=>{const a=db.accounts.find(a=>a.id===d.accountId);return `<article class="card task ${d.done?'done':''}"><input type="checkbox" data-task="${esc(d.id)}" aria-label="Complete ${esc(d.title)}" ${checked(d.done)}><div class="task-content"><h3>${esc(d.title)}</h3><p class="tiny muted" style="margin:8px 0">${esc(a?.name||'Account')} · ${esc(dateLabel(d.dueDate))}</p><div class="row">${button('Account','profile',`data-id="${esc(d.accountId)}"`,'ghost')}${d.direction==='THEY_OWE_US'?button('WhatsApp order check','order-check',`data-id="${esc(d.accountId)}"`,'secondary'):''}</div></div></article>`}).join('');}
+function renderTasks(items){if(!items.length)return empty('No promises in this queue','Requirements and order commitments from your visits will appear here.');return [...items].sort((a,b)=>Number(a.done)-Number(b.done)||(a.dueDate||'9999').localeCompare(b.dueDate||'9999')).map(d=>{const a=db.accounts.find(a=>a.id===d.accountId);return `<article class="card task ${d.done?'done':''}"><input type="checkbox" data-task="${esc(d.id)}" aria-label="Complete ${esc(d.title)}" ${checked(d.done)}><div class="task-content"><h3>${esc(d.title)}</h3><p class="tiny muted" style="margin:8px 0">${esc(a?.name||'Account')} · ${esc(dateLabel(d.dueDate))}</p><div class="row">${button('Account','profile',`data-id="${esc(d.accountId)}"`,'ghost')}${d.direction==='THEY_OWE_US'?button(a?.accountType==='clinic'?'WhatsApp follow-up':'WhatsApp order check','order-check',`data-id="${esc(d.accountId)}"`,'secondary'):''}</div></div></article>`}).join('');}
 function priceTable(skus){if(!skus.length)return empty('The shelf is covered','All 17 SKUs are available. Show all products to detail the full range.');return ['Derma Angel Products','Impress Med Products'].map(section=>{const list=skus.filter(s=>s.section===section);return list.length?`<div class="group-title">${esc(section)} <span class="muted">· ${list.length} SKUs</span></div><table class="price-table"><caption class="screen-reader-only">${esc(section)} retail prices in AED</caption><thead><tr><th scope="col">Product</th><th scope="col">Excl.<br>VAT</th><th scope="col">Incl.<br>5% VAT</th></tr></thead><tbody>${list.map(s=>`<tr><td><button data-action="pitch" data-sku="${esc(s.id)}"><span class="sku-code">${esc(s.code)}</span>${esc(s.name)}</button></td><td>${money(s.retailExclVatAED)}</td><td>${money(s.retailInclVatAED)}</td></tr>`).join('')}</tbody></table>`:''}).join('');}
 function renderShowroom(){return `<div class="card brochure-cover"><div class="brochure-cover-top"><div class="eyebrow">HANTCO INTERNATIONAL</div><span class="collection-number">17</span></div><h2>Care for every<br>pharmacy shelf.</h2><p>The complete Hantco range, with retail prices, product details and pharmacy margins.</p>${button(`${icon('chat')} Share price list on WhatsApp`,'share-prices','','secondary full')}</div><h2 class="section-title">Retail price list <span class="badge">AED</span></h2>${priceTable(db.skus)}<h2 class="section-title">Pharmacy margin & offers</h2><div class="card">${calculator(db.skus[0].id,'showroom')}</div><p class="footer-note">${esc(db.company_info.name)}<br>${esc(db.company_info.website)} · ${esc(db.company_info.phone)}</p>`;}
 function calculator(skuId,prefix='calc'){const s=skuById(skuId)||db.skus[0];return `<div data-calc-root="${esc(prefix)}"><div class="stack"><label class="field">Product<select data-calculator="sku">${db.skus.map(x=>`<option value="${esc(x.id)}" ${selected(x.id,s.id)}>${esc(x.code+' · '+x.name)}</option>`).join('')}</select></label><div class="grid2"><label class="field">Order quantity (paid packs)<input type="number" min="1" max="1000000" step="1" value="10" data-calculator="qty" inputmode="numeric"></label><label class="field">Trade discount %<input type="number" min="0" max="100" step="0.01" value="${s.defaultTradeDiscountPct}" data-calculator="discount" inputmode="decimal"></label><label class="field">Buy packs (bonus offer)<input type="number" min="1" max="1000000" step="1" value="10" data-calculator="buy" inputmode="numeric"></label><label class="field">Free packs per bundle<input type="number" min="0" max="1000000" step="1" value="0" data-calculator="free" inputmode="numeric"></label></div><label class="field">Staff incentive per delivered pack (AED)<input type="number" min="0" max="100000" step="0.01" value="0" data-calculator="incentive" inputmode="decimal"></label></div><div data-calc-output aria-live="polite"></div><p class="tiny muted" style="margin:14px 0 0">Discount applies to retail excluding VAT. Free goods apply per completed buy bundle. Profit assumes every delivered pack sells at the listed retail price; VAT is excluded from profit. The 1 + 1 sunscreen SKU counts as one offer pack.</p></div>`;}
@@ -531,11 +610,11 @@ function updateCalculator(root){const get=n=>root.querySelector(`[data-calculato
 function showDialog(title,html){const d=document.getElementById('modal-editor');d.innerHTML=`<div class="modal-head"><h2 id="dialog-title" style="font-size:18px">${esc(title)}</h2>${button(icon('close'),'close-modal','aria-label="Close dialog"','ghost icon-only')}</div><div id="dialog-body" class="modal-content">${html}</div>`;if(!d.open)d.showModal();}
 function closeModal(){for(const id of ['modal-editor','modal-pitch','modal-account-360']){const d=document.getElementById(id);if(d.open){d.close();if(id==='modal-account-360')ui.profileId=null;return;}}}
 function openPitch(skuId){const s=skuById(skuId);if(!s)return;pitchId=s.id;const d=document.getElementById('modal-pitch');d.innerHTML=`<div class="modal-head"><div><div class="eyebrow" style="margin:0">HANTCO · PRODUCT DETAIL</div><span class="tiny muted">${db.skus.indexOf(s)+1} of 17</span></div>${button(icon('close'),'close-modal','aria-label="Close product pitch"','ghost icon-only')}</div><div class="modal-content"><div class="pitch-hero"><span class="badge">${esc(s.code)} · ${esc(s.brand)}</span><h1 id="pitch-title">${esc(s.name)}</h1><span class="pitch-number">${money(s.retailInclVatAED)}</span> <span class="muted">AED</span><p class="tiny muted">Retail including 5% VAT · ${money(s.retailExclVatAED)} excluding VAT</p></div><div class="row">${s.targetSpecialty.map(t=>`<span class="badge">${esc(t)}</span>`).join('')}</div><h2 class="section-title">Product talking points</h2><ul class="pitch-bullets">${s.uspBullets.map(u=>`<li>${esc(u)}</li>`).join('')}</ul><h2 class="section-title">Show the pharmacy opportunity</h2><div class="card">${calculator(s.id,'pitch')}</div><div class="pitch-controls">${button('← Previous','pitch-prev')}${button('Next product →','pitch-next','','primary')}</div></div>`;if(!d.open)d.showModal();d.scrollTop=0;updateCalculator(d.querySelector('[data-calc-root]'));}
-function renderProfile(id){const a=db.accounts.find(a=>a.id===id);if(!a){toast('This account no longer exists.');return;}ui.profileId=id;const d=document.getElementById('modal-account-360');const contact=a.contacts?.[0];const tasks=db.deliverables.filter(t=>t.accountId===id);const events=db.timeline_events.filter(e=>e.accountId===id).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
- d.innerHTML=`<div class="modal-head"><div><div class="eyebrow" style="margin:0">PHARMACY · 360° PROFILE</div><span class="tiny muted">${esc(a.emirate)} · ${esc(a.area)}</span></div>${button(icon('close'),'close-modal','aria-label="Close account profile"','ghost icon-only')}</div><div class="modal-content"><h2 id="profile-title" style="font-size:27px;margin-bottom:18px">${esc(a.name)}</h2><label class="field">Pipeline stage<select data-profile="stage" data-id="${esc(id)}">${db.master_config.pipelineStages.map(s=>`<option ${selected(s,a.stage)}>${esc(s)}</option>`).join('')}</select></label><div class="row" style="margin:14px 0">${button(`${icon('plus')} Start guided visit`,'revisit',`data-id="${esc(id)}"`,'primary full')}${button(icon('chat')+' WhatsApp','whatsapp',`data-id="${esc(id)}"`)}${button(icon('phone')+' Call','call',`data-id="${esc(id)}"`)}${button(icon('pin')+' Maps','maps',`data-id="${esc(id)}"`)}</div><div class="notice">${esc(routeGuide(a))}</div><div class="row" style="margin-top:12px">${button('Edit account','edit-account',`data-id="${esc(id)}"`,'ghost')}${button('Delete account','delete-account',`data-id="${esc(id)}"`,'danger')}</div><h3 class="section-title">Shelf & digital availability <span class="tiny muted">17 SKUs</span></h3><div class="stock-grid">${db.skus.map(s=>{const st=a.stock?.[s.id]||{};return `<button class="stock-cell" data-action="pitch" data-sku="${esc(s.id)}"><span class="sku-code">${esc(s.code)}</span><strong>${esc(s.name)}</strong><span class="badge ${statusClass(st.status)}">${statusLabel(st.status)}</span>${a.hasOnline&&st.status==='in'?`<span class="badge ${st.talabat?'good':'warn'}" style="margin-top:4px">${st.talabat?'Listed online':'Missing on Talabat'}</span>`:''}${st.nearExpiry?'<span class="badge warn" style="margin-top:4px">Near expiry</span>':''}${st.qty||st.note?`<span class="tiny muted" style="display:block;margin-top:5px">${st.qty?'Qty: '+esc(st.qty)+' · ':''}${esc(st.note)}</span>`:''}</button>`}).join('')}</div><h3 class="section-title">Pharmacist & purchaser contacts ${button('+ Add','add-contact',`data-id="${esc(id)}"`,'ghost')}</h3><div class="card">${a.contacts?.length?a.contacts.map(c=>`<div class="list-row"><div class="row between"><div><h4>${esc(c.name)}</h4><span class="tiny muted">${esc(c.role)} · ${esc(c.phone||'No mobile number')}</span></div>${button(icon('chat'),'contact-whatsapp',`data-account="${esc(id)}" data-contact="${esc(c.id)}" aria-label="WhatsApp ${esc(c.name)}"`,'ghost icon-only')}</div><div class="row" style="margin-top:8px">${button('Edit','edit-contact',`data-id="${esc(id)}" data-contact="${esc(c.id)}"`,'ghost')}${button('Remove','remove-contact',`data-id="${esc(id)}" data-contact="${esc(c.id)}"`,'ghost')}</div></div>`).join(''):'<p class="muted tiny">Add the people who make the decisions.</p>'}</div><h3 class="section-title">Clinic & doctor mapping</h3><div class="card">${a.hasClinic?`<h3>${esc(a.clinicName||'Attached / nearby clinic')}</h3>${a.doctors.map(doc=>`<div class="list-row"><h4>${esc(doc.name)}</h4><p class="muted tiny" style="margin:6px 0">${esc(doc.specialty)} · ${esc(doc.timings||'Timings not recorded')}</p><div class="row">${doc.samplesNeeded?'<span class="badge warn">Samples needed</span>':''}${doc.samplesGiven?'<span class="badge good">Samples given</span>':''}</div></div>`).join('')}`:'<p class="muted tiny">No attached clinic recorded. Add clinic and doctors during a guided visit.</p>'}</div><h3 class="section-title">Orders & account requirements</h3><div class="card"><p class="tiny">${esc(a.orderAction||'No order action recorded')}</p><p class="tiny muted" style="white-space:pre-wrap">${esc([requestedProductsText(a),a.requests].filter(Boolean).join('\n\n')||'No product requests recorded.')}</p>${a.scenario==='direct'?`<div class="divider"></div><p class="tiny muted">Trade license: ${esc(a.tradeLicense||'Not captured')}<br>TRN: ${esc(a.trn||'Not captured')}<br>Payment terms: ${esc(a.paymentTerms||'Not captured')}</p>`:''}<div class="row between"><span class="tiny">Follow-up: ${esc(dateLabel(a.followUp))}</span>${button('Set date','reschedule',`data-id="${esc(id)}"`,'ghost')}</div>${a.notes?`<p class="tiny muted" style="margin-top:12px;white-space:pre-wrap">${esc(a.notes)}</p>`:''}</div><h3 class="section-title">Two-way promises ${button('+ Add','add-promise',`data-id="${esc(id)}"`,'ghost')}</h3><div class="stack">${tasks.length?renderTasks(tasks):'<div class="notice">No open promises. Log a commitment to keep both sides accountable.</div>'}</div><h3 class="section-title">Relationship timeline</h3><div class="card"><label class="field">Activity type<select id="note-type">${['Field Visit','WhatsApp Follow-Up','Order Confirmed','Sample/Stand Delivered','Note'].map(t=>`<option>${t}</option>`).join('')}</select></label><label class="field" style="margin-top:12px">Quick note<textarea id="profile-note" maxlength="6000" placeholder="What moved the relationship forward?"></textarea></label>${button('Log activity','log-note',`data-id="${esc(id)}" style="margin-top:12px"`,'primary full')}</div><div class="timeline">${events.length?events.map(e=>`<article class="timeline-item"><h4>${esc(e.type)}</h4><small>${esc(dateLabel(e.createdAt))} · ${new Intl.DateTimeFormat('en-AE',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Dubai'}).format(new Date(e.createdAt))}</small><p>${esc(e.text)}</p></article>`).join(''):'<p class="muted tiny">Your account history starts with the first saved visit.</p>'}</div></div>`;
+function renderProfile(id){const a=db.accounts.find(a=>a.id===id);if(!a){toast('This account no longer exists.');return;}if(a.accountType==='clinic')return renderClinicProfile(a);ui.profileId=id;const d=document.getElementById('modal-account-360');const contact=a.contacts?.[0];const tasks=db.deliverables.filter(t=>t.accountId===id);const events=db.timeline_events.filter(e=>e.accountId===id).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+ d.innerHTML=`<div class="modal-head"><div><div class="eyebrow" style="margin:0">PHARMACY · 360° PROFILE</div><span class="tiny muted">${esc(a.emirate)} · ${esc(a.area)}</span></div>${button(icon('close'),'close-modal','aria-label="Close account profile"','ghost icon-only')}</div><div class="modal-content"><h2 id="profile-title" style="font-size:27px;margin-bottom:18px">${esc(a.name)}</h2><label class="field">Pipeline stage<select data-profile="stage" data-id="${esc(id)}">${db.master_config.pipelineStages.map(s=>`<option ${selected(s,a.stage)}>${esc(s)}</option>`).join('')}</select></label><div class="row" style="margin:14px 0">${button(`${icon('plus')} Start guided visit`,'revisit',`data-id="${esc(id)}"`,'primary full')}${button(icon('chat')+' WhatsApp','whatsapp',`data-id="${esc(id)}"`)}${button(icon('phone')+' Call','call',`data-id="${esc(id)}"`)}${button(icon('pin')+' Maps','maps',`data-id="${esc(id)}"`)}</div><div class="notice">${esc(routeGuide(a))}</div><div class="row" style="margin-top:12px">${button('Edit account','edit-account',`data-id="${esc(id)}"`,'ghost')}${button('Delete account','delete-account',`data-id="${esc(id)}"`,'danger')}</div><h3 class="section-title">Shelf & digital availability</h3><p class="tiny">${listedStockCount(a)} / ${listedSkuIds(a).length} listed <span class="muted">· 17 total</span></p><p class="tiny muted">${esc(onlineStatusLabel(a))}${a.onlineNote?" · "+esc(a.onlineNote):""}</p><div class="stock-grid">${db.skus.map(s=>{const st=a.stock?.[s.id]||{};return `<button class="stock-cell" data-action="pitch" data-sku="${esc(s.id)}"><span class="sku-code">${esc(s.code)}</span><strong>${esc(s.name)}</strong><span class="badge ${statusClass(st.status)}">${statusLabel(st.status)}</span>${a.hasOnline&&a.allListedOnline!==false&&st.status==='in'?`<span class="badge ${st.talabat?'good':'warn'}" style="margin-top:4px">${st.talabat?'Listed online':'Missing on Talabat'}</span>`:''}${st.nearExpiry?'<span class="badge warn" style="margin-top:4px">Near expiry</span>':''}${st.qty||st.note?`<span class="tiny muted" style="display:block;margin-top:5px">${st.qty?'Qty: '+esc(st.qty)+' · ':''}${esc(st.note)}</span>`:''}</button>`}).join('')}</div><h3 class="section-title">Pharmacist & purchaser contacts ${button('+ Add','add-contact',`data-id="${esc(id)}"`,'ghost')}</h3><div class="card">${a.contacts?.length?a.contacts.map(c=>`<div class="list-row"><div class="row between"><div><h4>${esc(c.name)}</h4><span class="tiny muted">${esc(c.role)} · ${esc(c.phone||'No mobile number')}</span></div>${button(icon('chat'),'contact-whatsapp',`data-account="${esc(id)}" data-contact="${esc(c.id)}" aria-label="WhatsApp ${esc(c.name)}"`,'ghost icon-only')}</div><div class="row" style="margin-top:8px">${button('Edit','edit-contact',`data-id="${esc(id)}" data-contact="${esc(c.id)}"`,'ghost')}${button('Remove','remove-contact',`data-id="${esc(id)}" data-contact="${esc(c.id)}"`,'ghost')}</div></div>`).join(''):'<p class="muted tiny">Add the people who make the decisions.</p>'}</div><h3 class="section-title">Clinic & doctor mapping</h3><div class="card">${a.hasClinic?`<h3>${esc(a.clinicName||'Attached / nearby clinic')}</h3>${a.doctors.map(doc=>`<div class="list-row"><h4>${esc(doc.name)}</h4><p class="muted tiny" style="margin:6px 0">${esc(doc.specialty)} · ${esc(doc.timings||'Timings not recorded')}</p><div class="row">${doc.samplesNeeded?'<span class="badge warn">Samples needed</span>':''}${doc.samplesGiven?'<span class="badge good">Samples given</span>':''}</div></div>`).join('')}`:'<p class="muted tiny">No attached clinic recorded. Add clinic and doctors during a guided visit.</p>'}</div><h3 class="section-title">Orders & account requirements</h3><div class="card"><p class="tiny">${esc(a.orderAction||'No order action recorded')}</p><p class="tiny muted" style="white-space:pre-wrap">${esc([requestedProductsText(a),a.requests].filter(Boolean).join('\n\n')||'No product requests recorded.')}</p>${a.scenario==='direct'?`<div class="divider"></div><p class="tiny muted">Trade license: ${esc(a.tradeLicense||'Not captured')}<br>TRN: ${esc(a.trn||'Not captured')}<br>Payment terms: ${esc(a.paymentTerms||'Not captured')}</p>`:''}<div class="row between"><span class="tiny">Follow-up: ${esc(dateLabel(a.followUp))}</span>${button('Set date','reschedule',`data-id="${esc(id)}"`,'ghost')}</div>${a.notes?`<p class="tiny muted" style="margin-top:12px;white-space:pre-wrap">${esc(a.notes)}</p>`:''}</div>${a.escalationNote?`<h3 class="section-title">Manager escalation</h3><div class="card"><p class="tiny" style="white-space:pre-wrap">${esc(a.escalationNote)}</p>${button('Send Escalation to Manager on WhatsApp (+971585755666)','escalate-whatsapp',`data-id="${esc(id)}"`,'primary full')}</div>`:''}<h3 class="section-title">Two-way promises ${button('+ Add','add-promise',`data-id="${esc(id)}"`,'ghost')}</h3><div class="stack">${tasks.length?renderTasks(tasks):'<div class="notice">No open promises. Log a commitment to keep both sides accountable.</div>'}</div><h3 class="section-title">Relationship timeline</h3><div class="card"><label class="field">Activity type<select id="note-type">${['Field Visit','WhatsApp Follow-Up','Order Confirmed','Sample/Stand Delivered','Note'].map(t=>`<option>${t}</option>`).join('')}</select></label><label class="field" style="margin-top:12px">Quick note<textarea id="profile-note" maxlength="6000" placeholder="What moved the relationship forward?"></textarea></label>${button('Log activity','log-note',`data-id="${esc(id)}" style="margin-top:12px"`,'primary full')}</div><div class="timeline">${events.length?events.map(e=>`<article class="timeline-item"><h4>${esc(e.type)}</h4><small>${esc(dateLabel(e.createdAt))} · ${new Intl.DateTimeFormat('en-AE',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Dubai'}).format(new Date(e.createdAt))}</small><p>${esc(e.text)}</p></article>`).join(''):'<p class="muted tiny">Your account history starts with the first saved visit.</p>'}</div></div>`;
  if(!d.open)d.showModal();}
-function editAccount(id){const a=db.accounts.find(a=>a.id===id);showDialog('Edit pharmacy account',`<form id="edit-account-form"><div class="stack"><label class="field">Pharmacy name<input name="name" required maxlength="200" value="${esc(a.name)}"></label><label class="field">Emirate<select name="emirate">${db.master_config.emirates.map(e=>`<option ${selected(e,a.emirate)}>${esc(e)}</option>`).join('')}</select></label><label class="field">Area / location<input name="area" maxlength="300" value="${esc(a.area)}"></label><label class="field">Account notes<textarea name="notes" maxlength="6000">${esc(a.notes)}</textarea></label><p class="tiny muted">Update supply routing, shelf status and clinic details through a guided visit.</p>${button('Save account','save-account-edit',`data-id="${esc(id)}"`,'primary')}</div></form>`);}
-function editContact(accountId,contactId){const a=db.accounts.find(a=>a.id===accountId),c=a.contacts.find(c=>c.id===contactId)||{name:'',role:'Pharmacist',phone:''};showDialog(contactId?'Edit contact':'Add contact',`<form id="contact-form" class="stack"><label class="field">Name<input name="name" value="${esc(c.name)}" required maxlength="150" autocomplete="name"></label><label class="field">Role<select name="role">${['Pharmacist','Branch In-Charge','Purchaser'].map(r=>`<option ${selected(r,c.role)}>${r}</option>`).join('')}</select></label><label class="field">Mobile / WhatsApp<input name="phone" type="tel" value="${esc(c.phone)}" placeholder="+971…" maxlength="30" autocomplete="tel"></label>${button('Save contact','save-contact',`data-id="${esc(accountId)}" data-contact="${esc(contactId||'')}"`,'primary')}</form>`);}
+function editAccount(id){const a=db.accounts.find(a=>a.id===id),clinic=a.accountType==='clinic';showDialog(clinic?'Edit clinic account':'Edit pharmacy account',`<form id="edit-account-form"><div class="stack"><label class="field">${clinic?'Clinic / Medical Center Name':'Pharmacy name'}<input name="name" required maxlength="200" value="${esc(a.name)}"></label><label class="field">Emirate<select name="emirate">${db.master_config.emirates.map(e=>`<option ${selected(e,a.emirate)}>${esc(e)}</option>`).join('')}</select></label><label class="field">Area / location<input name="area" maxlength="300" value="${esc(a.area)}"></label>${clinic?`<label class="field">Attached / Nearby Pharmacy (Optional)<input name="nearbyPharmacy" maxlength="300" value="${esc(a.nearbyPharmacy)}"></label>`:''}<label class="field">Account notes<textarea name="notes" maxlength="6000">${esc(a.notes)}</textarea></label><p class="tiny muted">${clinic?'Update doctors, samples and visit details through a clinic visit.':'Update supply routing, shelf status and clinic details through a guided visit.'}</p>${button('Save account','save-account-edit',`data-id="${esc(id)}"`,'primary')}</div></form>`);}
+function editContact(accountId,contactId){const a=db.accounts.find(a=>a.id===accountId),roles=a.accountType==='clinic'?['Clinic Reception / Landline','Doctor Direct','Nurse / Coordinator','Clinic Manager']:['Pharmacy / Branch','Purchaser','Pharmacist','Branch In-Charge','Owner / Management'],c=a.contacts.find(c=>c.id===contactId)||{name:'',role:roles[0],phone:''};showDialog(contactId?'Edit contact':'Add contact',`<form id="contact-form" class="stack"><label class="field">Name (Optional)<input name="name" value="${esc(c.name)}" maxlength="150" autocomplete="name"></label><label class="field">Role<select name="role">${[...new Set([...roles,c.role].filter(Boolean))].map(r=>`<option ${selected(r,c.role)}>${esc(r)}</option>`).join('')}</select></label><label class="field">Landline or Mobile Number<input name="phone" type="tel" value="${esc(c.phone)}" placeholder="02 / 03 landline or 05 mobile…" maxlength="40" autocomplete="tel"></label><p class="tiny muted">Accepts UAE landlines (02, 03, 04, 7-digit local) and mobile numbers (05…). Leave name blank to use the role.</p>${button('Save contact','save-contact',`data-id="${esc(accountId)}" data-contact="${esc(contactId||'')}"`,'primary')}</form>`);}
 function addPromise(id){showDialog('Log a promise',`<form id="promise-form" class="stack"><label class="field">Who needs to act?<select name="direction"><option value="WE_OWE_THEM">We owe them</option><option value="THEY_OWE_US">They owe us</option></select></label><label class="field">Commitment<input name="title" required maxlength="300"></label><label class="field">Due date<input name="dueDate" type="date"></label>${button('Save promise','save-promise',`data-id="${esc(id)}"`,'primary')}</form>`);}
 function refreshProfile(){if(ui.profileId&&document.getElementById('modal-account-360').open)renderProfile(ui.profileId);}
 function refreshConnection(){const el=document.getElementById('connection');el.textContent=navigator.onLine?'On device':'Offline · on device';el.classList.toggle('offline',!navigator.onLine);}
@@ -551,25 +630,42 @@ const W_REQUIREMENTS = [
   {key:'display', title:'Needs Counter Display Stand / Brochure'},
   {key:'account', title:'Direct Account Opening (Trade License / TRN)'}
 ];
-const W_ORDERS = ['Promised Main Store Requisition', 'Promised Order via Drugstore', 'Direct Order Placed with Hantco', 'Follow-Up Required'];
+const W_ORDERS = ['Follow-Up Required', 'Will Check / Try (No Promise)', 'Stock Available — No Order Needed', 'Promised Main Store Requisition', 'Promised Order via Drugstore', 'Direct Order Placed with Hantco'];
+const W_CONTACT_ROLES = ['Pharmacy / Branch', 'Purchaser', 'Pharmacist', 'Branch In-Charge', 'Owner / Management'];
+const W_CLINIC_CONTACT_ROLES = ['Clinic Reception / Landline', 'Doctor Direct', 'Nurse / Coordinator', 'Clinic Manager'];
 let wDraftWarningShown = false;
 
-function newDraft(account) {
+function wNewDoctor() { return {id:uid(),name:'',specialty:'Dermatology',timings:'',note:'',samplesNeeded:false,samplesGiven:false}; }
+function wContactRoles(d) { return d.accountType==='clinic' ? W_CLINIC_CONTACT_ROLES : W_CONTACT_ROLES; }
+function wSetMode(d,mode) {
+  if (!['pharmacy','clinic'].includes(mode) || d.accountType===mode) return;
+  if (mode==='clinic') d._pharmacyHasClinic=!!d.hasClinic;
+  d.accountType=mode;
+  if (mode==='clinic') { d.hasClinic=true; if (!d.doctors.length) d.doctors.push(wNewDoctor()); }
+  else d.hasClinic=!!d._pharmacyHasClinic;
+  d.visitContacts.forEach(c=>{if(!c.name.trim()&&!c.phone.trim() && [...W_CONTACT_ROLES,...W_CLINIC_CONTACT_ROLES].includes(c.role)) c.role=wContactRoles(d)[0];});
+}
+
+function newDraft(account, forceType) {
   const source = account ? clone(account) : {};
+  const accountType = ['pharmacy','clinic'].includes(forceType) ? forceType : source.accountType || 'pharmacy';
   const stock = {};
   db.skus.forEach(sku => { stock[sku.id] = {status:'not', qty:'', note:'', nearExpiry:false, talabat:false, ...(source.stock?.[sku.id] || {})}; });
-  const first = source.contacts?.[0];
   return {
-    id:source.id || uid(), name:source.name || '', emirate:source.emirate || db.master_config.emirates[0], area:source.area || '',
+    id:source.id || uid(), name:source.name || '', accountType, nearbyPharmacy:source.nearbyPharmacy || '', emirate:source.emirate || 'Abu Dhabi', area:source.area || '',
     scenario:source.scenario || 'direct', groupName:source.groupName || '', drugstoreName:source.drugstoreName || '', otherDrugstores:source.otherDrugstores || '',
+    groupSupplyType:source.groupSupplyType || 'main_store', groupDrugstoreName:source.groupDrugstoreName || '', listedSkuIds:listedSkuIds(source),
     gps:source.gps || null, stage:source.stage || db.master_config.pipelineStages[0], stock,
-    hasOnline:!!source.hasOnline, hasClinic:!!source.hasClinic, clinicName:source.clinicName || '', doctors:source.doctors || [], contacts:source.contacts || [],
+    hasOnline:!!source.hasOnline, hasClinic:accountType==='clinic' || !!source.hasClinic, clinicName:source.clinicName || '', doctors:source.doctors?.length ? source.doctors.map(doc=>({note:'',...doc})) : accountType==='clinic' ? [wNewDoctor()] : [], contacts:source.contacts || [],
+    allListedOnline:typeof source.allListedOnline === 'boolean' ? source.allListedOnline : null, onlineNote:source.onlineNote || '', escalationNote:source.escalationNote || '',
     followUp:source.followUp || '', orderAction:'Follow-Up Required', requests:'', notes:source.notes || '',
     tradeLicense:source.tradeLicense || '', trn:source.trn || '', paymentTerms:source.paymentTerms || '',
     createdAt:source.createdAt || stamp(), updatedAt:source.updatedAt || stamp(), lastVisit:source.lastVisit || null,
-    contact:{name:first?.name || '', role:first?.role || 'Pharmacist', phone:first?.phone || ''},
-    contactId:first?.id || null, requirements:[], requestLines:{}, visitNotes:'', visitId:uid(), step:1,
-    _existing:!!account, _dirty:false, _newGroup:'', _newDrugstore:'', _orderTouched:false, _requestInitialized:false,
+    visitContacts:source.contacts?.length ? clone(source.contacts) : [{id:uid(),name:'',role:accountType==='clinic' ? W_CLINIC_CONTACT_ROLES[0] : W_CONTACT_ROLES[0],phone:''}],
+    requirements:[], requestLines:{}, visitNotes:'', visitId:uid(), step:1,
+    _existing:!!account, _dirty:false, _newGroup:'', _newDrugstore:'', _newGroupDrugstore:'', _orderTouched:false, _requestInitialized:false,
+    _listedCustomized:Array.isArray(source.listedSkuIds), _listedEdited:false, _showUnlisted:false, _workflowVersion:3,
+    _pharmacyHasClinic:!!source.hasClinic,
     _baseUpdatedAt:source.updatedAt || null
   };
 }
@@ -586,10 +682,30 @@ function loadVisitDraft() {
     draft.stock = Object.fromEntries(db.skus.map(s => [s.id, {status:'not', qty:'', note:'', nearExpiry:false, talabat:false, ...(parsed.stock[s.id] || {})}]));
     draft.step = Math.max(1, Math.min(6, Number(parsed.step) || 1));
     draft.requirements = Array.isArray(draft.requirements) ? draft.requirements.filter(k => W_REQUIREMENTS.some(r => r.key === k)) : [];
-    draft.doctors = Array.isArray(draft.doctors) ? draft.doctors : [];
+    draft.accountType = ['pharmacy','clinic'].includes(draft.accountType) ? draft.accountType : 'pharmacy';
+    draft.nearbyPharmacy = String(draft.nearbyPharmacy || '');
+    draft.doctors = Array.isArray(draft.doctors) ? draft.doctors.map(doc=>({note:'',...doc})) : [];
     draft.contacts = Array.isArray(draft.contacts) ? draft.contacts : [];
     draft.requestLines = draft.requestLines && typeof draft.requestLines === 'object' ? draft.requestLines : {};
-    draft.contact = draft.contact && typeof draft.contact === 'object' ? draft.contact : {name:'',role:'Pharmacist',phone:''};
+    draft.listedSkuIds = listedSkuIds(draft);
+    if (!Array.isArray(parsed.visitContacts)) {
+      draft.visitContacts = clone(draft.contacts);
+      if (parsed.contact && typeof parsed.contact === 'object') {
+        const contact = {...parsed.contact,id:parsed.contactId || draft.visitContacts[0]?.id || uid()};
+        const index = draft.visitContacts.findIndex(c => c.id === contact.id);
+        if (index >= 0) draft.visitContacts[index] = {...draft.visitContacts[index],...contact};
+        else if (contact.name || contact.phone) draft.visitContacts.push(contact);
+      }
+    }
+    draft.visitContacts = (draft.visitContacts || []).filter(c => c && typeof c === 'object').map(c => ({...c,id:c.id || uid(),name:String(c.name || ''),role:String(c.role || wContactRoles(draft)[0]),phone:String(c.phone || '')}));
+    if (!draft.visitContacts.length) draft.visitContacts.push({id:uid(),name:'',role:wContactRoles(draft)[0],phone:''});
+    if (draft.accountType==='clinic') { draft.hasClinic=true; if(!draft.doctors.length)draft.doctors.push(wNewDoctor()); }
+    if (parsed._workflowVersion !== 3) {
+      if (!parsed._orderTouched) draft.orderAction = 'Follow-Up Required';
+      Object.values(draft.requestLines).forEach(line => { if (line && !line._touched) line.selected=false; });
+    }
+    draft._workflowVersion = 3;
+    if (!W_ORDERS.includes(draft.orderAction)) draft.orderAction = 'Follow-Up Required';
     return draft;
   } catch (error) {
     toast('The saved visit draft could not be read. Your saved accounts are unchanged.');
@@ -611,14 +727,15 @@ function saveDraft() {
   }
 }
 
-function startVisit(accountId) {
+function startVisit(accountId, forceType) {
   const account = accountId ? db.accounts.find(a => a.id === accountId) : null;
-  if (accountId && !account) { toast('This pharmacy is no longer available.'); return false; }
+  if (accountId && !account) { toast('This account is no longer available.'); return false; }
   if (!ui.draft) ui.draft = loadVisitDraft();
-  if (ui.draft && ui.draft._dirty && ((account && ui.draft.id !== account.id) || (!account && ui.draft._existing))) {
-    if (!confirm('Replace the unfinished visit draft? Saved pharmacy records will remain unchanged.')) return false;
+  const modeChanged = !account && ['pharmacy','clinic'].includes(forceType) && ui.draft && (ui.draft.accountType || 'pharmacy')!==forceType;
+  if (ui.draft && ui.draft._dirty && ((account && ui.draft.id !== account.id) || (!account && ui.draft._existing) || modeChanged)) {
+    if (!confirm('Replace the unfinished visit draft? Saved records will remain unchanged.')) return false;
   }
-  if (!ui.draft || (account && ui.draft.id !== account.id) || (!account && ui.draft._existing) || !ui.draft._dirty) ui.draft = newDraft(account);
+  if (!ui.draft || (account && ui.draft.id !== account.id) || (!account && ui.draft._existing) || modeChanged || !ui.draft._dirty) ui.draft = newDraft(account, account ? undefined : forceType);
   ui.step = ui.draft.step || 1;
   ui.tab = 'wizard';
   ui.profileId = null;
@@ -646,10 +763,21 @@ function wButton(label, action, attrs = '', kind = 'secondary') {
 }
 function wEnsureRequests() {
   const d = ui.draft;
-  if (!d || d._requestInitialized) return;
-  db.skus.forEach(s => { d.requestLines[s.id] = {selected:d.stock[s.id].status !== 'in', qty:1}; });
+  if (!d || d.accountType==='clinic') return;
+  d.requestLines ||= {};
+  db.skus.forEach(s => { d.requestLines[s.id] ||= {selected:false, qty:1}; });
   d._requestInitialized = true;
-  if (!d._orderTouched) d.orderAction = d.scenario === 'group' ? W_ORDERS[0] : d.scenario === 'drugstore' ? W_ORDERS[1] : W_ORDERS[3];
+}
+function wApplyListedTemplate(d) {
+  if (d._listedCustomized || d.accountType==='clinic') return;
+  const template = d.scenario === 'group' ? db.master_config.groupListedSkus?.[d.groupName] : d.scenario === 'drugstore' ? db.master_config.drugstoreListedSkus?.[d.drugstoreName] : null;
+  d.listedSkuIds = Array.isArray(template) ? listedSkuIds({listedSkuIds:template}) : db.skus.map(s => s.id);
+}
+function wOnlineSummary(d) {
+  if (!d.hasOnline) return 'No active online store';
+  if (d.allListedOnline === true) return 'All listed products online';
+  if (d.allListedOnline === false) return 'Some products missing online';
+  return `${db.skus.filter(s => d.stock[s.id].status === 'in' && !d.stock[s.id].talabat).length} in-stock products not recorded online`;
 }
 function wDoctorMatches(specialty) {
   if (specialty === 'Dermatology' || specialty === 'GP / Family' || specialty === 'GP') return db.skus.filter(s => s.code.startsWith('DA-') || s.code === 'IM-09' || s.code === 'IM-10');
@@ -660,30 +788,34 @@ function wDoctorMatches(specialty) {
 function renderWizard() {
   if (!ui.draft) { ui.draft = loadVisitDraft() || newDraft(); ui.step = ui.draft.step || 1; }
   const d = ui.draft;
+  const modeBar = `<div class="wizard-mode" role="group" aria-label="Visit type">${wButton('Pharmacy Visit (6 Steps)','w-mode','data-mode="pharmacy" aria-pressed="'+(d.accountType!=='clinic')+'"',d.accountType!=='clinic'?'primary':'secondary')}${wButton('Clinic Visit (Doctor &amp; Notes)','w-mode','data-mode="clinic" aria-pressed="'+(d.accountType==='clinic')+'"',d.accountType==='clinic'?'primary':'secondary')}</div>`;
+  if (d.accountType==='clinic') return `${modeBar}<div class="row" style="justify-content:space-between"><p class="eyebrow">${d._existing?'CLINIC RE-VISIT':'NEW CLINIC VISIT'}</p>${wButton('New draft','w-reset','','ghost')}</div><div class="section-heading"><h2>Doctors, details &amp; next steps.</h2><p class="muted">Capture the conversation and plan the follow-up.</p></div><div class="stack wizard-content clinic-visit">${wRenderClinicVisit()}</div><p class="tiny muted clinic-draft-status">${wDraftWarningShown?'Draft not stored · keep this page open':'Draft saved on this device'}</p>`;
   const step = Math.max(1, Math.min(6, ui.step || 1));
   const visited = d._existing ? 'RE-VISIT / AUDIT' : 'NEW PHARMACY VISIT';
   const titles = ['Start with the supply route.', 'What is on the shelf?', 'Turn gaps into opportunity.', 'Make the shelf sell online.', 'Map the clinical opportunity.', 'Leave with a clear next step.'];
-  const descriptions = ['Capture the pharmacy, then choose how it receives Hantco products.', 'Check all 17 products. Your audit is saved as a draft as you work.', 'Use the live price table and product cards with the pharmacist.', 'Audit only the products physically available in this pharmacy.', 'Connect doctors, duty timings, and the right product categories.', 'Record the order, people, promises, and the next follow-up.'];
+  const descriptions = ['Capture the pharmacy, then choose how it receives Hantco products.', 'Check the listed products. Your audit is saved as a draft as you work.', 'Use the live price table and product cards with the pharmacist.', 'Record the online store status in two quick checks.', 'Connect doctors, duty timings, and the right product categories.', 'Record the order, people, promises, and the next follow-up.'];
   const header = `<div class="row" style="justify-content:space-between"><p class="eyebrow">${visited}</p>${wButton('New draft', 'w-reset', '', 'ghost')}</div>
     <div class="wizard-steps" aria-label="Visit progress">${W_STEPS.map((label,i) => `<button type="button" data-action="w-step" data-step="${i+1}" class="step-pill ${i+1 === step ? 'active' : ''} ${i+1 < step ? 'done' : ''}" aria-current="${i+1 === step ? 'step' : 'false'}" aria-label="Step ${i+1}: ${label}"><span>${i+1}</span><small>${esc(label)}</small></button>`).join('')}</div>
     <div class="section-heading"><p class="eyebrow">STEP ${step} OF 6 ${d.name ? `· ${esc(d.name)}` : ''}</p><h2>${titles[step-1]}</h2><p class="muted">${descriptions[step-1]}</p></div>`;
   const screens = [wRenderRoute, wRenderShelf, wRenderPitch, wRenderOnline, wRenderClinic, wRenderFinish];
   const footer = `<div class="wizard-footer"><span class="tiny muted">${wDraftWarningShown ? 'Draft not stored · keep this page open' : d._dirty ? 'Draft saved on this device' : 'Your visit stays on this device'}</span><div class="row">${step > 1 ? wButton('← Back', 'w-step', `data-step="${step-1}"`) : ''}${step < 6 ? wButton(`Continue · ${step+1} / 6 →`, 'w-step', `data-step="${step+1}"`, 'primary') : ''}</div></div>`;
-  return `${header}<div class="stack wizard-content">${screens[step-1]()}</div>${footer}`;
+  return `${modeBar}${header}<div class="stack wizard-content">${screens[step-1]()}</div>${footer}`;
 }
 
 function wRenderRoute() {
   const d = ui.draft;
   const scenarios = [
-    ['group', 'Group pharmacy', 'Listed in the main branch / central store', 'Main-store transfer'],
+    ['group', 'Group pharmacy', 'Central purchase through a main store or group drugstore', 'Central purchase'],
     ['drugstore', 'Pharmacy via drugstore', 'Route the order through a listed sub-distributor', 'Partner drugstore'],
     ['direct', 'Direct supply pharmacy', 'No shared drugstore — supply through Hantco', 'Hantco direct']
   ];
-  const existing = wSelect('Pharmacy record', 'existing', d._existing ? d.id : '', [{value:'',label:'+ New pharmacy'}, ...db.accounts.map(a => ({value:a.id,label:`${a.name} · ${a.area || a.emirate}`}))]);
+  const existing = wSelect('Pharmacy record', 'existing', d._existing ? d.id : '', [{value:'',label:'+ New pharmacy'}, ...db.accounts.filter(a=>a.accountType!=='clinic').map(a => ({value:a.id,label:`${a.name} · ${a.area || a.emirate}`}))]);
   let routeFields = '';
   if (d.scenario === 'group') routeFields = `${wSelect('Listed pharmacy group', 'groupName', d.groupName, [{value:'',label:'Select your group'}, ...db.master_config.listedGroupChains])}
+    <div class="grid2 w-group-supply" role="group" aria-label="Group central purchase type">${wButton('Main Pharmacy Store (Central Purchase)', 'w-group-supply', 'data-value="main_store" aria-pressed="'+(d.groupSupplyType==='main_store')+'"', d.groupSupplyType==='main_store'?'primary':'secondary')}${wButton('Group Wholesale Drugstore', 'w-group-supply', 'data-value="group_drugstore" aria-pressed="'+(d.groupSupplyType==='group_drugstore')+'"', d.groupSupplyType==='group_drugstore'?'primary':'secondary')}</div>
     <div class="inline-add">${wText('New group name', '_newGroup', d._newGroup, 'text', 'maxlength="140"')}${wButton('+ Add New Group', 'w-add-group')}</div>
-    <div class="notice">Check which of our 17 SKUs are missing on the shelf and convince the pharmacist to order/requisition them from their main store.</div>`;
+    ${d.groupSupplyType==='group_drugstore' ? `${wSelect('Group wholesale drugstore', 'groupDrugstoreName', d.groupDrugstoreName, [{value:'',label:'Select the group drugstore'}, ...db.master_config.listedDrugstores])}<div class="inline-add">${wText('New group drugstore name', '_newGroupDrugstore', d._newGroupDrugstore, 'text', 'maxlength="140"')}${wButton('+ Add New Drugstore', 'w-add-group-drugstore')}</div>` : ''}
+    <div class="notice">${esc(routeGuide(d))}</div>`;
   if (d.scenario === 'drugstore') routeFields = `<p class="section-title">Which drugstores do they take supplies from?</p>${wSelect('Listed partner drugstore', 'drugstoreName', d.drugstoreName, [{value:'',label:'Select your drugstore'}, ...db.master_config.listedDrugstores])}
     <div class="inline-add">${wText('New drugstore name', '_newDrugstore', d._newDrugstore, 'text', 'maxlength="140"')}${wButton('+ Add New Drugstore', 'w-add-drugstore')}</div>
     ${wText('Other unlisted drugstores they use', 'otherDrugstores', d.otherDrugstores, 'text', 'maxlength="500"')}
@@ -698,17 +830,26 @@ function wRenderRoute() {
 
 function wRenderShelf() {
   const d = ui.draft;
+  const listed = new Set(d.listedSkuIds);
   const counts = {in:0,oos:0,not:0};
-  Object.values(d.stock).forEach(s => { if (counts[s.status] !== undefined) counts[s.status]++; });
-  return `<div class="row"><span class="badge good">${counts.in} in stock</span><span class="badge warn">${counts.oos} OOS</span><span class="badge bad">${counts.not} not listed</span></div>
-    <div class="grid2">${wButton('Mark All In Stock', 'w-bulk', 'data-status="in"')}${wButton('Mark All Zero / Missing', 'w-bulk', 'data-status="not"')}</div>
-    ${['Derma Angel Products','Impress Med Products'].map(section => `<section class="stack"><h3 class="section-title">${section} <span class="muted">${db.skus.filter(s => s.section === section).length} SKUs</span></h3>${db.skus.filter(s => s.section === section).map(s => {
+  d.listedSkuIds.forEach(id => { const st=d.stock[id]; if (st && counts[st.status] !== undefined) counts[st.status]++; });
+  const visible = db.skus.filter(s => listed.has(s.id) || d._showUnlisted);
+  return `<div class="row"><span class="badge good">${counts.in} / ${listed.size} listed in stock</span><span class="badge warn">${counts.oos} OOS</span><span class="tiny muted">17 total</span></div>
+    <div class="row">${wButton(`Hide All &quot;Not Listed&quot; SKUs (${counts.not})`, 'w-hide-not-listed')}${wButton(`${d._showUnlisted?'− Hide Unlisted SKUs':'+ Show / Manage Unlisted SKUs'} (${db.skus.length-listed.size} hidden)`, 'w-toggle-unlisted', `aria-pressed="${!!d._showUnlisted}"`)}</div>
+    <div class="grid2">${wButton('Mark Listed In Stock', 'w-bulk', 'data-status="in"')}${wButton('Mark Listed Zero / Missing', 'w-bulk', 'data-status="not"')}</div>
+    ${!visible.length ? empty('No products in this listed range', 'Use Show / Manage Unlisted SKUs to add products back at any time.') : ''}
+    ${['Derma Angel Products','Impress Med Products'].map(section => {
+      const products=visible.filter(s => s.section===section);
+      if (!products.length) return '';
+      return `<section class="stack"><h3 class="section-title">${section} <span class="muted">${products.length} SKUs</span></h3>${products.map(s => {
       const st = d.stock[s.id];
-      return `<article class="card stack audit-card"><div><span class="eyebrow">${esc(s.code)}</span><h4>${esc(s.name)}</h4><p class="tiny muted">AED ${money(s.retailExclVatAED)} excl. VAT <span aria-hidden="true">·</span> <strong>AED ${money(s.retailInclVatAED)} incl. 5% VAT</strong></p></div>
-      <div class="stock-toggle" role="group" aria-label="${esc(s.name)} shelf status">${[['in','Available','In stock','good'],['oos','Out of stock','Reorder','warn'],['not','Not available','Never ordered','bad']].map(([value,label,detail,color]) => `<button type="button" class="${color} ${st.status === value ? 'selected' : ''}" data-action="w-stock" data-sku="${esc(s.id)}" data-status="${value}" aria-pressed="${st.status === value}"><strong>${label}</strong><small>${detail}</small></button>`).join('')}</div>
-      <div class="grid2">${wText('Shelf quantity', `stock.${s.id}.qty`, st.qty, 'number', 'min="0" max="999999" step="1" inputmode="numeric"')}${wText('Quick shelf note', `stock.${s.id}.note`, st.note, 'text', 'maxlength="300"')}</div>
-      ${wCheck('Near expiry', `stock.${s.id}.nearExpiry`, st.nearExpiry)}</article>`;
-    }).join('')}</section>`).join('')}`;
+      const header=`<div class="audit-header"><div class="audit-title"><span class="eyebrow">${esc(s.code)}</span><h4>${esc(s.name)}</h4><span class="tiny muted audit-meta">AED ${money(s.retailInclVatAED)} incl. 5% VAT</span></div>${listed.has(s.id) ? wButton('✕ Unlist','w-unlist-sku',`data-sku="${esc(s.id)}" aria-label="Unlist ${esc(s.name)}"`,'ghost') : wButton('+ List SKU','w-list-sku',`data-sku="${esc(s.id)}"`)}</div>`;
+      if (!listed.has(s.id)) return `<article class="card stack audit-card audit-unlisted">${header}<span class="tiny muted">Not in this pharmacy’s listed range</span></article>`;
+      return `<article class="card stack audit-card">${header}
+      <div class="stock-toggle" role="group" aria-label="${esc(s.name)} shelf status">${[['in','In Stock','good'],['oos','OOS','warn'],['not','Not Listed','bad']].map(([value,label,color]) => `<button type="button" class="${color} ${st.status === value ? 'selected' : ''}" data-action="w-stock" data-sku="${esc(s.id)}" data-status="${value}" aria-pressed="${st.status === value}">${label}</button>`).join('')}</div>
+      <div class="quick-stock-bar"><div class="quick-qty" role="group" aria-label="${esc(s.name)} quick stock quantity">${[1,2,3,4,5].map(qty=>wButton(String(qty),'w-quick-qty',`data-sku="${esc(s.id)}" data-qty="${qty}" aria-label="${qty} ${esc(s.name)} in stock" aria-pressed="${st.qty!==''&&Number(st.qty)===qty}"`,st.qty!==''&&Number(st.qty)===qty?'primary':'secondary')).join('')}</div><label class="field quick-stock-qty"><span class="tiny">Qty</span><input aria-label="${esc(s.name)} shelf quantity" type="number" data-w="stock.${esc(s.id)}.qty" value="${esc(st.qty)}" min="0" max="999999" step="1" inputmode="numeric"></label>${wCheck('Near expiry', `stock.${s.id}.nearExpiry`, st.nearExpiry)}</div>
+      <div class="audit-note">${wText('Note', `stock.${s.id}.note`, st.note, 'text', 'maxlength="300"')}</div></article>`;
+    }).join('')}</section>`;}).join('')}`;
 }
 
 function wRenderPitch() {
@@ -722,11 +863,8 @@ function wRenderPitch() {
 
 function wRenderOnline() {
   const d = ui.draft;
-  const available = db.skus.filter(s => d.stock[s.id].status === 'in');
-  const missing = available.filter(s => !d.stock[s.id].talabat);
-  return `<section class="card stack"><h3>Talabat / Instashop store</h3><p class="muted">Does this pharmacy have an online store?</p><div class="grid2">${wButton('Yes · audit store', 'w-online', 'data-value="true"', d.hasOnline ? 'primary' : 'secondary')}${wButton('No online store', 'w-online', 'data-value="false"', !d.hasOnline ? 'primary' : 'secondary')}</div></section>
-    ${d.hasOnline ? `<div class="notice ${missing.length ? 'warn' : 'good'}">You have ${missing.length} Hantco SKUs sitting on your shelf right now that are not listed on your Talabat account—let’s get them uploaded so they sell online.</div>
-      ${available.length ? `<div class="stack">${available.map(s => `<article class="card stack"><p class="eyebrow">${esc(s.code)} · PHYSICALLY IN STOCK</p><h4>${esc(s.name)}</h4><div class="grid2">${wButton('✓ Listed on Talabat', 'w-talabat', `data-sku="${esc(s.id)}" data-value="true"`, d.stock[s.id].talabat ? 'primary' : 'secondary')}${wButton('✕ Missing on Talabat', 'w-talabat', `data-sku="${esc(s.id)}" data-value="false"`, !d.stock[s.id].talabat ? 'danger' : 'secondary')}</div></article>`).join('')}</div>` : empty('No in-stock products to audit', 'Return to the shelf audit to mark physical stock. Only available products appear here.')}` : `<div class="notice">Online listing checks are skipped. The physical shelf audit remains available in the account profile.</div>`}`;
+  return `<section class="card stack"><h3>Talabat / Instashop store</h3><p>Does this pharmacy have an active online store (Talabat / Instashop)?</p><div class="grid2">${wButton('Yes', 'w-online', 'data-value="true" aria-pressed="'+d.hasOnline+'"', d.hasOnline ? 'primary' : 'secondary')}${wButton('No', 'w-online', 'data-value="false" aria-pressed="'+!d.hasOnline+'"', !d.hasOnline ? 'primary' : 'secondary')}</div></section>
+    ${d.hasOnline ? `<section class="card stack"><h3>Are all listed / available products live on their online store?</h3><div class="stack">${wButton('Yes — All Listed Products Online', 'w-all-listed-online', 'data-value="true" aria-pressed="'+(d.allListedOnline===true)+'"', d.allListedOnline===true?'primary':'secondary')}${wButton('No — Some Products Missing Online', 'w-all-listed-online', 'data-value="false" aria-pressed="'+(d.allListedOnline===false)+'"', d.allListedOnline===false?'primary':'secondary')}</div>${d.allListedOnline===false ? wText('Online note (optional)', 'onlineNote', d.onlineNote, 'text', 'maxlength="1000" placeholder="e.g. Purchaser to upload missing products"') : ''}</section>` : `<div class="notice">Online listing checks are skipped. The physical shelf audit remains available in the account profile.</div>`}`;
 }
 
 function wRenderClinic() {
@@ -741,20 +879,53 @@ function wRenderClinic() {
       <div class="notice"><p class="eyebrow">SUGGESTED DETAILING</p><div class="stack">${wDoctorMatches(doctor.specialty).map(s => `<button type="button" class="btn ghost" style="text-align:left;justify-content:flex-start" data-action="w-pitch" data-sku="${esc(s.id)}">${esc(s.name)} →</button>`).join('')}</div></div></section>`).join('') : empty('Add your first doctor', 'Capture the specialty and duty timings to plan a focused detailing visit.')}` : '<div class="notice">Clinic mapping is skipped for this visit.</div>'}`;
 }
 
+function wContactRows(d) {
+  const roles=wContactRoles(d);
+  return d.visitContacts.map((contact,index)=>`<div class="stack contact-row"><div class="row" style="justify-content:space-between"><h4>Contact ${index+1}</h4>${index?wButton('Remove','w-remove-contact-row',`data-contact="${esc(contact.id)}"`,'ghost'):''}</div>${wSelect('Role',`visitContact.${contact.id}.role`,contact.role,roles.includes(contact.role)?roles:[...roles,contact.role])}${wText('Landline or Mobile Number',`visitContact.${contact.id}.phone`,contact.phone,'tel','maxlength="40" autocomplete="tel" placeholder="02 / 03 landline or 05 mobile…" inputmode="tel"')}${wText('Name (Optional)',`visitContact.${contact.id}.name`,contact.name,'text','maxlength="140" autocomplete="name"')}</div>`).join('');
+}
+
+function wRenderClinicVisit() {
+  const d=ui.draft;
+  return `<section class="card stack"><h3>Clinic / Medical Center Details</h3>${wSelect('Existing Clinic record','existing',d._existing?d.id:'',[{value:'',label:'+ New clinic'},...db.accounts.filter(a=>a.accountType==='clinic').map(a=>({value:a.id,label:`${a.name} · ${a.area||a.emirate}`}))])}
+    ${wText('Clinic / Medical Center Name *','name',d.name,'text','required maxlength="160" autocomplete="organization"')}
+    <div class="grid2">${wSelect('Emirate','emirate',d.emirate,db.master_config.emirates)}${wText('Area / Location','area',d.area,'text','maxlength="240" placeholder="Al Ain, Khalidiya…"')}</div>
+    <div class="row">${wButton(icon('pin')+' Pin Current GPS','w-gps')}${d.gps?`<span class="badge good">GPS pinned · ±${Math.round(d.gps.accuracy||0)} m</span>${wButton('Remove pin','w-remove-gps','','ghost')}`:'<span class="tiny muted">Optional location pin</span>'}</div>
+    ${wText('Attached / Nearby Pharmacy (Optional)','nearbyPharmacy',d.nearbyPharmacy,'text','maxlength="500" placeholder="Which pharmacy nearby receives their prescriptions?"')}</section>
+    <section class="card stack"><div class="row between"><p class="eyebrow">DOCTORS &amp; PRODUCT DETAILING</p>${wButton('+ Add Another Doctor','w-add-doctor')}</div>
+    ${d.doctors.map((doc,index)=>`<div class="stack clinic-doctor"><div class="row between"><h4>Doctor ${index+1}</h4>${wButton('Remove','w-remove-doctor',`data-doctor="${esc(doc.id)}"`,'ghost')}</div>
+      ${wText('Doctor Name',`doctor.${doc.id}.name`,doc.name,'text','maxlength="140" placeholder="Dr. Name (or leave blank if general clinic visit)"')}
+      ${wSelect('Category / Specialty',`doctor.${doc.id}.specialty`,doc.specialty,W_SPECIALTIES)}
+      ${wText('Duty Timings',`doctor.${doc.id}.timings`,doc.timings,'text','maxlength="180" placeholder="e.g. 9 AM–1 PM, 5 PM–9 PM"')}
+      ${wArea('Doctor Feedback / Conversation Note',`doctor.${doc.id}.note`,doc.note,'maxlength="3000" placeholder="What did the doctor discuss or request?"')}
+      <div class="grid2">${wCheck('Samples given',`doctor.${doc.id}.samplesGiven`,doc.samplesGiven)}${wCheck('Samples needed (follow-up)',`doctor.${doc.id}.samplesNeeded`,doc.samplesNeeded)}</div>
+      <div class="notice"><p class="eyebrow">SUGGESTED PRODUCTS TO DETAIL</p><div class="stack">${wDoctorMatches(doc.specialty).map(s=>wButton(esc(s.name)+' →','w-pitch',`data-sku="${esc(s.id)}" style="text-align:left;justify-content:flex-start"`,'ghost')).join('')}</div></div></div>`).join('')}
+    ${!d.doctors.length?'<p class="tiny muted">A general clinic visit can be saved without a named doctor.</p>':''}</section>
+    <section class="card stack"><p class="eyebrow">CLINIC CONTACT NUMBERS</p>${wContactRows(d)}${wButton('+ Add Another Number','w-add-contact-row')}
+    <p class="tiny muted">Accepts UAE landlines (02, 03, 04, 7-digit local) and mobile numbers (05…). Leave name blank to use the role.</p>
+    ${wArea('Clinic Visit Notes (General)','visitNotes',d.visitNotes,'maxlength="5000" placeholder="Note anything discussed at the clinic..."')}
+    <div class="stack"><p class="eyebrow">SPECIAL REQUIREMENTS</p>${wCheck('Needs Product Samples','requirement.samples',d.requirements.includes('samples'))}${wCheck('Needs Brochures / Stand','requirement.display',d.requirements.includes('display'))}</div>
+    ${wText('Next Follow-Up Date','followUp',d.followUp,'date')}
+    <div class="stack manager-escalation"><p class="eyebrow">MANAGER ESCALATION (OPTIONAL)</p>${wArea('Escalation note for manager','escalationNote',d.escalationNote,'maxlength="5000" placeholder="Capture the clinic request or follow-up needed..."')}${wButton('Send Escalation to Manager on WhatsApp (+971585755666)','w-escalate-whatsapp')}</div>
+    ${wButton('Save Clinic Visit to CRM','w-save','','primary')}${wButton('Save &amp; Send WhatsApp Follow-Up','w-save-whatsapp')}
+    <p class="tiny muted">WhatsApp opens a prepared message for your review. You choose when to send it.</p></section>`;
+}
+
 function wRenderFinish() {
   wEnsureRequests();
   const d = ui.draft;
-  return `<section class="card stack"><p class="eyebrow">DECISION MAKER</p>${wText('Pharmacist / purchaser name', 'contact.name', d.contact.name, 'text', 'maxlength="140" autocomplete="name"')}
-    ${wSelect('Role', 'contact.role', d.contact.role, ['Pharmacist','Branch In-Charge','Purchaser'])}${wText('Mobile / WhatsApp number', 'contact.phone', d.contact.phone, 'tel', 'maxlength="24" autocomplete="tel" placeholder="+971…" inputmode="tel"')}
-    <p class="tiny muted">A mobile number is needed only to prepare a WhatsApp message.</p></section>
+  return `<section class="card stack"><p class="eyebrow">CONTACT NUMBERS</p>${wContactRows(d)}
+    ${wButton('+ Add Another Number (Purchaser / Pharmacist / Owner)', 'w-add-contact-row')}
+    <p class="tiny muted">Accepts UAE landlines (02, 03, 04, 7-digit local) and mobile numbers (05…). Leave name blank to use the role.</p></section>
     <section class="card stack"><p class="eyebrow">ORDER &amp; REQUIREMENTS</p>${wSelect('Order action', 'orderAction', d.orderAction, W_ORDERS)}
-    <p class="tiny muted">OOS and missing products are selected automatically. Adjust quantities or add any stocked product.</p>
-    <div class="stack">${db.skus.map(s => {const line=d.requestLines[s.id] || {selected:false,qty:1}; return `<div class="request-line"><label class="check-row"><input type="checkbox" data-w="request.${esc(s.id)}.selected" ${line.selected ? 'checked' : ''}><span><strong>${esc(s.code)}</strong> ${esc(s.name)}<small class="muted">AED ${money(s.retailInclVatAED)} incl. VAT</small></span></label><label class="field"><span class="tiny">Packs</span><input aria-label="${esc(s.name)} requested packs" type="number" min="1" max="999999" step="1" inputmode="numeric" data-w="request.${esc(s.id)}.qty" value="${esc(line.qty)}" ${line.selected ? '' : 'disabled'}></label></div>`;}).join('')}</div>
+    <p class="tiny muted">Select products only when requested. A follow-up or an intention to check does not create an order promise.</p>
+    ${wButton('Select Out-of-Stock Listed SKUs', 'w-select-oos')}
+    <details class="request-details"${d._requestsOpen?' open':''}><summary>Select specific SKUs / quantities requested (optional)</summary><div class="stack">${db.skus.map(s => {const line=d.requestLines[s.id] || {selected:false,qty:1}; return `<div class="request-line"><label class="check-row"><input type="checkbox" data-w="request.${esc(s.id)}.selected" ${line.selected ? 'checked' : ''}><span><strong>${esc(s.code)}</strong> ${esc(s.name)}<small class="muted">AED ${money(s.retailInclVatAED)} incl. VAT</small></span></label><label class="field"><span class="tiny">Packs</span><input aria-label="${esc(s.name)} requested packs" type="number" min="1" max="999999" step="1" inputmode="numeric" data-w="request.${esc(s.id)}.qty" value="${esc(line.qty)}" ${line.selected ? '' : 'disabled'}></label></div>`;}).join('')}</div></details>
     ${wArea('Additional order / quantity requirements', 'requests', d.requests, 'maxlength="3000"')}</section>
     <section class="card stack"><p class="eyebrow">SPECIAL REQUIREMENTS &amp; TRADE SUPPORT</p>${W_REQUIREMENTS.map(r => wCheck(r.title, `requirement.${r.key}`, d.requirements.includes(r.key))).join('')}<p class="tiny muted">Selected requirements create reminders in the deliverables queue. Doctor sample requests are included automatically.</p></section>
     ${d.scenario === 'direct' ? `<section class="card stack"><p class="eyebrow">DIRECT ACCOUNT OPENING</p>${wText('Trade license reference', 'tradeLicense', d.tradeLicense, 'text', 'maxlength="120"')}${wText('TRN', 'trn', d.trn, 'text', 'maxlength="15" inputmode="numeric"')}${wArea('Agreed / requested payment terms', 'paymentTerms', d.paymentTerms, 'maxlength="1000"')}</section>` : ''}
+    <section class="card stack manager-escalation"><p class="eyebrow">MANAGER ESCALATION (OPTIONAL)</p>${wArea('Escalation note for manager', 'escalationNote', d.escalationNote, 'maxlength="5000" placeholder="e.g. Main store out of stock on Lightening 24s, need urgent follow-up with central purchaser..."')}${wButton('Send Escalation to Manager on WhatsApp (+971585755666)', 'w-escalate-whatsapp')}</section>
     <section class="card stack">${wText('Next follow-up date', 'followUp', d.followUp, 'date')}${wArea('Visit notes', 'visitNotes', d.visitNotes, 'maxlength="5000"')}
-      <div class="notice">${esc(d.name)} · ${esc(routeLabel(d))}<br>${Object.values(d.stock).filter(s => s.status === 'in').length} / 17 in stock · ${d.hasOnline ? db.skus.filter(s => d.stock[s.id].status === 'in' && !d.stock[s.id].talabat).length : 0} missing online</div>
+      <div class="notice">${esc(d.name)} · ${esc(routeLabel(d))}<br>${listedStockCount(d)} / ${d.listedSkuIds.length} listed in stock <span class="muted">· 17 total</span><br>${esc(wOnlineSummary(d))}</div>
       ${wButton('Save Visit to CRM', 'w-save', '', 'primary')}${wButton('Save &amp; Send Official Hantco WhatsApp Summary', 'w-save-whatsapp')}
       <p class="tiny muted">WhatsApp opens a prepared message for your review. You choose when to send it.</p></section>`;
 }
@@ -764,21 +935,65 @@ function wValidateStepOne() {
   if (!d.name.trim()) { toast('Enter a pharmacy name to continue.'); ui.step=1; render(); document.querySelector('[data-w="name"]')?.focus(); return false; }
   if (!db.master_config.emirates.includes(d.emirate)) { toast('Choose an emirate.'); ui.step=1; render(); return false; }
   if (d.scenario === 'group' && !db.master_config.listedGroupChains.includes(d.groupName)) { toast('Select or add the listed pharmacy group.'); ui.step=1; render(); return false; }
+  if (d.scenario === 'group' && d.groupSupplyType === 'group_drugstore' && !db.master_config.listedDrugstores.includes(d.groupDrugstoreName)) { toast('Select or add the group wholesale drugstore.'); ui.step=1; render(); return false; }
   if (d.scenario === 'drugstore' && !db.master_config.listedDrugstores.includes(d.drugstoreName)) { toast('Select or add the partner drugstore.'); ui.step=1; render(); return false; }
   if (!['group','drugstore','direct'].includes(d.scenario)) { toast('Choose a supply scenario.'); ui.step=1; render(); return false; }
   return true;
 }
 
-function wNormalizedPhone(value) {
-  let number = String(value || '').replace(/[^0-9+]/g,'');
-  if (number.startsWith('00')) number = '+' + number.slice(2);
-  if (/^05\d{8}$/.test(number)) number = '+971' + number.slice(1);
-  if (/^971\d{9}$/.test(number)) number = '+' + number;
-  return /^\+[1-9]\d{6,14}$/.test(number) ? number : null;
+function wNormalizedPhone(value, context=ui.draft) {
+  const number = normalizedPhone(value,context);
+  return number ? (/^(?:800\d{3,10}|600\d{6,10})$/.test(number) ? number : '+' + number) : null;
+}
+
+function wSaveClinicVisit(withWhatsApp=false) {
+  const d=ui.draft;
+  if(!d.name.trim()) {toast('Enter a clinic or medical center name.');render();document.querySelector('[data-w="name"]')?.focus();return false;}
+  if(!db.master_config.emirates.includes(d.emirate)) {toast('Choose an emirate.');render();return false;}
+  if(db.timeline_events.some(event=>event.visitId===d.visitId)) {toast('This visit has already been saved.');return false;}
+  const current=db.accounts.find(a=>a.id===d.id);
+  if(d._existing&&!current) {toast('This account was removed. Start a new draft before saving.');return false;}
+  if(current&&d._baseUpdatedAt&&current.updatedAt!==d._baseUpdatedAt&&!confirm('This account was edited after the visit started. Save the clinic details over the newer record? Existing timeline entries and promises will be kept.'))return false;
+  const duplicate=db.accounts.find(a=>a.id!==d.id&&a.accountType==='clinic'&&a.name.trim().toLocaleLowerCase()===d.name.trim().toLocaleLowerCase()&&a.emirate===d.emirate&&a.area.trim().toLocaleLowerCase()===d.area.trim().toLocaleLowerCase());
+  if(!d._existing&&duplicate&&!confirm('A clinic with this name, emirate, and area already exists. Save a separate account anyway?'))return false;
+  const contacts=[];
+  for(const contact of d.visitContacts) {
+    const rawPhone=String(contact.phone||'').trim(),name=String(contact.name||'').trim(),role=String(contact.role||W_CLINIC_CONTACT_ROLES[0]).trim()||W_CLINIC_CONTACT_ROLES[0];
+    if(!rawPhone&&!name)continue;
+    const phone=rawPhone?wNormalizedPhone(rawPhone,d):'';
+    if(rawPhone&&!phone){toast('Enter a landline or mobile number with at least 6 digits for '+role+'.');render();return false;}
+    contacts.push({...contact,id:contact.id||uid(),name:name||role,role,phone:phone||''});
+  }
+  const phone=contacts.find(c=>c.phone)?.phone||'';
+  if(withWhatsApp&&!phone){toast('Add a clinic contact number before preparing the WhatsApp follow-up.');render();return false;}
+  if(d.followUp&&(!/^\d{4}-\d{2}-\d{2}$/.test(d.followUp)||Number.isNaN(Date.parse(d.followUp+'T12:00:00Z'))||new Date(d.followUp+'T12:00:00Z').toISOString().slice(0,10)!==d.followUp)){toast('Enter a valid follow-up date.');render();return false;}
+  const doctors=d.doctors.filter(doc=>String(doc.name||'').trim()||String(doc.timings||'').trim()||String(doc.note||'').trim()||doc.samplesNeeded||doc.samplesGiven).map(doc=>({...doc,id:doc.id||uid(),name:String(doc.name||'').trim()||'Doctor ('+(doc.specialty||'GP / Family')+')',specialty:doc.specialty||'GP / Family',timings:String(doc.timings||'').trim(),note:String(doc.note||'').trim(),samplesNeeded:!!doc.samplesNeeded,samplesGiven:!!doc.samplesGiven}));
+  d.clinicName=d.name.trim();d.hasClinic=true;
+  const at=stamp();
+  const stock=Object.fromEntries(db.skus.map(s=>[s.id,{status:'not',qty:'',note:'',nearExpiry:false,talabat:false,...(current?.stock?.[s.id]||{})}]));
+  const account={...(current||{}),id:d.id,accountType:'clinic',name:d.name.trim(),nearbyPharmacy:String(d.nearbyPharmacy||'').trim(),emirate:d.emirate,area:d.area.trim(),
+    scenario:'direct',groupName:'',drugstoreName:'',groupSupplyType:'main_store',groupDrugstoreName:'',otherDrugstores:'',gps:d.gps,stage:d.stage||db.master_config.pipelineStages[0],
+    stock,listedSkuIds:listedSkuIds(current||{}),hasOnline:false,allListedOnline:null,onlineNote:'',hasClinic:true,clinicName:d.clinicName,doctors,contacts,
+    followUp:d.followUp,orderAction:'Follow-Up Required',requests:'',requestLines:{},notes:d.notes||'',escalationNote:d.escalationNote.trim(),
+    tradeLicense:current?.tradeLicense||'',trn:current?.trn||'',paymentTerms:current?.paymentTerms||'',createdAt:current?.createdAt||d.createdAt,updatedAt:at,lastVisit:at};
+  const tasks=[];
+  const task=(category,title)=>({id:uid(),accountId:account.id,direction:'WE_OWE_THEM',category,title,dueDate:d.followUp||today(),done:false,createdAt:at,completedAt:null,visitId:d.visitId});
+  const requirements=d.requirements.filter(key=>['samples','display'].includes(key));
+  requirements.forEach(key=>{const req=W_REQUIREMENTS.find(r=>r.key===key);if(req)tasks.push(task(key,key==='display'?'Needs Brochures / Stand':req.title));});
+  doctors.filter(doc=>doc.samplesNeeded).forEach(doc=>tasks.push(task('samples',`Samples for ${doc.name} · ${doc.specialty} · ${wDoctorMatches(doc.specialty).map(s=>s.code).join(', ')}`)));
+  const doctorSummary=doctors.length?doctors.map(doc=>`${doc.name} (${doc.specialty})${doc.samplesGiven?' · Samples given':''}${doc.samplesNeeded?' · Samples needed':''}${doc.note?'\n'+doc.note:''}`).join('\n'):'General clinic visit';
+  const event={id:uid(),accountId:account.id,type:'Clinic Visit',text:doctorSummary+(d.visitNotes.trim()?'\n\n'+d.visitNotes.trim():''),createdAt:at,visitId:d.visitId,snapshot:{...clone(account),requirements,visitNotes:d.visitNotes.trim()}};
+  const saved=transact(next=>{const pos=next.accounts.findIndex(a=>a.id===account.id);if(pos>=0)next.accounts[pos]=account;else next.accounts.push(account);next.timeline_events.push(event);next.deliverables.push(...tasks);});
+  if(!saved){toast('Clinic visit was not saved. Your draft is still available.');return false;}
+  try{localStorage.removeItem(W_DRAFT_KEY);}catch(error){/* Saved visit ID prevents duplicate replay. */}
+  ui.draft=null;ui.step=1;ui.tab='pipeline';toast('Clinic visit saved · '+tasks.length+' reminders created.');render();renderProfile(account.id);
+  if(withWhatsApp)openWhatsApp(phone,visitSummary(account));
+  return true;
 }
 
 function wSaveVisit(withWhatsApp = false) {
   const d = ui.draft;
+  if(d?.accountType==='clinic')return wSaveClinicVisit(withWhatsApp);
   if (!d || !wValidateStepOne()) return false;
   wEnsureRequests();
   if (db.timeline_events.some(event => event.visitId === d.visitId)) { toast('This visit has already been saved.'); return false; }
@@ -787,10 +1002,16 @@ function wSaveVisit(withWhatsApp = false) {
   if (current && d._baseUpdatedAt && current.updatedAt !== d._baseUpdatedAt && !confirm('This pharmacy was edited after the visit started. Save this audit and its captured details over the newer account record? Existing timeline entries and promises will be kept.')) return false;
   const duplicate = db.accounts.find(a => a.id !== d.id && a.name.trim().toLocaleLowerCase() === d.name.trim().toLocaleLowerCase() && a.emirate === d.emirate && a.area.trim().toLocaleLowerCase() === d.area.trim().toLocaleLowerCase());
   if (!d._existing && duplicate && !confirm('A pharmacy with this name, emirate, and area already exists. Save a separate account anyway?')) return false;
-  const phone = d.contact.phone.trim() ? wNormalizedPhone(d.contact.phone) : '';
-  if (d.contact.phone.trim() && !phone) { toast('Enter a valid international mobile number, such as +971 followed by the mobile number.'); ui.step=6; render(); return false; }
-  if (withWhatsApp && !phone) { toast('Add the pharmacist’s WhatsApp number before preparing the message.'); ui.step=6; render(); return false; }
-  if ((d.contact.phone.trim() || d.contact.name.trim()) && !d.contact.name.trim()) { toast('Add a name for the contact.'); ui.step=6; render(); return false; }
+  const contacts = [];
+  for (const contact of d.visitContacts) {
+    const rawPhone=String(contact.phone || '').trim(), name=String(contact.name || '').trim(), role=String(contact.role || 'Pharmacy / Branch').trim() || 'Pharmacy / Branch';
+    if (!rawPhone && !name) continue;
+    const phone=rawPhone ? wNormalizedPhone(rawPhone,d) : '';
+    if (rawPhone && !phone) { toast('Enter a landline or mobile number with at least 6 digits for '+role+'.'); ui.step=6; render(); return false; }
+    contacts.push({...contact,id:contact.id || uid(),name:name || role,role,phone:phone || ''});
+  }
+  const phone = contacts.find(contact=>contact.phone)?.phone || '';
+  if (withWhatsApp && !phone) { toast('Add a contact’s WhatsApp number before preparing the message.'); ui.step=6; render(); return false; }
   if (d.hasClinic && d.doctors.some(doctor => !doctor.name.trim())) { toast('Enter a name for each doctor, or remove the empty doctor entry.'); ui.step=5; render(); return false; }
   if (d.trn.trim() && !/^\d{15}$/.test(d.trn.trim())) { toast('A UAE TRN must contain 15 digits. Leave it blank if not collected.'); ui.step=6; render(); return false; }
   for (const sku of db.skus) {
@@ -801,18 +1022,15 @@ function wSaveVisit(withWhatsApp = false) {
   }
   if (d.followUp && (!/^\d{4}-\d{2}-\d{2}$/.test(d.followUp) || Number.isNaN(Date.parse(d.followUp+'T12:00:00Z')) || new Date(d.followUp+'T12:00:00Z').toISOString().slice(0,10)!==d.followUp)) { toast('Enter a valid follow-up date.'); ui.step=6; render(); return false; }
   const at = stamp();
-  const contacts = clone(d.contacts);
-  if (d.contact.name.trim()) {
-    const contact = {id:d.contactId || uid(), name:d.contact.name.trim(), role:d.contact.role, phone:phone || ''};
-    const pos = contacts.findIndex(c => c.id === contact.id);
-    if (pos >= 0) contacts[pos] = contact; else contacts.push(contact);
-  }
   let stage = d.stage;
   if (stage === db.master_config.pipelineStages[0]) stage = Object.values(d.stock).some(s => s.status === 'in') ? db.master_config.pipelineStages[2] : db.master_config.pipelineStages[1];
   const account = {
-    id:d.id, name:d.name.trim(), emirate:d.emirate, area:d.area.trim(), scenario:d.scenario,
+    ...(current || {}),
+    id:d.id, accountType:d.accountType||'pharmacy', nearbyPharmacy:String(d.nearbyPharmacy||'').trim(), name:d.name.trim(), emirate:d.emirate, area:d.area.trim(), scenario:d.scenario,
     groupName:d.scenario === 'group' ? d.groupName : '', drugstoreName:d.scenario === 'drugstore' ? d.drugstoreName : '', otherDrugstores:d.otherDrugstores.trim(),
+    groupSupplyType:d.groupSupplyType || 'main_store', groupDrugstoreName:d.scenario==='group'&&d.groupSupplyType==='group_drugstore' ? d.groupDrugstoreName : '', listedSkuIds:clone(d.listedSkuIds),
     gps:d.gps, stage, stock:clone(d.stock), hasOnline:!!d.hasOnline, hasClinic:!!d.hasClinic,
+    allListedOnline:typeof d.allListedOnline==='boolean' ? d.allListedOnline : null, onlineNote:d.onlineNote.trim(), escalationNote:d.escalationNote.trim(),
     clinicName:d.clinicName.trim(), doctors:clone(d.doctors).filter(doc => d.hasClinic || doc.name.trim()).map(doc => ({...doc,name:doc.name.trim(),timings:doc.timings.trim()})), contacts,
     followUp:d.followUp, orderAction:d.orderAction, requests:d.requests.trim(), requestLines:clone(d.requestLines), notes:d.notes,
     tradeLicense:d.tradeLicense.trim(), trn:d.trn.trim(), paymentTerms:d.paymentTerms.trim(),
@@ -823,12 +1041,20 @@ function wSaveVisit(withWhatsApp = false) {
   d.requirements.forEach(key => { const req=W_REQUIREMENTS.find(r=>r.key===key); if(req) tasks.push(task('WE_OWE_THEM',key,req.title)); });
   if (d.hasClinic) d.doctors.filter(doc=>doc.samplesNeeded && !doc.samplesGiven).forEach(doc=>tasks.push(task('WE_OWE_THEM','samples',`Samples for Dr. ${doc.name.trim()} · ${doc.specialty} · ${wDoctorMatches(doc.specialty).map(s=>s.code).join(', ')}`)));
   const requested = db.skus.filter(s=>d.requestLines[s.id]?.selected).map(s=>`${s.code} × ${d.requestLines[s.id].qty}`).join(', ');
-  if (d.orderAction !== 'Follow-Up Required') tasks.push(task('THEY_OWE_US','order',`${d.orderAction}${requested ? ': '+requested : ''}${d.requests.trim() ? ' · '+d.requests.trim() : ''}`));
-  const countIn = db.skus.filter(s=>d.stock[s.id].status === 'in').length;
-  const event = {id:uid(),accountId:account.id,type:'Field Visit',text:`${d.orderAction}. ${countIn}/17 SKUs in stock.${d.visitNotes.trim() ? '\n'+d.visitNotes.trim() : ''}`,createdAt:at,visitId:d.visitId,snapshot:{...clone(account),requirements:clone(d.requirements),visitNotes:d.visitNotes.trim()}};
+  if (d.orderAction.startsWith('Promised') || d.orderAction.startsWith('Direct Order')) tasks.push(task('THEY_OWE_US','order',`${d.orderAction}${requested ? ': '+requested : ''}${d.requests.trim() ? ' · '+d.requests.trim() : ''}`));
+  const countIn = listedStockCount(d);
+  const event = {id:uid(),accountId:account.id,type:'Field Visit',text:`${d.orderAction}. ${countIn}/${d.listedSkuIds.length} listed SKUs in stock (17 total).${d.visitNotes.trim() ? '\n'+d.visitNotes.trim() : ''}`,createdAt:at,visitId:d.visitId,snapshot:{...clone(account),requirements:clone(d.requirements),visitNotes:d.visitNotes.trim()}};
   const saved = transact(next => {
     const pos=next.accounts.findIndex(a=>a.id===account.id);
     if(pos>=0) next.accounts[pos]=account; else next.accounts.push(account);
+    if (account.scenario==='group' && account.groupName && (d.listedSkuIds.length<db.skus.length || d._listedEdited)) {
+      next.master_config.groupListedSkus ||= {};
+      next.master_config.groupListedSkus[account.groupName]=clone(d.listedSkuIds);
+    }
+    if (account.scenario==='drugstore' && account.drugstoreName && (d.listedSkuIds.length<db.skus.length || d._listedEdited)) {
+      next.master_config.drugstoreListedSkus ||= {};
+      next.master_config.drugstoreListedSkus[account.drugstoreName]=clone(d.listedSkuIds);
+    }
     next.timeline_events.push(event);
     next.deliverables.push(...tasks);
   });
@@ -845,21 +1071,31 @@ function wSaveVisit(withWhatsApp = false) {
 }
 
 function visitSummary(account) {
+  if(account.accountType==='clinic') {
+    const contact=account.contacts?.find(c=>c.phone)||account.contacts?.[0];
+    const visit=[...db.timeline_events].reverse().find(e=>e.accountId===account.id&&e.type==='Clinic Visit');
+    return ['*Hantco International — Clinic Visit Follow-Up*',`Clinic: ${account.name}`,`Location: ${account.emirate}${account.area?' · '+account.area:''}`,`Dear ${contact?.name||'Clinic Team'},`,'Thank you for your time and the opportunity to discuss our products.',
+      account.doctors?.length?'\n*Doctors & product detailing*\n'+account.doctors.map(doc=>`• ${doc.name} (${doc.specialty})${doc.timings?'\nDuty timings: '+doc.timings:''}${doc.note?'\nFeedback: '+doc.note:''}${doc.samplesGiven?'\nSamples given':''}${doc.samplesNeeded?'\nSamples requested for follow-up':''}`).join('\n'):'\nGeneral clinic visit',
+      account.nearbyPharmacy?'\nNearby Pharmacy: '+account.nearbyPharmacy:'',visit?.snapshot?.visitNotes?'\nVisit notes: '+visit.snapshot.visitNotes:'',account.followUp?'\nNext follow-up: '+account.followUp:'',
+      '', 'Hantco International General Trading L.L.C', 'www.hantco.ae | +971-5857 55 666'].join('\n').replace(/\n{3,}/g,'\n\n');
+  }
   const contact=account.contacts?.[0];
-  const chosen=db.skus.filter(s=>account.requestLines?.[s.id]?.selected);
-  const products=chosen.length ? chosen : db.skus.filter(s=>account.stock?.[s.id]?.status !== 'in');
-  const lines=products.map(s=>`• ${s.name}${account.requestLines?.[s.id]?.selected ? ' — '+account.requestLines[s.id].qty+' pack(s)' : ''} — AED ${money(s.retailInclVatAED)} incl. 5% VAT`);
-  const route=account.scenario==='group' ? `Please request these from your Main Store / warehouse (${account.groupName}).` : account.scenario==='drugstore' ? `Available to order via ${account.drugstoreName}. Please place your order through your partner drugstore.` : 'Direct supply via Hantco International. Please share Trade License, TRN, and payment terms for account opening.';
-  const online=account.hasOnline ? db.skus.filter(s=>account.stock?.[s.id]?.status==='in' && !account.stock[s.id].talabat) : [];
+  const products=db.skus.filter(s=>account.requestLines?.[s.id]?.selected);
+  const lines=products.map(s=>`• ${s.name} — ${account.requestLines[s.id].qty} pack(s) — AED ${money(s.retailInclVatAED)} incl. 5% VAT`);
+  const route=`Supply route: ${routeLabel(account)}${products.length ? '\n'+routeGuide(account) : ''}`;
+  const online=account.hasOnline && account.allListedOnline == null ? db.skus.filter(s=>account.stock?.[s.id]?.status==='in' && !account.stock[s.id].talabat) : [];
+  const onlineSummary=!account.hasOnline ? '' : account.allListedOnline===true ? '\nAll listed products are live on the online store.' : account.allListedOnline===false ? '\nSome products are missing on the online store. Please review the available range.' : online.length ? '\n*Physically in stock, missing on Talabat / Instashop*\n'+online.map(s=>'• '+s.name).join('\n')+'\nPlease upload these products to support online sell-through.' : '';
   return [
     '*Hantco International — Visit Summary*',
     `Pharmacy: ${account.name}`,
     `Dear ${contact?.name || 'Pharmacy Team'},`,
     'Thank you for your time. Please find our product follow-up below.',
-    '', products.length ? '*Missing / requested products*' : 'All 17 Hantco SKUs are available on your shelf.', ...lines,
+    '', `Shelf status: ${listedStockCount(account)}/${listedSkuIds(account).length} listed SKUs in stock (17 total).`,
+    `Visit outcome: ${account.orderAction || 'Follow-Up Required'}`,
+    products.length ? '\n*Requested products*' : 'No specific products requested.', ...lines,
     account.requests ? '\nAdditional requirements: '+account.requests : '',
     '', route,
-    online.length ? '\n*Physically in stock, missing on Talabat / Instashop*\n'+online.map(s=>'• '+s.name).join('\n')+'\nPlease upload these products to support online sell-through.' : '',
+    onlineSummary, account.hasOnline && account.onlineNote ? 'Online note: '+account.onlineNote : '',
     account.followUp ? '\nNext follow-up: '+account.followUp : '',
     '', 'Hantco International General Trading L.L.C', 'www.hantco.ae | +971-5857 55 666'
   ].filter(line=>line!==undefined).join('\n').replace(/\n{3,}/g,'\n\n');
@@ -873,8 +1109,8 @@ function handleWizardInput(el) {
   const value=el.type==='checkbox' ? el.checked : el.value;
   if (key==='existing') {
     if (!value) {
-      if(d._dirty && !confirm('Replace this unfinished draft with a new pharmacy visit?')) { render(); return true; }
-      ui.draft=newDraft(); ui.step=1; saveDraft(); render();
+      if(d._dirty && !confirm('Replace this unfinished draft with a new '+(d.accountType==='clinic'?'clinic':'pharmacy')+' visit?')) { render(); return true; }
+      ui.draft=newDraft(undefined,d.accountType); ui.step=1; saveDraft(); render();
     } else if (!startVisit(value)) render();
     return true;
   }
@@ -886,20 +1122,22 @@ function handleWizardInput(el) {
   } else if (key.startsWith('doctor.')) {
     const [,id,field]=key.split('.');
     const doctor=d.doctors.find(doc=>doc.id===id);
-    if(doctor && ['name','specialty','timings','samplesNeeded','samplesGiven'].includes(field)) { doctor[field]=value; rerender=field==='specialty'; }
-  } else if (key.startsWith('contact.')) {
-    const field=key.split('.')[1];
-    if(['name','role','phone'].includes(field)) d.contact[field]=value;
+    if(doctor && ['name','specialty','timings','note','samplesNeeded','samplesGiven'].includes(field)) { doctor[field]=value; rerender=field==='specialty'; }
+  } else if (key.startsWith('visitContact.')) {
+    const [,id,field]=key.split('.');
+    const contact=d.visitContacts.find(c=>c.id===id);
+    if(contact && ['name','role','phone'].includes(field)) contact[field]=value;
   } else if (key.startsWith('request.')) {
     const [,id,field]=key.split('.');
-    if(skuById(id) && ['selected','qty'].includes(field)) { d.requestLines[id] ||= {selected:false,qty:1}; d.requestLines[id][field]=value; d.requestLines[id]._touched=true; rerender=field==='selected'; }
+    if(skuById(id) && ['selected','qty'].includes(field)) { d.requestLines[id] ||= {selected:false,qty:1}; d.requestLines[id][field]=value; d.requestLines[id]._touched=true; d._requestsOpen=true; rerender=field==='selected'; }
   } else if (key.startsWith('requirement.')) {
     const req=key.split('.')[1];
     if(W_REQUIREMENTS.some(r=>r.key===req)) d.requirements=value ? [...new Set([...d.requirements,req])] : d.requirements.filter(k=>k!==req);
-  } else if (['name','emirate','area','groupName','drugstoreName','otherDrugstores','clinicName','followUp','orderAction','requests','visitNotes','tradeLicense','trn','paymentTerms','_newGroup','_newDrugstore'].includes(key)) {
+  } else if (['name','emirate','area','groupName','drugstoreName','groupDrugstoreName','otherDrugstores','clinicName','nearbyPharmacy','followUp','orderAction','requests','visitNotes','tradeLicense','trn','paymentTerms','onlineNote','escalationNote','_newGroup','_newDrugstore','_newGroupDrugstore'].includes(key)) {
     d[key]=value;
     if(key==='orderAction') d._orderTouched=true;
-    rerender=key==='groupName'||key==='drugstoreName';
+    if(key==='groupName'||key==='drugstoreName') wApplyListedTemplate(d);
+    rerender=key==='groupName'||key==='drugstoreName'||key==='groupDrugstoreName';
   }
   d._dirty=true;
   saveDraft();
@@ -913,31 +1151,42 @@ function handleWizardAction(action, el) {
   const d=ui.draft;
   let refresh=true;
   switch(action) {
+    case 'w-mode':
+      if(!['pharmacy','clinic'].includes(el.dataset.mode))return true;
+      wSetMode(d,el.dataset.mode);ui.step=1;
+      break;
     case 'w-step': {
+      if(d.accountType==='clinic')return true;
       const target=Number(el.dataset.step);
       if(!Number.isInteger(target)||target<1||target>6) return true;
-      if(target>1 && !wValidateStepOne()) return true;
       ui.step=target;
       if(target===6) wEnsureRequests();
       saveDraft(); render(); window.scrollTo({top:0,behavior:'smooth'}); return true;
     }
     case 'w-reset':
       if(d._dirty && !confirm('Discard this unfinished visit draft and start a new one? Saved CRM records will remain unchanged.')) return true;
-      ui.draft=newDraft(); ui.step=1; saveDraft(); render(); window.scrollTo({top:0,behavior:'smooth'}); return true;
+      ui.draft=newDraft(undefined,d.accountType); ui.step=1; saveDraft(); render(); window.scrollTo({top:0,behavior:'smooth'}); return true;
     case 'w-route':
       if(!['group','drugstore','direct'].includes(el.dataset.route)) return true;
       d.scenario=el.dataset.route;
-      if(!d._orderTouched) d.orderAction=d.scenario==='group'?W_ORDERS[0]:d.scenario==='drugstore'?W_ORDERS[1]:W_ORDERS[3];
+      wApplyListedTemplate(d);
+      break;
+    case 'w-group-supply':
+      if(!['main_store','group_drugstore'].includes(el.dataset.value)) return true;
+      d.groupSupplyType=el.dataset.value;
       break;
     case 'w-add-group':
-    case 'w-add-drugstore': {
+    case 'w-add-drugstore':
+    case 'w-add-group-drugstore': {
       const group=action==='w-add-group';
-      const value=(group?d._newGroup:d._newDrugstore).trim();
+      const groupDrugstore=action==='w-add-group-drugstore';
+      const value=(group?d._newGroup:groupDrugstore?d._newGroupDrugstore:d._newDrugstore).trim();
       if(!value) { toast('Enter a '+(group?'group':'drugstore')+' name first.'); return true; }
       const kind=group?'listedGroupChains':'listedDrugstores';
       const known=db.master_config[kind].find(n=>n.toLocaleLowerCase()===value.toLocaleLowerCase());
       if(!known && !addMaster(kind,value)) return true;
-      if(group) {d.groupName=known||value;d._newGroup='';} else {d.drugstoreName=known||value;d._newDrugstore='';}
+      if(group) {d.groupName=known||value;d._newGroup='';} else if(groupDrugstore) {d.groupDrugstoreName=known||value;d._newGroupDrugstore='';} else {d.drugstoreName=known||value;d._newDrugstore='';}
+      if(!groupDrugstore) wApplyListedTemplate(d);
       toast((group?'Group':'Drugstore')+' selected.'); break;
     }
     case 'w-gps': {
@@ -957,20 +1206,69 @@ function handleWizardAction(action, el) {
       const id=el.dataset.sku, value=el.dataset.status;
       if(!d.stock[id]||!['in','oos','not'].includes(value)) return true;
       d.stock[id].status=value;
-      if(d.requestLines[id]&&!d.requestLines[id]._touched) d.requestLines[id].selected=value!=='in';
+      if(value==='in' && d.allListedOnline===true && !d.stock[id].talabat) d.allListedOnline=null;
+      d.requestLines[id] ||= {selected:false,qty:1};
       break;
     }
+    case 'w-quick-qty': {
+      const id=el.dataset.sku, qty=Number(el.dataset.qty);
+      if(!d.stock[id] || !d.listedSkuIds.includes(id) || !Number.isInteger(qty) || qty<1 || qty>5) return true;
+      d.stock[id].qty=qty;
+      d.stock[id].status='in';
+      if(d.allListedOnline===true && !d.stock[id].talabat) d.allListedOnline=null;
+      d.requestLines[id] ||= {selected:false,qty:1};
+      break;
+    }
+    case 'w-unlist-sku': {
+      const id=el.dataset.sku;
+      if(!d.stock[id]) return true;
+      d.listedSkuIds=d.listedSkuIds.filter(skuId=>skuId!==id);
+      d.stock[id].status='not';
+      d._listedCustomized=true; d._listedEdited=true;
+      break;
+    }
+    case 'w-list-sku': {
+      const id=el.dataset.sku;
+      if(!skuById(id)) return true;
+      d.listedSkuIds=db.skus.filter(s=>s.id===id || d.listedSkuIds.includes(s.id)).map(s=>s.id);
+      d._listedCustomized=true; d._listedEdited=true;
+      break;
+    }
+    case 'w-hide-not-listed':
+      d.listedSkuIds=d.listedSkuIds.filter(id=>d.stock[id].status!=='not');
+      d._listedCustomized=true; d._listedEdited=true;
+      break;
+    case 'w-toggle-unlisted':d._showUnlisted=!d._showUnlisted;break;
     case 'w-bulk': {
       const value=el.dataset.status;
       if(!['in','not'].includes(value)) return true;
-      if(!confirm(value==='in'?'Mark all 17 products as in stock?':'Mark all 17 products as not available / never ordered?')) return true;
-      db.skus.forEach(s=>{d.stock[s.id].status=value;if(d.requestLines[s.id]&&!d.requestLines[s.id]._touched)d.requestLines[s.id].selected=value!=='in';});
+      if(!confirm(value==='in'?`Mark all ${d.listedSkuIds.length} listed products as in stock?`:`Mark all ${d.listedSkuIds.length} listed products as not listed?`)) return true;
+      d.listedSkuIds.forEach(id=>{d.stock[id].status=value;d.requestLines[id] ||= {selected:false,qty:1};});
+      if(value==='in' && d.allListedOnline===true && d.listedSkuIds.some(id=>!d.stock[id].talabat)) d.allListedOnline=null;
       break;
     }
+    case 'w-select-oos':
+      wEnsureRequests();
+      d.listedSkuIds.filter(id=>d.stock[id].status==='oos').forEach(id=>{d.requestLines[id].selected=true;d.requestLines[id]._touched=true;});
+      d._requestsOpen=true;
+      break;
     case 'w-online':d.hasOnline=el.dataset.value==='true';break;
-    case 'w-talabat':if(d.stock[el.dataset.sku])d.stock[el.dataset.sku].talabat=el.dataset.value==='true';break;
+    case 'w-all-listed-online':
+      if(!['true','false'].includes(el.dataset.value)) return true;
+      d.allListedOnline=el.dataset.value==='true';
+      db.skus.filter(s=>d.stock[s.id].status==='in').forEach(s=>{d.stock[s.id].talabat=d.allListedOnline;});
+      break;
+    case 'w-add-contact-row':
+      if(d.visitContacts.length>=100) {toast('This visit already has the maximum number of contacts.');return true;}
+      d.visitContacts.push({id:uid(),name:'',role:wContactRoles(d)[0],phone:''});
+      break;
+    case 'w-remove-contact-row':
+      if(d.visitContacts[0]?.id===el.dataset.contact) return true;
+      d.visitContacts=d.visitContacts.filter(contact=>contact.id!==el.dataset.contact);
+      break;
+    case 'w-escalate-whatsapp':saveDraft();sendEscalation(d);return true;
     case 'w-clinic':d.hasClinic=el.dataset.value==='true';break;
-    case 'w-add-doctor':d.doctors.push({id:uid(),name:'',specialty:'Dermatology',timings:'',samplesNeeded:false,samplesGiven:false});break;
+    case 'w-add-doctor':d.doctors.push(wNewDoctor());break;
     case 'w-remove-doctor':
       if(!confirm('Remove this doctor from the visit draft?')) return true;
       d.doctors=d.doctors.filter(doc=>doc.id!==el.dataset.doctor);break;
@@ -1037,6 +1335,15 @@ function validateDatabase(raw) {
   requireArray(value.skus,'Products',17);
   if (value.skus.length!==17) throw new Error('The database must contain all 17 Hantco products.');
   const skuIds = ids(value.skus,'product');
+  const listedIds = (items,label) => {
+    requireArray(items,label,17);
+    const seen=new Set();
+    for(const id of items) {
+      if(typeof id!=='string' || !skuIds.has(id) || seen.has(id)) throw new Error(`${label} must contain unique, known product IDs.`);
+      seen.add(id);
+    }
+    return items;
+  };
   for (const original of INITIAL_SKUS) if (!skuIds.has(original.id)) throw new Error(`Missing product ${original.id}.`);
   for (const sku of value.skus) {
     for (const key of ['code','section','brand','name']) textValue(sku[key],`product ${key}`,true,500);
@@ -1064,6 +1371,15 @@ function validateDatabase(raw) {
     }
   }
   if (!config.emirates.length || !config.pipelineStages.length) throw new Error('Emirates and pipeline stages cannot be empty.');
+  for(const key of ['groupListedSkus','drugstoreListedSkus']) {
+    if(config[key]==null) config[key]={};
+    const templates=config[key];
+    if(typeof templates!=='object' || Array.isArray(templates) || Object.keys(templates).length>1000) throw new Error(`Invalid ${key} templates.`);
+    for(const [name,products] of Object.entries(templates)) {
+      textValue(name,`${key} partner name`,true,200);
+      listedIds(products,`${name} listed products`);
+    }
+  }
   const requiredStages=seedDatabase().master_config.pipelineStages;
   if (config.pipelineStages.length!==requiredStages.length || config.pipelineStages.some((stage,index)=>stage!==requiredStages[index])) throw new Error('The four original Hantco pipeline stages must remain in their original order.');
   config.supabaseConfig ||= {url:'',anonKey:'',tableName:'hantco_crm_sync',lastSync:null};
@@ -1072,13 +1388,22 @@ function validateDatabase(raw) {
   requireArray(value.accounts,'Accounts',10000);
   const accountIds=ids(value.accounts,'account');
   for (const account of value.accounts) {
-    textValue(account.name,'pharmacy name',true,300);
+    account.accountType=account.accountType||'pharmacy';
+    if(!['pharmacy','clinic'].includes(account.accountType)) throw new Error(`Invalid account type on ${account.name}.`);
+    account.nearbyPharmacy=textValue(account.nearbyPharmacy,'nearby pharmacy');
+    if(account.accountType==='clinic') account.scenario='direct';
+    textValue(account.name,account.accountType==='clinic'?'clinic name':'pharmacy name',true,300);
     if (!config.emirates.includes(account.emirate)) throw new Error(`Unknown emirate on ${account.name}.`);
     if (!config.pipelineStages.includes(account.stage)) throw new Error(`Unknown stage on ${account.name}.`);
     if (!['group','drugstore','direct'].includes(account.scenario)) throw new Error(`Invalid supply route on ${account.name}.`);
     if (account.scenario==='group' && !config.listedGroupChains.includes(account.groupName)) throw new Error(`Unknown group on ${account.name}.`);
     if (account.scenario==='drugstore' && !config.listedDrugstores.includes(account.drugstoreName)) throw new Error(`Unknown drugstore on ${account.name}.`);
-    for (const key of ['area','groupName','drugstoreName','otherDrugstores','clinicName','orderAction','requests','notes','tradeLicense','trn','paymentTerms']) account[key]=textValue(account[key],`${account.name} ${key}`);
+    for (const key of ['area','groupName','drugstoreName','groupDrugstoreName','otherDrugstores','clinicName','orderAction','requests','notes','tradeLicense','trn','paymentTerms','onlineNote','escalationNote']) account[key]=textValue(account[key],`${account.name} ${key}`);
+    account.groupSupplyType=account.groupSupplyType||'main_store';
+    if(!['main_store','group_drugstore'].includes(account.groupSupplyType)) throw new Error(`Invalid group purchase type on ${account.name}.`);
+    if(account.scenario==='group' && account.groupSupplyType==='group_drugstore' && account.groupDrugstoreName && !config.listedDrugstores.includes(account.groupDrugstoreName)) throw new Error(`Unknown central drugstore on ${account.name}.`);
+    account.listedSkuIds=listedIds(account.listedSkuIds??value.skus.map(sku=>sku.id),`${account.name} listed products`);
+    if(account.allListedOnline!=null && typeof account.allListedOnline!=='boolean') throw new Error(`Invalid online availability on ${account.name}.`);
     account.followUp=dateValue(account.followUp,'follow-up');
     for (const key of ['createdAt','updatedAt','lastVisit']) account[key]=timestamp(account[key],key,key!=='lastVisit');
     account.hasOnline=!!account.hasOnline;
@@ -1086,8 +1411,10 @@ function validateDatabase(raw) {
     if (account.gps!=null) {
       if (typeof account.gps!=='object' || !Number.isFinite(account.gps.lat) || Math.abs(account.gps.lat)>90 || !Number.isFinite(account.gps.lng) || Math.abs(account.gps.lng)>180) throw new Error(`Invalid GPS for ${account.name}.`);
     }
+    if(account.accountType==='clinic' && account.stock==null) account.stock={};
     if (!account.stock || typeof account.stock!=='object' || Array.isArray(account.stock)) throw new Error(`Missing shelf audit on ${account.name}.`);
     for (const sku of value.skus) {
+      if(account.accountType==='clinic' && account.stock[sku.id]==null) account.stock[sku.id]={status:'not',qty:'',note:'',nearExpiry:false,talabat:false};
       const stock=account.stock[sku.id];
       if (!stock || !['in','oos','not'].includes(stock.status)) throw new Error(`Invalid shelf status for ${sku.code} on ${account.name}.`);
       stock.note=textValue(stock.note,'shelf note');
@@ -1112,7 +1439,10 @@ function validateDatabase(raw) {
     ids(account.contacts,'contact');
     ids(account.doctors,'doctor');
     for (const contact of account.contacts) for (const key of ['name','role','phone']) contact[key]=textValue(contact[key],`contact ${key}`,key==='name',500);
-    for (const doctor of account.doctors) for (const key of ['name','specialty','timings']) doctor[key]=textValue(doctor[key],`doctor ${key}`,key==='name',1000);
+    for (const doctor of account.doctors) {
+      for (const key of ['name','specialty','timings']) doctor[key]=textValue(doctor[key],`doctor ${key}`,key==='name',1000);
+      doctor.note=textValue(doctor.note,'doctor note');
+    }
   }
   requireArray(value.timeline_events,'Timeline',50000);
   requireArray(value.deliverables,'Deliverables',50000);
@@ -1202,10 +1532,10 @@ function requestedProductsText(account) {
 }
 
 function exportAccountsCSV() {
-  const headers=['Account ID','Pharmacy','Emirate','Area','Pipeline stage','Supply route','Group','Drugstore','Other drugstores','Latitude','Longitude','GPS accuracy metres','Contacts','Clinic attached','Clinic name','Doctors','Follow-up date','Last visit','Order action','Requested SKU packs','Additional requirements','Trade license','TRN','Payment terms','Account notes','Created at','Updated at'];
+  const headers=['Account ID','Pharmacy','Emirate','Area','Pipeline stage','Supply route','Group','Drugstore','Other drugstores','Latitude','Longitude','GPS accuracy metres','Contacts','Clinic attached','Clinic name','Doctors','Follow-up date','Last visit','Order action','Requested SKU packs','Additional requirements','Trade license','TRN','Payment terms','Account notes','Escalation Note','Created at','Updated at','Account Type','Nearby Pharmacy'];
   for(const sku of db.skus) headers.push(`${sku.code} Product`,`${sku.code} Status`,`${sku.code} Quantity`,`${sku.code} Note`,`${sku.code} Near expiry`,`${sku.code} Listed online`,`${sku.code} Retail excl VAT AED`,`${sku.code} Retail incl VAT AED`);
   const rows=db.accounts.map(a=>{
-    const row=[a.id,a.name,a.emirate,a.area,a.stage,routeLabel(a),a.groupName,a.drugstoreName,a.otherDrugstores,a.gps?.lat??'',a.gps?.lng??'',a.gps?.accuracy??'',a.contacts.map(c=>`${c.name} | ${c.role} | ${c.phone}`).join('\n'),a.hasClinic?'Yes':'No',a.clinicName,a.doctors.map(d=>`${d.name} | ${d.specialty} | ${d.timings} | Samples needed: ${d.samplesNeeded?'Yes':'No'} | Samples given: ${d.samplesGiven?'Yes':'No'}`).join('\n'),a.followUp,a.lastVisit,a.orderAction,requestedProductsText(a),a.requests,a.tradeLicense,a.trn,a.paymentTerms,a.notes,a.createdAt,a.updatedAt];
+    const row=[a.id,a.name,a.emirate,a.area,a.stage,routeLabel(a),a.groupName,a.drugstoreName,a.otherDrugstores,a.gps?.lat??'',a.gps?.lng??'',a.gps?.accuracy??'',a.contacts.map(c=>`${c.name} | ${c.role} | ${c.phone}`).join('\n'),a.hasClinic?'Yes':'No',a.clinicName,a.doctors.map(d=>`${d.name} | ${d.specialty} | ${d.timings} | Samples needed: ${d.samplesNeeded?'Yes':'No'} | Samples given: ${d.samplesGiven?'Yes':'No'}${d.note?' | Note: '+d.note:''}`).join('\n'),a.followUp,a.lastVisit,a.orderAction,requestedProductsText(a),a.requests,a.tradeLicense,a.trn,a.paymentTerms,a.notes,a.escalationNote||'',a.createdAt,a.updatedAt,a.accountType==='clinic'?'Clinic':'Pharmacy',a.nearbyPharmacy||''];
     for(const sku of db.skus) { const s=a.stock[sku.id]; row.push(sku.name,statusLabel(s.status),s.qty,s.note,s.nearExpiry?'Yes':'No',a.hasOnline?(s.talabat?'Yes':'No'):'No online store',sku.retailExclVatAED,sku.retailInclVatAED); }
     return row;
   });
@@ -1213,9 +1543,14 @@ function exportAccountsCSV() {
 }
 
 function exportHistoryCSV() {
-  const names=new Map(db.accounts.map(a=>[a.id,a.name]));
-  const header=['Record type','Record ID','Account ID','Pharmacy','Date created','Visit ID','Event type / Category','Description','Direction','Due date','Completed','Completed at','Requested SKU packs at visit','Additional requirements at visit','Visit snapshot JSON'];
-  const rows=[...db.timeline_events.map(e=>['Activity',e.id,e.accountId,names.get(e.accountId),e.createdAt,e.visitId||'',e.type,e.text,'','','','',e.snapshot?requestedProductsText(e.snapshot):'',e.snapshot?.requests||'',e.snapshot?JSON.stringify(e.snapshot):'']),...db.deliverables.map(t=>['Requirement / Promise',t.id,t.accountId,names.get(t.accountId),t.createdAt,t.visitId||'',t.category,t.title,t.direction,t.dueDate,t.done?'Yes':'No',t.completedAt||'','','',''])].sort((a,b)=>String(a[4]).localeCompare(String(b[4])));
+  const accounts=new Map(db.accounts.map(a=>[a.id,a]));
+  const visitSnapshots=new Map(db.timeline_events.filter(e=>e.visitId&&e.snapshot).map(e=>[`${e.accountId}:${e.visitId}`,e.snapshot]));
+  const accountColumns=account=>[account?.accountType==='clinic'?'Clinic':'Pharmacy',account?.nearbyPharmacy||''];
+  const header=['Record type','Record ID','Account ID','Pharmacy','Date created','Visit ID','Event type / Category','Description','Direction','Due date','Completed','Completed at','Requested SKU packs at visit','Additional requirements at visit','Escalation Note','Visit snapshot JSON','Account Type','Nearby Pharmacy'];
+  const rows=[...db.timeline_events.map(e=>['Activity',e.id,e.accountId,accounts.get(e.accountId)?.name,e.createdAt,e.visitId||'',e.type,e.text,'','','','',e.snapshot?requestedProductsText(e.snapshot):'',e.snapshot?.requests||'',e.snapshot?.escalationNote||'',e.snapshot?JSON.stringify(e.snapshot):'',...accountColumns(e.snapshot||accounts.get(e.accountId))]),...db.deliverables.map(t=>{
+    const snapshot=t.visitId?visitSnapshots.get(`${t.accountId}:${t.visitId}`):null;
+    return ['Requirement / Promise',t.id,t.accountId,accounts.get(t.accountId)?.name,t.createdAt,t.visitId||'',t.category,t.title,t.direction,t.dueDate,t.done?'Yes':'No',t.completedAt||'','','',snapshot?.escalationNote||'','',...accountColumns(snapshot||accounts.get(t.accountId))];
+  })].sort((a,b)=>String(a[4]).localeCompare(String(b[4])));
   download(`Hantco-Visits-Requirements-${today()}.csv`,makeCSV([header,...rows]),'text/csv;charset=utf-8');
 }
 
@@ -1365,20 +1700,32 @@ async function handleSettingsAction(action,el) {
     const kind=el.dataset.kind;const inputEl=document.getElementById('new-'+kind);
     if(addMaster(kind,inputEl?.value)){render();toast(`${LIST_LABELS[kind]} added.`);}
   } else if(action==='s-list-rename') {
-    const kind=el.dataset.kind,index=Number(el.dataset.index),old=db.master_config[kind]?.[index];if(!old)return true;
+    const kind=el.dataset.kind;if(!Object.hasOwn(LIST_LABELS,kind))return true;
+    const index=Number(el.dataset.index),old=db.master_config[kind]?.[index];if(!old)return true;
     const name=document.getElementById(`${kind}-${index}`)?.value.trim();
     if(!name || name.length>200){toast('Enter a name between 1 and 200 characters.');return true;}
     if(db.master_config[kind].some((x,i)=>i!==index&&x.toLocaleLowerCase()===name.toLocaleLowerCase())){toast('This name already exists.');return true;}
-    const fieldName=kind==='listedGroupChains'?'groupName':'drugstoreName';
-    if(transact(next=>{next.master_config[kind][index]=name;for(const a of next.accounts)if(a[fieldName]===old){a[fieldName]=name;a.updatedAt=stamp();}})) {
-      if(ui.draft?.[fieldName]===old){ui.draft[fieldName]=name;saveDraft();}render();toast('Name updated, including linked pharmacies.');
+    const fieldNames=kind==='listedGroupChains'?['groupName']:['drugstoreName','groupDrugstoreName'];
+    const templateKey=kind==='listedGroupChains'?'groupListedSkus':'drugstoreListedSkus';
+    if(transact(next=>{
+      next.master_config[kind][index]=name;
+      for(const a of next.accounts) for(const fieldName of fieldNames) if(a[fieldName]===old){a[fieldName]=name;a.updatedAt=stamp();}
+      const templates=next.master_config[templateKey];
+      if(templates && Object.hasOwn(templates,old) && name!==old){templates[name]=templates[old];delete templates[old];}
+    })) {
+      let draftChanged=false;
+      for(const fieldName of fieldNames) if(ui.draft?.[fieldName]===old){ui.draft[fieldName]=name;draftChanged=true;}
+      if(draftChanged)saveDraft();
+      render();toast('Name updated, including linked pharmacies.');
     }
   } else if(action==='s-list-delete') {
-    const kind=el.dataset.kind,index=Number(el.dataset.index),old=db.master_config[kind]?.[index];if(!old)return true;
-    const fieldName=kind==='listedGroupChains'?'groupName':'drugstoreName';
-    const count=db.accounts.filter(a=>a[fieldName]===old).length;
-    if(count || ui.draft?.[fieldName]===old){toast(`This ${LIST_LABELS[kind].toLowerCase()} is used by ${count} account(s) or an open visit. Change their supply routing first.`);return true;}
-    if(confirm(`Delete “${old}” from your list?`)&&transact(next=>{next.master_config[kind].splice(index,1);})){render();toast('List entry deleted.');}
+    const kind=el.dataset.kind;if(!Object.hasOwn(LIST_LABELS,kind))return true;
+    const index=Number(el.dataset.index),old=db.master_config[kind]?.[index];if(!old)return true;
+    const fieldNames=kind==='listedGroupChains'?['groupName']:['drugstoreName','groupDrugstoreName'];
+    const templateKey=kind==='listedGroupChains'?'groupListedSkus':'drugstoreListedSkus';
+    const count=db.accounts.filter(a=>fieldNames.some(fieldName=>a[fieldName]===old)).length;
+    if(count || fieldNames.some(fieldName=>ui.draft?.[fieldName]===old)){toast(`This ${LIST_LABELS[kind].toLowerCase()} is used by ${count} account(s) or an open visit. Change their supply routing first.`);return true;}
+    if(confirm(`Delete “${old}” from your list?`)&&transact(next=>{next.master_config[kind].splice(index,1);if(next.master_config[templateKey])delete next.master_config[templateKey][old];})){render();toast('List entry deleted.');}
   } else if(action==='s-sku-open')openSkuEditor(el.dataset.id);
   else if(action==='s-sku-vat') {
     const sku=settingsState.sku;if(!sku || !Number.isFinite(sku.retailExclVatAED)||sku.retailExclVatAED<0){toast('Enter a valid exclusive price first.');return true;}
@@ -1422,7 +1769,8 @@ async function handleClick(event){
  try{
   switch(action){
    case 'tab':navigate(el.dataset.tab);return;
-   case 'new-visit':startVisit();return;
+   case 'new-visit':startVisit(undefined,'pharmacy');return;
+   case 'new-clinic-visit':startVisit(undefined,'clinic');return;
    case 'revisit':startVisit(id);return;
    case 'profile':renderProfile(id);return;
    case 'close-modal':closeModal();return;
@@ -1432,19 +1780,20 @@ async function handleClick(event){
    case 'queue-open':ui.queue=el.dataset.queue;navigate('deliverables');return;
    case 'pitch':openPitch(el.dataset.sku);return;
    case 'pitch-prev':case 'pitch-next':{const i=db.skus.findIndex(s=>s.id===pitchId);openPitch(db.skus[(i+(action==='pitch-next'?1:16))%17].id);return;}
-   case 'whatsapp':if(a){if(!a.contacts?.[0]?.phone){toast('Add the pharmacist’s mobile number in the account profile.');renderProfile(a.id);}else openWhatsApp(a.contacts[0].phone,visitSummary(a));}return;
-   case 'order-check':if(a){if(!a.contacts?.[0]?.phone){toast('Add the pharmacist’s mobile number first.');renderProfile(a.id);}else{const route=a.scenario==='group'?`your main store (${a.groupName})`:a.scenario==='drugstore'?a.drugstoreName:'Hantco direct supply';openWhatsApp(a.contacts[0].phone,`Dear ${a.contacts[0].name},\nThis is Hantco International following up with ${a.name}. Could you please confirm whether your requested Hantco products were ordered and received through ${route}?\n\n${a.requests||''}\nwww.hantco.ae | +971-5857 55 666`);}}return;
-   case 'contact-whatsapp':{const account=db.accounts.find(a=>a.id===el.dataset.account);const c=account?.contacts.find(c=>c.id===el.dataset.contact);if(!c?.phone)toast('Add a mobile number for this contact.');else openWhatsApp(c.phone,`Dear ${c.name},\nFollowing up with ${account.name} from Hantco International.\n\nwww.hantco.ae | +971-5857 55 666`);return;}
-   case 'call':{const number=normalizedPhone(a?.contacts?.[0]?.phone);if(number)window.location.href='tel:+'+number;else toast('Add a valid mobile number to this account.');return;}
+   case 'whatsapp':if(a){const contact=a.contacts?.find(c=>c.phone);if(!contact){toast('Add a phone number in the account profile.');renderProfile(a.id);}else openWhatsApp(contact.phone,visitSummary(a),a);}return;
+   case 'escalate-whatsapp':if(a)sendEscalation(a);return;
+   case 'order-check':if(a){if(a.accountType==='clinic'){const contact=a.contacts?.find(c=>c.phone);if(contact)openWhatsApp(contact.phone,visitSummary(a),a);else{toast('Add a phone number first.');renderProfile(a.id);}return;}const contact=a.contacts?.find(c=>c.phone);if(!contact){toast('Add a phone number first.');renderProfile(a.id);}else openWhatsApp(contact.phone,`Dear ${contact.name},\nThis is Hantco International following up with ${a.name}. Could you please confirm whether your requested Hantco products were ordered and received through ${routeLabel(a)}?\n\n${a.requests||''}\nwww.hantco.ae | +971-5857 55 666`,a);}return;
+   case 'contact-whatsapp':{const account=db.accounts.find(a=>a.id===el.dataset.account);const c=account?.contacts.find(c=>c.id===el.dataset.contact);if(!c?.phone)toast('Add a mobile number for this contact.');else openWhatsApp(c.phone,`Dear ${c.name},\nFollowing up with ${account.name} from Hantco International.\n\nwww.hantco.ae | +971-5857 55 666`,account);return;}
+   case 'call':{const number=contactPhone(a?.contacts?.find(c=>c.phone)?.phone,a);if(number)window.location.href='tel:'+number;else toast('Add a valid phone number to this account.');return;}
    case 'maps':if(a){const q=a.gps?`${a.gps.lat},${a.gps.lng}`:[a.name,a.area,a.emirate,'UAE'].filter(Boolean).join(', ');window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q),'_blank','noopener,noreferrer');}return;
    case 'share-prices':openWhatsApp('',[`*Hantco International — Retail Price List*`,'Prices in AED · excluding / including 5% VAT','',...db.skus.map(s=>`${s.code} · ${s.name}\nAED ${money(s.retailExclVatAED)} / ${money(s.retailInclVatAED)}`),'',`${db.company_info.website} | ${db.company_info.phone}`].join('\n'));return;
    case 'edit-account':if(a)editAccount(id);return;
-   case 'save-account-edit':{const form=document.getElementById('edit-account-form');if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));if(!data.name.trim()){toast('Enter the pharmacy name.');return;}if(transact(next=>{const account=next.accounts.find(a=>a.id===id);Object.assign(account,{name:data.name.trim(),emirate:data.emirate,area:data.area.trim(),notes:data.notes,updatedAt:stamp()});next.timeline_events.push(logEvent(id,'Account Updated','Pharmacy details updated.'));})){closeModal();render();renderProfile(id);toast('Account updated.');}return;}
-   case 'delete-account':if(a&&confirm(`Delete ${a.name}, its visit history and all related promises? This cannot be undone without a backup.`)){if(transact(next=>{next.accounts=next.accounts.filter(x=>x.id!==id);next.timeline_events=next.timeline_events.filter(x=>x.accountId!==id);next.deliverables=next.deliverables.filter(x=>x.accountId!==id);})){if(ui.draft?.id===id){ui.draft=null;localStorage.removeItem(W_DRAFT_KEY);}closeModal();ui.profileId=null;render();toast('Pharmacy and related records deleted.');}}return;
+   case 'save-account-edit':{const form=document.getElementById('edit-account-form');if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));if(!data.name.trim()){toast(a?.accountType==='clinic'?'Enter the clinic name.':'Enter the pharmacy name.');return;}if(transact(next=>{const account=next.accounts.find(a=>a.id===id);Object.assign(account,{name:data.name.trim(),emirate:data.emirate,area:data.area.trim(),notes:data.notes,updatedAt:stamp()});if(account.accountType==='clinic'){account.clinicName=account.name;account.nearbyPharmacy=(data.nearbyPharmacy||'').trim();}next.timeline_events.push(logEvent(id,'Account Updated',account.accountType==='clinic'?'Clinic details updated.':'Pharmacy details updated.'));})){closeModal();render();renderProfile(id);toast('Account updated.');}return;}
+   case 'delete-account':if(a&&confirm(`Delete ${a.name}, its visit history and all related promises? This cannot be undone without a backup.`)){if(transact(next=>{next.accounts=next.accounts.filter(x=>x.id!==id);next.timeline_events=next.timeline_events.filter(x=>x.accountId!==id);next.deliverables=next.deliverables.filter(x=>x.accountId!==id);})){if(ui.draft?.id===id){ui.draft=null;localStorage.removeItem(W_DRAFT_KEY);}closeModal();ui.profileId=null;render();toast('Account and related records deleted.');}}return;
    case 'add-contact':if(a)editContact(id);return;
    case 'edit-contact':if(a)editContact(id,el.dataset.contact);return;
-   case 'save-contact':{const form=document.getElementById('contact-form');if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));if(!data.name.trim()){toast('Enter a contact name.');return;}if(data.phone&&!normalizedPhone(data.phone)){toast('Enter a valid international mobile number.');return;}const contact={id:el.dataset.contact||uid(),name:data.name.trim(),role:data.role,phone:data.phone?'+'+normalizedPhone(data.phone):''};if(transact(next=>{const account=next.accounts.find(a=>a.id===id);const pos=account.contacts.findIndex(c=>c.id===contact.id);if(pos>=0)account.contacts[pos]=contact;else account.contacts.push(contact);account.updatedAt=stamp();next.timeline_events.push(logEvent(id,'Contact Updated',`${contact.name} · ${contact.role}`));})){closeModal();render();renderProfile(id);toast('Contact saved.');}return;}
-   case 'remove-contact':if(a&&confirm('Remove this contact from the pharmacy?')){if(transact(next=>{const account=next.accounts.find(a=>a.id===id);account.contacts=account.contacts.filter(c=>c.id!==el.dataset.contact);account.updatedAt=stamp();})){render();renderProfile(id);}}return;
+   case 'save-contact':{const form=document.getElementById('contact-form');if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));if(!data.name.trim()&&!data.phone.trim()){toast('Enter a name or phone number.');return;}if(data.phone&&!normalizedPhone(data.phone,a)){toast('Enter a landline or mobile number with at least 6 digits.');return;}const contact={...a?.contacts?.find(c=>c.id===el.dataset.contact),id:el.dataset.contact||uid(),name:data.name.trim()||data.role,role:data.role,phone:data.phone?contactPhone(data.phone,a):''};if(transact(next=>{const account=next.accounts.find(a=>a.id===id);const pos=account.contacts.findIndex(c=>c.id===contact.id);if(pos>=0)account.contacts[pos]=contact;else account.contacts.push(contact);account.updatedAt=stamp();next.timeline_events.push(logEvent(id,'Contact Updated',`${contact.name} · ${contact.role}`));})){closeModal();render();renderProfile(id);toast('Contact saved.');}return;}
+   case 'remove-contact':if(a&&confirm('Remove this contact from the account?')){if(transact(next=>{const account=next.accounts.find(a=>a.id===id);account.contacts=account.contacts.filter(c=>c.id!==el.dataset.contact);account.updatedAt=stamp();})){render();renderProfile(id);}}return;
    case 'add-promise':if(a)addPromise(id);return;
    case 'save-promise':{const form=document.getElementById('promise-form');if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));if(!data.title.trim()){toast('Enter the commitment.');return;}if(transact(next=>{next.deliverables.push({id:uid(),accountId:id,direction:data.direction,category:'promise',title:data.title.trim(),dueDate:data.dueDate,done:false,createdAt:stamp(),completedAt:null});next.timeline_events.push(logEvent(id,'Promise Logged',`${data.direction==='WE_OWE_THEM'?'We owe them':'They owe us'}: ${data.title.trim()}`));})){closeModal();render();renderProfile(id);toast('Promise saved.');}return;}
    case 'log-note':{const note=document.getElementById('profile-note').value.trim(),type=document.getElementById('note-type').value;if(!note){toast('Write a note before logging the activity.');return;}if(transact(next=>next.timeline_events.push(logEvent(id,type,note)))){render();renderProfile(id);toast('Activity logged.');}return;}
