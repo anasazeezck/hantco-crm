@@ -1,7 +1,7 @@
 'use strict';
 
 /* Increase BUILD for each release so existing installations receive a fresh shell. */
-const BUILD = '2026-11-14-field-v4';
+const BUILD = '2026-11-22-field-v5';
 const SCOPE = self.registration.scope;
 const PREFIX = 'hantco-fieldpulse:' + encodeURIComponent(SCOPE) + ':';
 const CACHE = PREFIX + BUILD;

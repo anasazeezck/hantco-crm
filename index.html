@@ -21,7 +21,8 @@
 :root{color-scheme:light;--bg:#f6f5fa;--surface:#fff;--ink:#111114;--text:#202024;--muted:#6c6a75;--line:#e8e6ed;--teal:#2a7b76;--blue:#111114;--good:#206749;--warn:#875510;--bad:#a2393c;--ease-out:cubic-bezier(.23,1,.32,1);--ease-drawer:cubic-bezier(.32,.72,0,1);font-family:"Helvetica Neue","Segoe UI",Arial,sans-serif;font-size:14px;font-synthesis:none}
 *{box-sizing:border-box}html{scroll-padding-bottom:130px}body{margin:0;background:#eeedf2;color:var(--text);-webkit-font-smoothing:antialiased}button,input,select,textarea{font:inherit}button,a,input,select,textarea{-webkit-tap-highlight-color:transparent;touch-action:manipulation}button,input,select,textarea{min-height:44px}button{cursor:pointer;border:0}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #577dba;outline-offset:4px}a{color:#236b66;text-decoration:none}p{margin:0 0 12px}h1,h2,h3,h4{line-height:1.22;margin:0;color:var(--ink)}h1{font-size:30px;letter-spacing:-1.15px;font-weight:600}h2{font-size:23px;letter-spacing:-.7px;font-weight:600}h3{font-size:17px;font-weight:600;letter-spacing:-.3px}h4{font-size:15px;font-weight:600}small{color:var(--muted)}svg{width:21px;height:21px;flex-shrink:0;vertical-align:middle}hr,.divider{border:0;border-top:1px solid var(--line);margin:22px 0}button,.btn{overflow-wrap:anywhere}button:active{transform:scale(.97)}button{transition:transform 140ms var(--ease-out)}
 .shell{max-width:480px;min-height:100dvh;margin:auto;background:var(--bg);position:relative;padding-bottom:calc(120px + env(safe-area-inset-bottom));isolation:isolate}
-.app-header{padding:30px 24px 0;display:flex;align-items:center;gap:12px}.brand-mark{background:#111114;color:white;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}.brand-mark svg{width:28px;height:28px;stroke-width:2.2}.brand{font-size:12px;color:var(--muted);font-weight:400;margin-bottom:5px}.product{font-size:23px;font-weight:500;letter-spacing:-.7px;line-height:1.2}.notification-btn{margin-left:auto;background:white;color:#111114;min-width:50px;height:50px;border-radius:50%;position:relative;display:grid;place-items:center;box-shadow:0 2px 10px #11111403}.notification-btn svg{width:24px;height:24px}.notification-dot{position:absolute;top:11px;right:12px;height:7px;width:7px;border-radius:50%;background:#bc735a;box-shadow:0 0 0 2px white}.notification-dot[hidden]{display:none}.header-meta{padding:17px 24px 0;display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted)}.connection{display:inline-flex;gap:6px;align-items:center}.connection:before{content:"";width:5px;height:5px;border-radius:50%;background:#2a7b76}.connection.offline:before{background:#a56c32}
+.app-header{padding:30px 24px 0;display:flex;align-items:center;gap:12px}.brand-mark{background:#111114;color:white;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;flex-shrink:0}.brand-mark svg{width:28px;height:28px;stroke-width:2.2}.brand{font-size:12px;color:var(--muted);font-weight:400;margin-bottom:5px}.product{font-size:23px;font-weight:500;letter-spacing:-.7px;line-height:1.2}.header-notes{margin-left:auto;min-width:44px;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;color:var(--ink);background:white}
+.notification-btn{margin-left:0;background:white;color:#111114;min-width:50px;height:50px;border-radius:50%;position:relative;display:grid;place-items:center;box-shadow:0 2px 10px #11111403}.notification-btn svg{width:24px;height:24px}.notification-dot{position:absolute;top:11px;right:12px;height:7px;width:7px;border-radius:50%;background:#bc735a;box-shadow:0 0 0 2px white}.notification-dot[hidden]{display:none}.header-meta{padding:17px 24px 0;display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted)}.connection{display:inline-flex;gap:6px;align-items:center}.connection:before{content:"";width:5px;height:5px;border-radius:50%;background:#2a7b76}.connection.offline:before{background:#a56c32}
 main{padding:26px 24px 10px}.page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:25px}.page-head .eyebrow{font-weight:500;font-size:12px;color:var(--muted);letter-spacing:.1px;text-transform:none;margin-bottom:7px}.eyebrow{text-transform:uppercase;letter-spacing:1.35px;color:#6d6b73;font-size:10px;font-weight:650;margin-bottom:8px}.muted{color:var(--muted);line-height:1.6}.tiny{font-size:12px;line-height:1.6}.section-title{font-size:20px;font-weight:600;letter-spacing:-.55px;margin:27px 0 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}.section-title .tiny{font-weight:400;letter-spacing:0}.stack{display:grid;gap:16px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row.between{justify-content:space-between}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.card{background:var(--surface);border:1px solid #f0eef3;border-radius:26px;padding:21px;min-width:0;box-shadow:0 3px 14px #17122203}.card>.section-title:first-child,.card>div>.section-title:first-child{margin-top:0}.card .section-title{font-size:18px;letter-spacing:-.4px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 17px;border-radius:24px;min-height:46px;font-weight:550;text-align:center;line-height:1.4;transition:transform 140ms var(--ease-out),background-color 140ms ease}.btn:active{transform:scale(.97)}.primary{background:#111114;color:#fff;box-shadow:none}.secondary{background:#eeedf2;color:#25232b;border:1px solid transparent}.ghost{background:transparent;color:#55525f;border:1px solid #e6e3eb}.danger{background:#fae8e7;color:#962e31;border:1px solid #f3d8d6}.full{width:100%}.btn.icon-only{width:46px;min-width:46px;padding:10px;border-radius:50%}.text-button{background:none;color:#5e5a68;padding:6px 0;min-height:44px;font-size:12px;font-weight:400;white-space:nowrap}.circle-action{width:44px;height:44px;min-width:44px;background:white;color:#111114;border-radius:50%;display:grid;place-items:center}.circle-action.dark{background:#111114;color:white}.chip{background:#fff;border:1px solid #eceaf0;border-radius:22px;padding:10px 15px;min-height:44px;white-space:nowrap;color:#6a6674;font-size:12px;font-weight:450}.chip.selected,.chip[aria-pressed=true]{color:#fff;background:#151418;border-color:#151418}.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:8px;font-size:10px;font-weight:550;line-height:1.5;background:#eeedf2;color:#625e6b;letter-spacing:.1px}.good{color:#206749;background:#e6f5ec;border-color:#c4e2d2}.warn{color:#875510;background:#fff2da;border-color:#eed9b2}.bad{color:#a2393c;background:#ffe9e9;border-color:#efcbcd}.purple{color:#695286;background:#eeebf7}.notice{padding:17px 19px;background:#edf3f0;border:1px solid #dce7df;border-radius:20px;color:#365f50;font-size:13px;line-height:1.7;overflow-wrap:anywhere}.notice.warn{color:#875510;border-color:#f1e2c7;background:#fff5e5}.notice.bad{color:#a2393c;background:#fff0f0;border-color:#efd6d6}.notice.good{color:#206749;background:#e6f5ec;border-color:#c4e2d2}
 .field{display:grid;gap:8px;font-size:12px;color:#5b5864;min-width:0;font-weight:500;line-height:1.5}.field+.field{margin-top:14px}.grid2 .field+.field{margin-top:0}label{cursor:pointer}input:not([type=checkbox]):not([type=radio]),select,textarea{width:100%;background:#f7f6fa;color:#232128;border:1px solid #e7e4ed;border-radius:14px;padding:13px 14px;outline-offset:2px;min-width:0;font-size:14px;min-height:48px}input::placeholder,textarea::placeholder{color:#817c89;opacity:1}textarea{resize:vertical;min-height:108px;line-height:1.65}input[type=checkbox],input[type=radio]{accent-color:#171619;width:20px;min-height:20px;flex-shrink:0}label:has(input[type=checkbox]),label:has(input[type=radio]){display:flex;align-items:center;min-height:44px;gap:10px}label.field:has(input[type=checkbox]){flex-direction:row}.check-row{display:flex;align-items:center;gap:10px;min-height:44px}.check-row span{font-size:13px}.field input:disabled{background:#efedf3;color:#8b8693}.search-box{position:relative;display:block}.search-box svg{position:absolute;left:16px;top:15px;color:#898391;width:19px}.search-box input{padding-left:45px!important;background:white!important;border-color:transparent!important;border-radius:24px!important}.chips{display:flex;gap:8px;overflow-x:auto;padding:3px 0 8px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.pipeline-tools{display:grid;gap:11px}.pipeline-tools select{background:transparent;border:0;padding:8px 0;font-size:12px;color:#6a6674;min-height:44px}.pipeline-tools .field{max-width:100%}
@@ -29,7 +30,7 @@ main{padding:26px 24px 10px}.page-head{display:flex;align-items:center;justify-c
 .territory-empty{background:white;border:0;border-radius:32px;padding:26px;min-height:247px;display:flex;flex-direction:column;align-items:flex-start;position:relative;overflow:hidden}.territory-empty .empty-icon{margin:0 0 18px;width:46px;height:46px;display:grid;place-items:center;border:0;border-radius:50%;background:#f1eff5;color:#625a71}.territory-empty h3{font-size:24px;font-weight:500;letter-spacing:-.7px;line-height:1.2;max-width:260px;margin-bottom:10px}.territory-empty p{font-size:13px;line-height:1.6;color:#77717e;max-width:265px;margin-bottom:23px}.territory-empty .btn{align-self:stretch;justify-content:space-between;padding:14px 19px;font-size:13px}.territory-empty .btn svg{width:18px}.empty{padding:30px 23px;text-align:center;border:1px solid #edeaf1;border-radius:26px;background:#fff}.empty-icon{width:54px;height:54px;display:grid;place-items:center;margin:0 auto 17px;background:#f0edf5;border-radius:50%;color:#62586e}.empty-icon svg{height:25px;width:25px}.empty h3{font-size:20px;margin-bottom:10px;font-weight:500}.empty p{max-width:290px;margin:0 auto;font-size:13px;color:var(--muted);line-height:1.7}.hint-line{display:flex;align-items:center;gap:7px;color:#807988;font-size:10px;margin-top:19px;line-height:1.5}.hint-line svg{width:15px;height:15px}.account-card{padding:22px;border-radius:28px}.account-top{display:flex;align-items:center;gap:12px;margin-bottom:15px}.account-emblem{width:45px;height:45px;border-radius:16px;display:grid;place-items:center;background:#f2eff7;color:#6a5b7f;flex-shrink:0}.account-emblem svg{width:22px;height:22px}.account-heading{min-width:0;flex:1}.account-name{font-size:18px;letter-spacing:-.4px;margin:0 0 5px;line-height:1.3;overflow-wrap:anywhere}.account-meta{font-size:11px;color:#77717d;margin:0;line-height:1.45}.account-status-line{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:10px}.account-status-line .badge{font-size:9px}.coverage{height:5px;background:#edeaf2;border-radius:4px;overflow:hidden;margin:10px 0}.coverage>span{display:block;height:100%;background:#27222d;border-radius:4px}.account-actions{display:flex;gap:7px;margin-top:18px}.account-actions .btn{font-size:11px;padding:10px 12px}.account-actions .btn:first-child{flex:1}.account-actions .icon-only{min-width:44px;width:44px}.account-actions .ghost{border:0;background:#f2f0f5}.account-due{font-size:11px;line-height:1.4;color:#716a79}
 .bottom-nav{position:fixed;z-index:10;bottom:calc(18px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(432px,calc(100% - 40px));display:flex;align-items:center;gap:2px;background:#08080b;border:1px solid #111114;border-radius:999px;padding:6px;box-shadow:0 8px 28px #13101e16;min-height:68px}.nav-btn{background:transparent;color:#e4e1e9;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 10px;min-height:54px;border-radius:999px;flex:1;min-width:44px;font-size:13px;font-weight:500}.nav-btn.active{color:#111114;background:#fff;flex:1.65}.nav-btn svg{width:23px;height:23px;stroke-width:1.7}.nav-btn span{display:none;white-space:nowrap}.nav-btn.active span{display:inline}.nav-btn.active svg{width:21px;height:21px}.nav-btn:focus-visible{outline-color:#e5e1ec;outline-offset:3px}
 .price-table{width:100%;border-collapse:collapse;table-layout:fixed}.price-table th{text-align:right;font-size:10px;line-height:1.5;color:#77717d;text-transform:none;letter-spacing:0;font-weight:450;padding:13px 6px;border-bottom:1px solid #dfdbe5}.price-table th:first-child{width:57%;text-align:left}.price-table td{padding:0 6px;border-bottom:1px solid #e4e0e9;vertical-align:middle;text-align:right;font-variant-numeric:tabular-nums;font-size:12px}.price-table td:last-child{font-weight:600;color:#242028}.price-table button{background:transparent;color:#2c2633;text-align:left;padding:17px 0;line-height:1.5;font-size:13px;width:100%;min-height:44px}.sku-code{font-size:10px;font-weight:500;color:#88808e;display:block;letter-spacing:.4px;margin-bottom:5px}.group-title{background:#eae6ef;padding:13px 16px;font-size:12px;letter-spacing:0;font-weight:500;margin-top:22px;border-radius:14px;color:#5b5266}.brochure-cover{background:#141217;color:white;border:0;padding:27px;border-radius:30px;position:relative;overflow:hidden}.brochure-cover .eyebrow{color:#bcb4c5;font-weight:400;letter-spacing:1.2px}.brochure-cover h2{font-size:31px;font-weight:450;line-height:1.1;color:white;letter-spacing:-1.1px;margin:17px 0 20px}.brochure-cover p{color:#c2bacb;font-size:13px;max-width:270px;line-height:1.6;margin-bottom:22px}.brochure-cover .btn{background:#fff;color:#19151e;border:0;font-size:12px}.brochure-cover-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.collection-number{font-size:13px;border:1px solid #66586d;border-radius:50%;width:42px;height:42px;display:grid;place-items:center;color:#e9e2ee}.calc-output{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:19px}.calc-output>div{padding:17px 14px;border:0;border-radius:18px;background:#f0edf5;min-width:0}.calc-output>div:nth-child(2){background:#17131c;color:white}.calc-output b{font-size:23px;font-weight:500;display:block;margin:9px 0 5px;color:#292030;font-variant-numeric:tabular-nums;letter-spacing:-.6px;overflow-wrap:anywhere}.calc-output small{font-size:9px;line-height:1.5;display:block;color:#786e80;letter-spacing:.15px}.calc-output>div:nth-child(2) b{color:white}.calc-output>div:nth-child(2) small{color:#c8bdcf}
-.list-row{padding:16px 0;border-bottom:1px solid #e9e5ed;overflow-wrap:anywhere}.list-row:last-child{border-bottom:0}.queue-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;background:#ebe7f0;padding:5px;border-radius:22px;margin:22px 0}.queue-tabs .chip{font-size:11px;white-space:normal;background:transparent;border:0;border-radius:18px;padding:10px 7px;color:#726879}.queue-tabs .chip.selected{color:#25202c;background:white;box-shadow:0 2px 6px #17112206}.task{display:flex;align-items:flex-start;gap:12px}.task>input[type=checkbox]{min-height:44px;width:22px;margin-top:0}.task.done h3{text-decoration:line-through;color:#99909f}.task-content{flex:1;min-width:0}.task h3{font-size:15px;line-height:1.5}.task .btn{font-size:11px;padding:10px 12px}.task .row{gap:7px}
+.list-row{padding:16px 0;border-bottom:1px solid #e9e5ed;overflow-wrap:anywhere}.list-row:last-child{border-bottom:0}.queue-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;background:#ebe7f0;padding:5px;border-radius:22px;margin:22px 0}.queue-tabs .chip{font-size:11px;white-space:normal;background:transparent;border:0;border-radius:18px;padding:10px 7px;color:#726879}.queue-tabs .chip.selected{color:#25202c;background:white;box-shadow:0 2px 6px #17112206}.task{display:flex;align-items:flex-start;gap:12px}.task>input[type=checkbox]{min-height:44px;width:22px;margin-top:0}.task.done h3{text-decoration:line-through;color:#99909f}.task-content{flex:1;min-width:0}.task h3{font-size:15px;line-height:1.5}.task .btn{font-size:11px;padding:10px 12px}.task .row{gap:7px}
 .wizard-steps{display:flex;gap:5px;position:sticky;top:0;z-index:3;background:#f6f5faf5;padding:12px 0 16px;backdrop-filter:blur(10px)}.step-pill{background:#ece8f1;border:0;color:#776c82;border-radius:17px;display:flex;flex:1;min-width:0;flex-direction:column;gap:4px;align-items:center;justify-content:center;padding:10px 1px;min-height:60px}.step-pill>span{font-size:14px;font-weight:500}.step-pill small{font-size:10px;white-space:nowrap;letter-spacing:-.2px;color:inherit}.step-pill.active{background:#18131d;color:#fff}.step-pill.done{background:#e5ede7;color:#467052}.section-heading{margin:12px 0 24px}.section-heading h2{font-size:24px;letter-spacing:-.7px;font-weight:500;margin:8px 0 12px}.section-heading>.muted{font-size:13px;line-height:1.65}.wizard-content{padding-bottom:10px}.wizard-content .card{padding:20px}.wizard-footer{position:sticky;bottom:104px;background:#fffffff2;border:1px solid #ece8f0;z-index:4;border-radius:24px;padding:13px;margin-top:24px;backdrop-filter:blur(10px);box-shadow:0 4px 18px #17122208}.wizard-footer>span{font-size:10px;display:block;margin-bottom:9px;text-align:center}.wizard-footer .row{flex-wrap:nowrap;gap:8px}.wizard-footer .row .btn{flex:1;font-size:12px;min-height:46px}.wizard-footer:has(.row:empty){position:static;background:transparent;box-shadow:none;border:0}.inline-add{display:grid;gap:10px}.inline-add .btn{justify-self:start;font-size:12px}.route-card{background:#fff;color:#242029;border:1px solid #e9e4ee;border-radius:24px;padding:20px;text-align:left;display:grid;gap:12px}.route-card>.muted{font-size:12px;line-height:1.6}.route-card.selected{border-color:#19151e;box-shadow:inset 0 0 0 1px #19151e;background:#fefefe}.route-card strong{font-size:15px;font-weight:550}.route-card .badge{font-size:9px;background:#f1edf5;color:#776b82}.route-card.selected .badge{background:#211b29;color:white}.stock-toggle{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.stock-toggle button{min-height:64px;border:1px solid #e6e0eb;border-radius:14px;background:#f6f3f9;color:#82768e;padding:9px 3px;display:flex;flex-direction:column;justify-content:center;gap:5px}.stock-toggle strong{font-size:11px;font-weight:550}.stock-toggle small{font-size:10px;color:inherit}.stock-toggle .selected.good{background:#e6f5ec;color:#206749;border-color:#85b99b}.stock-toggle .selected.warn{background:#fff2da;color:#875510;border-color:#d8b47d}.stock-toggle .selected.bad{background:#ffe9e9;color:#a2393c;border-color:#d99fa1}.audit-card h4{line-height:1.5;margin:6px 0;font-size:15px;font-weight:550}.audit-card p{margin:6px 0 0;font-size:11px}.audit-card .eyebrow{font-size:10px;font-weight:500;color:#82758f}.audit-card .field{font-size:11px}.request-line{display:grid;grid-template-columns:minmax(0,1fr) 72px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #e9e2ef}.request-line label{font-size:12px;line-height:1.5}.request-line input[type=number]{padding:10px}.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .timeline{border-left:1px solid #d9d1e1;margin:24px 0 0 5px;padding-left:22px}.timeline-item{position:relative;padding-bottom:24px;overflow-wrap:anywhere}.timeline-item:before{content:"";position:absolute;left:-27px;top:5px;width:9px;height:9px;background:#c7bdd2;border:2px solid var(--bg);border-radius:100%}.timeline-item p{white-space:pre-wrap;font-size:13px;line-height:1.65;margin:8px 0}.timeline-item small{font-size:10px}.stock-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stock-cell{background:white;color:#28222f;border:1px solid #ece6f2;padding:16px;border-radius:20px;text-align:left;line-height:1.5;min-height:123px}.stock-cell strong{display:block;font-size:12px;font-weight:500;margin:6px 0 11px}.stock-cell .badge{font-size:9px}.stock-cell .sku-code{font-size:10px}.profile-stage{margin-bottom:16px}
 dialog{padding:0;background:var(--bg);color:var(--text);border:0;border-radius:0;width:min(480px,100vw);max-width:100vw;max-height:100dvh;box-shadow:0 20px 100px #160e2326;overscroll-behavior:contain}dialog::backdrop{background:#1b162850;backdrop-filter:blur(5px)}dialog.fullscreen{height:100dvh;margin:0 0 0 auto;top:0;bottom:0;right:0}dialog.editor{border-radius:30px;width:min(442px,calc(100vw - 24px));max-height:90dvh}.modal-head{position:sticky;top:0;z-index:5;background:#f6f5faf5;backdrop-filter:blur(10px);padding:16px 24px;border-bottom:1px solid #ebe6f0;display:flex;justify-content:space-between;align-items:center;gap:12px}.modal-head .eyebrow{font-size:10px;color:#796e84;font-weight:500}.modal-head .icon-only{background:white;border:0;color:#4e425c}.modal-content{padding:24px 24px calc(32px + env(safe-area-inset-bottom))}.modal-content h2{line-height:1.3}.modal-content .section-title{font-size:19px}.modal-content .section-title .btn{font-size:11px;padding:9px 14px}.modal-content>.row .btn{font-size:12px}.pitch-hero{border:0;border-radius:30px;padding:27px;background:#19131f;margin-bottom:23px;position:relative;overflow:hidden;color:#eee6f4}.pitch-hero .badge{background:#3b3145;color:#e1d4ec;font-size:10px}.pitch-hero h1{font-size:29px;font-weight:450;letter-spacing:-.75px;line-height:1.25;margin:19px 0 27px;color:#fff}.pitch-number{font-size:44px;font-weight:450;letter-spacing:-1.6px;color:#fff}.pitch-hero .muted{color:#c6b7d2}.pitch-hero p{font-size:11px;line-height:1.65;margin-top:8px}.pitch-bullets{padding-left:21px;line-height:1.8;color:#5d506a;font-size:15px}.pitch-bullets li{margin-bottom:18px;padding-left:5px}.pitch-bullets li::marker{color:#a28caf}.pitch-controls{display:flex;gap:10px;justify-content:space-between;margin-top:25px}.pitch-controls .btn{font-size:12px;flex:1}
@@ -105,7 +106,7 @@ h1,h2,h3,h4{overflow-wrap:anywhere}
 <body>
 <div class="shell">
 <a class="skip-link" href="#app">Skip to workspace</a>
-<header class="app-header"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h6l3-9 6 17 4-12 3 4h4"/></svg></div><div><div class="brand">Hantco FieldPulse</div><div class="product" id="greeting">Your field workspace</div></div><button class="notification-btn" data-action="queue-open" data-queue="we" aria-label="View pending promises" title="Pending promises"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span id="notification-dot" class="notification-dot" hidden></span></button></header>
+<header class="app-header"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h6l3-9 6 17 4-12 3 4h4"/></svg></div><div><div class="brand">Hantco FieldPulse</div><div class="product" id="greeting">Your field workspace</div></div><button type="button" class="header-notes" data-action="queue-open" data-queue="notes" aria-label="Open dated field notes" title="Field notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14v13l-5 5H5zM14 21v-5h5M8 7h8M8 11h6"/></svg></button><button class="notification-btn" data-action="queue-open" data-queue="we" aria-label="View pending promises" title="Pending promises"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span id="notification-dot" class="notification-dot" hidden></span></button></header>
 <div class="header-meta"><span id="header-date"></span><span id="connection" class="connection">On device</span></div>
 <div id="install-banner" class="install-banner" hidden>Keep FieldPulse one tap away.<button class="btn secondary" data-action="install">Install app</button></div>
 <main id="app" tabindex="-1"></main>
@@ -472,6 +473,7 @@ function seedDatabase() {
       supabaseConfig: {url: '', anonKey: '', tableName: 'hantco_crm_sync', lastSync: null}
     },
     accounts: [],
+    field_notes: [],
     timeline_events: [],
     deliverables: []
   };
@@ -480,7 +482,7 @@ function seedDatabase() {
 
 const DB_KEY = 'HANTCO_CRM_V1';
 let db, lastStoredRaw = null, storageBlocked = false, deferredInstall = null, toastTimer, pitchId = null;
-const ui = {tab:'pipeline',step:1,draft:null,profileId:null,showAll:false,queue:'schedule',filter:'all',stage:'',search:'',emirate:''};
+const ui = {tab:'pipeline',step:1,draft:null,profileId:null,showAll:false,queue:'schedule',filter:'all',stage:'',search:'',emirate:'',noteDateFilter:'',noteSearch:'',noteDraftDate:'',noteDraftTitle:'',noteDraftText:''};
 const clone = x => JSON.parse(JSON.stringify(x));
 const esc = x => String(x ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = n => Number(n || 0).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -530,8 +532,19 @@ function normalizedPhone(phone,context={}){
 }
 function contactPhone(phone,context){const number=normalizedPhone(phone,context);return number?(/^(800\d{3,10}|600\d{6,10})$/.test(number)?number:'+'+number):'';}
 function openWhatsApp(phone,text,context){const n=normalizedPhone(phone,context);if(phone&&!n){toast('Enter a phone number with at least 6 digits.');return false;}window.open('https://wa.me/'+n+'?text='+encodeURIComponent(text),'_blank','noopener,noreferrer');return true;}
-function routeLabel(a){return a.accountType==='clinic'?'Clinic / Medical Center':a.scenario==='group'?(a.groupSupplyType==='group_drugstore'?`${a.groupName} · Central Drugstore (${a.groupDrugstoreName || 'Wholesale'})`:`${a.groupName} · Main store transfer`):a.scenario==='drugstore'?`${a.drugstoreName} · Partner drugstore`:'Hantco direct supply';}
-function routeGuide(a){return a.accountType==='clinic'?`Clinic visit · doctor detailing, samples and follow-up${a.nearbyPharmacy?' · Nearby pharmacy: '+a.nearbyPharmacy:''}.`:a.scenario==='group'?(a.groupSupplyType==='group_drugstore'?`${routeLabel(a)}: Central purchasing is handled by the group's wholesale drugstore. Ask the branch to request listed products through ${a.groupDrugstoreName || 'their group wholesale drugstore'} and confirm availability with the central purchaser.`:`MAIN STORE / WAREHOUSE LISTED (${a.groupName}): Products are listed in their central store. Pitch the branch pharmacist to request transfer/stock of missing SKUs from their main branch/warehouse.`):a.scenario==='drugstore'?`ROUTE VIA PARTNER DRUGSTORE (${a.drugstoreName}): Do not open direct credit unless required. Instruct pharmacy to purchase our SKUs through ${a.drugstoreName} for fast supply and easy payment collection.`:'DIRECT HANTCO SUPPLY REQUIRED: Pharmacy does not deal with our listed drugstores. Supply directly from Hantco International (Collect Trade License, TRN & Payment Terms).';}
+function prospectPartners(a){return [...(a.knownDrugstores||[]),a.otherDrugstores].filter(Boolean).join(', ');}
+function routeLabel(a){
+ if(a.accountType!=='clinic' && a.scenario==='new_pharmacy'){
+  const partners=prospectPartners(a);
+  return partners?'New / Route TBD · Accounts: '+partners:'New Pharmacy · Route TBD';
+ }
+ return a.accountType==='clinic'?'Clinic / Medical Center':a.scenario==='group'?(a.groupSupplyType==='group_drugstore'?`${a.groupName} · Central Drugstore (${a.groupDrugstoreName || 'Wholesale'})`:`${a.groupName} · Main store transfer`):a.scenario==='drugstore'?`${a.drugstoreName} · Partner drugstore`:'Hantco direct supply';}
+function routeGuide(a){
+ if(a.accountType!=='clinic' && a.scenario==='new_pharmacy'){
+  const partners=prospectPartners(a);
+  return 'NEW / PROSPECT PHARMACY: Supply route not finalized yet. Follow up with the purchaser to confirm whether orders will go through a partner drugstore or direct via Hantco.'+(partners?' Noted drugstore accounts: '+partners:'');
+ }
+ return a.accountType==='clinic'?`Clinic visit · doctor detailing, samples and follow-up${a.nearbyPharmacy?' · Nearby pharmacy: '+a.nearbyPharmacy:''}.`:a.scenario==='group'?(a.groupSupplyType==='group_drugstore'?`${routeLabel(a)}: Central purchasing is handled by the group's wholesale drugstore. Ask the branch to request listed products through ${a.groupDrugstoreName || 'their group wholesale drugstore'} and confirm availability with the central purchaser.`:`MAIN STORE / WAREHOUSE LISTED (${a.groupName}): Products are listed in their central store. Pitch the branch pharmacist to request transfer/stock of missing SKUs from their main branch/warehouse.`):a.scenario==='drugstore'?`ROUTE VIA PARTNER DRUGSTORE (${a.drugstoreName}): Do not open direct credit unless required. Instruct pharmacy to purchase our SKUs through ${a.drugstoreName} for fast supply and easy payment collection.`:'DIRECT HANTCO SUPPLY REQUIRED: Pharmacy does not deal with our listed drugstores. Supply directly from Hantco International (Collect Trade License, TRN & Payment Terms).';}
 function escalationSummary(a){const clinic=a.accountType==='clinic';const contacts=(a.visitContacts||a.contacts||[]).filter(c=>c.phone).map(c=>`${c.role||(clinic?'Clinic Reception / Landline':'Pharmacy / Branch')}${c.name&&c.name!==c.role?' ('+c.name+')':''}: ${contactPhone(c.phone,a)||c.phone}`);return [`*Hantco Field Escalation — ${a.name || (clinic?'Clinic Visit':'Pharmacy Visit')}*`,`Location: ${a.emirate||'Abu Dhabi'}${a.area?' · '+a.area:''}`,...(clinic?[`Visit: Clinic / Medical Center`,`Doctors: ${(a.doctors||[]).filter(d=>d.name||d.note||d.samplesNeeded||d.samplesGiven).map(d=>`${d.name||'Doctor / Clinic Staff'} (${d.specialty||'General'})`).join('; ')||'General clinic visit'}`,a.nearbyPharmacy?'Nearby Pharmacy: '+a.nearbyPharmacy:'']:[`Supply Route: ${routeLabel(a)}`]),`Contacts: ${contacts.join('; ')||'Not captured'}`,...(clinic?[]:[`Shelf Status: ${listedStockCount(a)}/${listedSkuIds(a).length} listed SKUs in stock`]),'',`*Escalation Note:* ${a.escalationNote||''}`].filter(line=>line!==null).join('\n');}
 function sendEscalation(a){return openWhatsApp('971585755666',escalationSummary(a));}
 function navigate(tab){if(!['pipeline','wizard','deliverables','showroom','settings'].includes(tab))return;ui.tab=tab;render();window.scrollTo({top:0,behavior:'instant'});}
@@ -564,7 +577,7 @@ function renderPipeline(){
  <div class="kpis" role="group" aria-label="Filter accounts by pipeline stage">${stages.map((stage,i)=>`<button class="kpi ${i===1?'featured':''} ${ui.stage===stage?'active':''}" data-action="stage-filter" data-stage="${esc(stage)}" aria-pressed="${ui.stage===stage}" aria-label="${esc(stage)}: ${counts[i]} accounts"><span class="kpi-icon">${icon(['store','box','check','star'][i])}</span><span class="kpi-label">${['Cold accounts','Pending orders','Stocked','Active VIP'][i]}</span><b>${counts[i]}</b></button>`).join('')}</div>
  ${hasAccounts?`<div class="alert-row">${button(`${icon('clock')} Due / overdue <b>${due}</b>`,'queue-open','data-queue="schedule"','ghost')}${button(`${icon('box')} Pending promises <b>${promises}</b>`,'queue-open','data-queue="we"','ghost')}</div>`:''}
  <div class="section-heading-row accounts-heading"><h2>Pharmacies &amp; clinics</h2><div class="row account-create">${button('+ Pharmacy','new-visit','aria-label="Start pharmacy visit"','ghost')}${button('+ Clinic','new-clinic-visit','aria-label="Start clinic visit"','ghost')}</div></div>
- ${hasAccounts?`<div class="pipeline-tools"><label class="search-box"><span class="screen-reader-only">Search pharmacies, clinics, contacts or doctors</span>${icon('search')}<input type="search" id="account-search" data-pipeline="search" placeholder="Pharmacy, clinic, area, doctor…" value="${esc(ui.search)}"></label><div class="chips" aria-label="Account filters">${[['all','All accounts'],['clinic_account','Clinics only'],['pharmacy_account','Pharmacies only'],['group','Group branch'],['drugstore','Via drugstore'],['direct','Direct supply'],['clinic','Has clinic'],['talabat','Talabat missing']].map(([v,l])=>`<button class="chip ${ui.filter===v?'selected':''}" data-action="filter" data-filter="${v}" aria-pressed="${ui.filter===v}">${l}</button>`).join('')}</div><label class="field"><span class="screen-reader-only">Emirate</span><select data-pipeline="emirate"><option value="">All emirates</option>${db.master_config.emirates.map(e=>`<option ${selected(e,ui.emirate)}>${esc(e)}</option>`).join('')}</select></label></div>`:''}
+ ${hasAccounts?`<div class="pipeline-tools"><label class="search-box"><span class="screen-reader-only">Search pharmacies, clinics, contacts or doctors</span>${icon('search')}<input type="search" id="account-search" data-pipeline="search" placeholder="Pharmacy, clinic, area, doctor…" value="${esc(ui.search)}"></label><div class="chips" aria-label="Account filters">${[['all','All accounts'],['clinic_account','Clinics only'],['pharmacy_account','Pharmacies only'],['group','Group branch'],['drugstore','Via drugstore'],['direct','Direct supply'],['new_pharmacy','New / Route TBD'],['clinic','Has clinic'],['talabat','Talabat missing']].map(([v,l])=>`<button class="chip ${ui.filter===v?'selected':''}" data-action="filter" data-filter="${v}" aria-pressed="${ui.filter===v}">${l}</button>`).join('')}</div><label class="field"><span class="screen-reader-only">Emirate</span><select data-pipeline="emirate"><option value="">All emirates</option>${db.master_config.emirates.map(e=>`<option ${selected(e,ui.emirate)}>${esc(e)}</option>`).join('')}</select></label></div>`:''}
  <div id="account-results" class="stack" ${hasAccounts?'style="margin-top:9px"':''}>${accountResults()}</div>
  ${!hasAccounts?`<div class="alert-row">${button(`${icon('clock')} Follow-ups <b>${due}</b>`,'queue-open','data-queue="schedule"','ghost')}${button(`${icon('box')} Promises <b>${promises}</b>`,'queue-open','data-queue="we"','ghost')}</div>`:''}
  <div class="hint-line">${icon('shield')} Saved on this device. Back up in Settings.</div>`;
@@ -599,7 +612,7 @@ function renderClinicProfile(a){
  <h3 class="section-title">Relationship timeline</h3><div class="card"><label class="field">Activity type<select id="note-type">${['Clinic Visit','WhatsApp Follow-Up','Sample/Stand Delivered','Note'].map(t=>`<option>${t}</option>`).join('')}</select></label><label class="field" style="margin-top:12px">Quick note<textarea id="profile-note" maxlength="6000" placeholder="What was discussed at the clinic?"></textarea></label>${button('Log activity','log-note',`data-id="${esc(id)}" style="margin-top:12px"`,'primary full')}</div><div class="timeline">${events.length?events.map(e=>`<article class="timeline-item"><h4>${esc(e.type)}</h4><small>${esc(dateLabel(e.createdAt))} · ${new Intl.DateTimeFormat('en-AE',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Dubai'}).format(new Date(e.createdAt))}</small><p>${esc(e.text)}</p></article>`).join(''):'<p class="tiny muted">Your clinic history starts with the first saved visit.</p>'}</div></div>`;
  if(!d.open)d.showModal();
 }
-function renderDeliverables(){const items=db.deliverables;const q=ui.queue;return `<p class="muted tiny">Close the loop on every conversation.</p><div class="queue-tabs">${[['schedule','Visit schedule'],['we','We owe them'],['orders','Orders to verify']].map(([v,l])=>`<button class="chip ${q===v?'selected':''}" data-action="queue-open" data-queue="${v}" aria-pressed="${q===v}">${l}</button>`).join('')}</div>${q==='schedule'?renderSchedule():`<div class="stack">${renderTasks(items.filter(d=>q==='we'?d.direction==='WE_OWE_THEM':d.direction==='THEY_OWE_US'))}</div>`}`;}
+function renderDeliverables(){const items=db.deliverables;const q=ui.queue;return `<p class="muted tiny">Close the loop on every conversation.</p><div class="queue-tabs">${[['schedule','Schedule'],['we','We owe'],['orders','Orders'],['notes','Notes']].map(([v,l])=>`<button class="chip ${q===v?'selected':''}" data-action="queue-open" data-queue="${v}" aria-pressed="${q===v}">${l}</button>`).join('')}</div>${q==='notes'?renderFieldNotes():q==='schedule'?renderSchedule():`<div class="stack">${renderTasks(items.filter(d=>q==='we'?d.direction==='WE_OWE_THEM':d.direction==='THEY_OWE_US'))}</div>`}`;}
 function renderSchedule(){const list=db.accounts.filter(a=>a.followUp).sort((a,b)=>a.followUp.localeCompare(b.followUp));return list.length?`<div class="stack">${list.map(a=>`<article class="card"><div class="row between"><span class="badge ${a.followUp<today()?'bad':a.followUp===today()?'warn':'good'}">${a.followUp<today()?'OVERDUE':a.followUp===today()?'DUE TODAY':'UPCOMING'}</span><span class="tiny muted">${esc(dateLabel(a.followUp))}</span></div><h3 style="margin:14px 0 7px">${esc(a.name)}</h3><p class="muted tiny">${esc(routeLabel(a))}</p><div class="row">${button('Re-visit','revisit',`data-id="${esc(a.id)}"`,'primary')}${button('WhatsApp','whatsapp',`data-id="${esc(a.id)}"`)}${button('Reschedule','reschedule',`data-id="${esc(a.id)}"`,'ghost')}</div></article>`).join('')}</div>`:empty('No visits scheduled','Set the next follow-up date in a guided visit or account profile.');}
 function renderTasks(items){if(!items.length)return empty('No promises in this queue','Requirements and order commitments from your visits will appear here.');return [...items].sort((a,b)=>Number(a.done)-Number(b.done)||(a.dueDate||'9999').localeCompare(b.dueDate||'9999')).map(d=>{const a=db.accounts.find(a=>a.id===d.accountId);return `<article class="card task ${d.done?'done':''}"><input type="checkbox" data-task="${esc(d.id)}" aria-label="Complete ${esc(d.title)}" ${checked(d.done)}><div class="task-content"><h3>${esc(d.title)}</h3><p class="tiny muted" style="margin:8px 0">${esc(a?.name||'Account')} · ${esc(dateLabel(d.dueDate))}</p><div class="row">${button('Account','profile',`data-id="${esc(d.accountId)}"`,'ghost')}${d.direction==='THEY_OWE_US'?button(a?.accountType==='clinic'?'WhatsApp follow-up':'WhatsApp order check','order-check',`data-id="${esc(d.accountId)}"`,'secondary'):''}</div></div></article>`}).join('');}
 function priceTable(skus){if(!skus.length)return empty('The shelf is covered','All 17 SKUs are available. Show all products to detail the full range.');return ['Derma Angel Products','Impress Med Products'].map(section=>{const list=skus.filter(s=>s.section===section);return list.length?`<div class="group-title">${esc(section)} <span class="muted">· ${list.length} SKUs</span></div><table class="price-table"><caption class="screen-reader-only">${esc(section)} retail prices in AED</caption><thead><tr><th scope="col">Product</th><th scope="col">Excl.<br>VAT</th><th scope="col">Incl.<br>5% VAT</th></tr></thead><tbody>${list.map(s=>`<tr><td><button data-action="pitch" data-sku="${esc(s.id)}"><span class="sku-code">${esc(s.code)}</span>${esc(s.name)}</button></td><td>${money(s.retailExclVatAED)}</td><td>${money(s.retailInclVatAED)}</td></tr>`).join('')}</tbody></table>`:''}).join('');}
@@ -618,6 +631,125 @@ function editContact(accountId,contactId){const a=db.accounts.find(a=>a.id===acc
 function addPromise(id){showDialog('Log a promise',`<form id="promise-form" class="stack"><label class="field">Who needs to act?<select name="direction"><option value="WE_OWE_THEM">We owe them</option><option value="THEY_OWE_US">They owe us</option></select></label><label class="field">Commitment<input name="title" required maxlength="300"></label><label class="field">Due date<input name="dueDate" type="date"></label>${button('Save promise','save-promise',`data-id="${esc(id)}"`,'primary')}</form>`);}
 function refreshProfile(){if(ui.profileId&&document.getElementById('modal-account-360').open)renderProfile(ui.profileId);}
 function refreshConnection(){const el=document.getElementById('connection');el.textContent=navigator.onLine?'On device':'Offline · on device';el.classList.toggle('offline',!navigator.onLine);}
+
+
+const fieldNoteClock=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
+const fieldNoteDay=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Dubai',day:'numeric',month:'short'});
+
+function fieldNoteFields(prefix,note) {
+  return `<label class="field">Date<input type="date" id="${prefix}-date" required value="${esc(note.date)}"></label>
+    <label class="field">Title / Subject (Optional)<input id="${prefix}-title" maxlength="200" value="${esc(note.title)}" placeholder="e.g. Abu Dhabi Route, Purchaser Feedback, Competitor Info..."></label>
+    <label class="field">Special Note *<textarea id="${prefix}-text" required maxlength="10000" placeholder="Write any special notes for this date...">${esc(note.text)}</textarea></label>`;
+}
+
+function fieldNoteFeed() {
+  const search=ui.noteSearch.trim().toLowerCase();
+  const notes=db.field_notes.filter(note=>
+    (!ui.noteDateFilter || note.date===ui.noteDateFilter) &&
+    (!search || (note.title+'\n'+note.text).toLowerCase().includes(search))
+  ).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt.localeCompare(a.createdAt));
+  if(!notes.length) return `<p class="tiny muted">${db.field_notes.length?'No notes match these filters.':'Your saved field notes will appear here.'}</p>`;
+  const days=new Map();
+  for(const note of notes) {
+    if(!days.has(note.date))days.set(note.date,[]);
+    days.get(note.date).push(note);
+  }
+  return [...days].map(([date,entries])=>`<section class="stack"><h3 class="section-title">${esc(dateLabel(date))} <span class="badge">${entries.length} ${entries.length===1?'note':'notes'}</span></h3>
+    ${entries.map(n=>`<article class="card field-note"><div class="row between">${n.title?`<h4>${esc(n.title)}</h4>`:''}<time class="tiny muted" datetime="${esc(n.createdAt)}">${fieldNoteClock.format(new Date(n.createdAt))} UAE</time></div>
+      <p style="white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0">${esc(n.text)}</p><div class="row">
+      ${button('Edit','edit-field-note',`data-id="${esc(n.id)}"`,'ghost')}${button('Delete','delete-field-note',`data-id="${esc(n.id)}"`,'ghost')}</div></article>`).join('')}</section>`).join('');
+}
+
+function fieldNoteDateChips() {
+  const dates=[...new Set(db.field_notes.map(n=>n.date))].sort().reverse();
+  return ['',...dates].map(date=>`<button type="button" class="chip ${ui.noteDateFilter===date?'selected':''}" data-action="field-note-day" data-date="${esc(date)}" aria-pressed="${ui.noteDateFilter===date}" aria-label="${date?esc(dateLabel(date)):'All dates'}">${date?fieldNoteDay.format(new Date(date+'T12:00:00Z')):'All dates'}</button>`).join('');
+}
+
+function renderFieldNotes() {
+  const draft={date:ui.noteDraftDate||today(),title:ui.noteDraftTitle,text:ui.noteDraftText};
+  return `<div class="stack"><section class="card stack"><h2>Quick Add Special Note</h2>${fieldNoteFields('field-note',draft)}
+    ${button('Save Note','save-field-note','','primary')}</section>
+    <section class="card stack"><h2>Browse previous notes</h2>
+    <label class="field">Jump to / Filter by Date<input type="date" data-notes-filter="date" value="${esc(ui.noteDateFilter)}"></label>
+    <label class="field">Search Notes<input type="search" data-notes-filter="search" value="${esc(ui.noteSearch)}" placeholder="Search past notes..."></label>
+    <div id="notes-reset">${noteResetButton()}</div>
+    <div class="chips" aria-label="Dates with saved notes" id="notes-days">${fieldNoteDateChips()}</div></section>
+    <div class="stack" id="notes-feed">${fieldNoteFeed()}</div></div>`;
+}
+
+function noteResetButton() {
+  return ui.noteDateFilter||ui.noteSearch?button('All Dates','reset-notes-filter','','ghost'):'';
+}
+
+function handleFieldNoteInput(el) {
+  if(el.dataset.notesFilter) {
+    if(el.dataset.notesFilter==='date') ui.noteDateFilter=el.value;
+    else ui.noteSearch=el.value;
+    document.getElementById('notes-feed').innerHTML=fieldNoteFeed();
+    document.getElementById('notes-reset').innerHTML=noteResetButton();
+    if(el.dataset.notesFilter==='date') document.getElementById('notes-days').innerHTML=fieldNoteDateChips();
+    return true;
+  }
+  switch(el.id){
+    case 'field-note-date': ui.noteDraftDate=el.value;return true;
+    case 'field-note-title': ui.noteDraftTitle=el.value;return true;
+    case 'field-note-text': ui.noteDraftText=el.value;return true;
+    default:return false;
+  }
+}
+
+function readFieldNote(prefix) {
+  const date=document.getElementById(prefix+'-date');
+  const text=document.getElementById(prefix+'-text');
+  if(!date.reportValidity())return null;
+  if(!text.value.trim()){toast('Write a note before saving.');text.focus();return null;}
+  return {date:date.value,title:document.getElementById(prefix+'-title').value.trim(),text:text.value};
+}
+
+function handleFieldNoteAction(action,el) {
+  switch(action){
+    case 'field-note-day':
+      ui.noteDateFilter=el.dataset.date;render();return true;
+    case 'reset-notes-filter':
+      ui.noteDateFilter='';ui.noteSearch='';render();return true;
+    case 'save-field-note': {
+      const fields=readFieldNote('field-note');
+      if(!fields)return true;
+      const at=stamp();
+      if(transact(next=>next.field_notes.push({id:uid(),...fields,createdAt:at,updatedAt:at}))){
+        ui.noteDraftDate=fields.date;ui.noteDraftTitle='';ui.noteDraftText='';
+        ui.noteDateFilter=fields.date;ui.noteSearch='';render();toast('Field note saved.');
+      }
+      return true;
+    }
+    case 'edit-field-note': {
+      const note=db.field_notes.find(n=>n.id===el.dataset.id);
+      if(!note){toast('This note was deleted.');return true;}
+      showDialog('Edit field note',`<div class="stack">${fieldNoteFields('edit-field-note',note)}
+        ${button('Save changes','update-field-note',`data-id="${esc(note.id)}" data-updated="${esc(note.updatedAt)}"`,'primary')}</div>`);
+      return true;
+    }
+    case 'update-field-note': {
+      const fields=readFieldNote('edit-field-note');
+      if(!fields)return true;
+      if(transact(next=>{
+        const note=next.field_notes.find(n=>n.id===el.dataset.id);
+        if(!note || note.updatedAt!==el.dataset.updated)throw Error('This note changed elsewhere. Reopen it to edit the latest version.');
+        Object.assign(note,fields,{updatedAt:stamp()});
+      })){closeModal();ui.noteDateFilter=fields.date;ui.noteSearch='';render();toast('Field note updated.');}
+      return true;
+    }
+    case 'delete-field-note': {
+      const note=db.field_notes.find(n=>n.id===el.dataset.id);
+      if(note && confirm('Delete this field note for '+dateLabel(note.date)+'?') &&
+        transact(next=>{next.field_notes=next.field_notes.filter(n=>n.id!==note.id);})){
+        render();toast('Field note deleted.');
+      }
+      return true;
+    }
+    default:return false;
+  }
+}
 
 
 /* Guided visits are saved independently until the complete visit commits atomically. */
@@ -653,6 +785,7 @@ function newDraft(account, forceType) {
   db.skus.forEach(sku => { stock[sku.id] = {status:'not', qty:'', note:'', nearExpiry:false, talabat:false, ...(source.stock?.[sku.id] || {})}; });
   return {
     id:source.id || uid(), name:source.name || '', accountType, nearbyPharmacy:source.nearbyPharmacy || '', emirate:source.emirate || 'Abu Dhabi', area:source.area || '',
+    knownDrugstores:Array.isArray(source.knownDrugstores)?clone(source.knownDrugstores):[],
     scenario:source.scenario || 'direct', groupName:source.groupName || '', drugstoreName:source.drugstoreName || '', otherDrugstores:source.otherDrugstores || '',
     groupSupplyType:source.groupSupplyType || 'main_store', groupDrugstoreName:source.groupDrugstoreName || '', listedSkuIds:listedSkuIds(source),
     gps:source.gps || null, stage:source.stage || db.master_config.pipelineStages[0], stock,
@@ -807,7 +940,8 @@ function wRenderRoute() {
   const scenarios = [
     ['group', 'Group pharmacy', 'Central purchase through a main store or group drugstore', 'Central purchase'],
     ['drugstore', 'Pharmacy via drugstore', 'Route the order through a listed sub-distributor', 'Partner drugstore'],
-    ['direct', 'Direct supply pharmacy', 'No shared drugstore — supply through Hantco', 'Hantco direct']
+    ['direct', 'Direct supply pharmacy', 'No shared drugstore — supply through Hantco', 'Hantco direct'],
+    ['new_pharmacy','New / prospect pharmacy','Supply route not finalized yet — optionally note any drugstore accounts they use','Route TBD']
   ];
   const existing = wSelect('Pharmacy record', 'existing', d._existing ? d.id : '', [{value:'',label:'+ New pharmacy'}, ...db.accounts.filter(a=>a.accountType!=='clinic').map(a => ({value:a.id,label:`${a.name} · ${a.area || a.emirate}`}))]);
   let routeFields = '';
@@ -820,6 +954,10 @@ function wRenderRoute() {
     <div class="inline-add">${wText('New drugstore name', '_newDrugstore', d._newDrugstore, 'text', 'maxlength="140"')}${wButton('+ Add New Drugstore', 'w-add-drugstore')}</div>
     ${wText('Other unlisted drugstores they use', 'otherDrugstores', d.otherDrugstores, 'text', 'maxlength="500"')}
     <div class="notice">Easy Payment &amp; Supply Strategy: Convince them to order our products directly from ${esc(d.drugstoreName || 'their selected partner drugstore')}.</div>`;
+  if (d.scenario === 'new_pharmacy') routeFields = `<h3>Existing drugstore accounts they have (Optional)</h3>
+    <div>${[...new Set([...db.master_config.listedDrugstores,...d.knownDrugstores])].map(name=>wCheck(name,'knownDrugstore.'+name,d.knownDrugstores.includes(name))).join('')}</div>
+    ${wText('Other drugstore accounts they deal with (Optional)','otherDrugstores',d.otherDrugstores,'text','maxlength="500" placeholder="e.g. Any local drugstores mentioned..."')}
+    <div class="notice">NEW / PROSPECT PHARMACY: Supply route is undecided. Capture purchaser/pharmacy contacts, check interest or shelf gaps, and optionally note any drugstore accounts they use so routing can be decided later.</div>`;
   if (d.scenario === 'direct') routeFields = '<div class="notice">Direct Hantco Supply: They don’t use our listed drugstores. Pitch direct supply and collect Trade License / payment details in Step 6.</div>';
   return `<section class="card stack">${existing}${wText('Pharmacy name *', 'name', d.name, 'text', 'required maxlength="160" autocomplete="organization"')}
     <div class="grid2">${wSelect('Emirate', 'emirate', d.emirate, db.master_config.emirates)}${wText('Area / location', 'area', d.area, 'text', 'maxlength="240"')}</div>
@@ -937,7 +1075,7 @@ function wValidateStepOne() {
   if (d.scenario === 'group' && !db.master_config.listedGroupChains.includes(d.groupName)) { toast('Select or add the listed pharmacy group.'); ui.step=1; render(); return false; }
   if (d.scenario === 'group' && d.groupSupplyType === 'group_drugstore' && !db.master_config.listedDrugstores.includes(d.groupDrugstoreName)) { toast('Select or add the group wholesale drugstore.'); ui.step=1; render(); return false; }
   if (d.scenario === 'drugstore' && !db.master_config.listedDrugstores.includes(d.drugstoreName)) { toast('Select or add the partner drugstore.'); ui.step=1; render(); return false; }
-  if (!['group','drugstore','direct'].includes(d.scenario)) { toast('Choose a supply scenario.'); ui.step=1; render(); return false; }
+  if (!['group','drugstore','direct','new_pharmacy'].includes(d.scenario)) { toast('Choose a supply scenario.'); ui.step=1; render(); return false; }
   return true;
 }
 
@@ -1027,6 +1165,7 @@ function wSaveVisit(withWhatsApp = false) {
   const account = {
     ...(current || {}),
     id:d.id, accountType:d.accountType||'pharmacy', nearbyPharmacy:String(d.nearbyPharmacy||'').trim(), name:d.name.trim(), emirate:d.emirate, area:d.area.trim(), scenario:d.scenario,
+    knownDrugstores:d.scenario==='new_pharmacy'?clone(d.knownDrugstores||[]):[],
     groupName:d.scenario === 'group' ? d.groupName : '', drugstoreName:d.scenario === 'drugstore' ? d.drugstoreName : '', otherDrugstores:d.otherDrugstores.trim(),
     groupSupplyType:d.groupSupplyType || 'main_store', groupDrugstoreName:d.scenario==='group'&&d.groupSupplyType==='group_drugstore' ? d.groupDrugstoreName : '', listedSkuIds:clone(d.listedSkuIds),
     gps:d.gps, stage, stock:clone(d.stock), hasOnline:!!d.hasOnline, hasClinic:!!d.hasClinic,
@@ -1130,6 +1269,12 @@ function handleWizardInput(el) {
   } else if (key.startsWith('request.')) {
     const [,id,field]=key.split('.');
     if(skuById(id) && ['selected','qty'].includes(field)) { d.requestLines[id] ||= {selected:false,qty:1}; d.requestLines[id][field]=value; d.requestLines[id]._touched=true; d._requestsOpen=true; rerender=field==='selected'; }
+  } else if (key.startsWith('knownDrugstore.')) {
+    const name=key.slice('knownDrugstore.'.length);
+    if(value && !d.knownDrugstores.includes(name)) {
+      if(d.knownDrugstores.length>=100){el.checked=false;toast('Up to 100 drugstore accounts can be recorded.');return true;}
+      d.knownDrugstores.push(name);
+    } else if(!value) d.knownDrugstores=d.knownDrugstores.filter(entry=>entry!==name);
   } else if (key.startsWith('requirement.')) {
     const req=key.split('.')[1];
     if(W_REQUIREMENTS.some(r=>r.key===req)) d.requirements=value ? [...new Set([...d.requirements,req])] : d.requirements.filter(k=>k!==req);
@@ -1167,7 +1312,7 @@ function handleWizardAction(action, el) {
       if(d._dirty && !confirm('Discard this unfinished visit draft and start a new one? Saved CRM records will remain unchanged.')) return true;
       ui.draft=newDraft(undefined,d.accountType); ui.step=1; saveDraft(); render(); window.scrollTo({top:0,behavior:'smooth'}); return true;
     case 'w-route':
-      if(!['group','drugstore','direct'].includes(el.dataset.route)) return true;
+      if(!['group','drugstore','direct','new_pharmacy'].includes(el.dataset.route)) return true;
       d.scenario=el.dataset.route;
       wApplyListedTemplate(d);
       break;
@@ -1395,10 +1540,13 @@ function validateDatabase(raw) {
     textValue(account.name,account.accountType==='clinic'?'clinic name':'pharmacy name',true,300);
     if (!config.emirates.includes(account.emirate)) throw new Error(`Unknown emirate on ${account.name}.`);
     if (!config.pipelineStages.includes(account.stage)) throw new Error(`Unknown stage on ${account.name}.`);
-    if (!['group','drugstore','direct'].includes(account.scenario)) throw new Error(`Invalid supply route on ${account.name}.`);
+    if (!['group','drugstore','direct','new_pharmacy'].includes(account.scenario)) throw new Error(`Invalid supply route on ${account.name}.`);
     if (account.scenario==='group' && !config.listedGroupChains.includes(account.groupName)) throw new Error(`Unknown group on ${account.name}.`);
     if (account.scenario==='drugstore' && !config.listedDrugstores.includes(account.drugstoreName)) throw new Error(`Unknown drugstore on ${account.name}.`);
     for (const key of ['area','groupName','drugstoreName','groupDrugstoreName','otherDrugstores','clinicName','orderAction','requests','notes','tradeLicense','trn','paymentTerms','onlineNote','escalationNote']) account[key]=textValue(account[key],`${account.name} ${key}`);
+    account.knownDrugstores ??= [];
+    requireArray(account.knownDrugstores,'Known drugstore accounts',100);
+    account.knownDrugstores.forEach(name=>textValue(name,'known drugstore name',true,200));
     account.groupSupplyType=account.groupSupplyType||'main_store';
     if(!['main_store','group_drugstore'].includes(account.groupSupplyType)) throw new Error(`Invalid group purchase type on ${account.name}.`);
     if(account.scenario==='group' && account.groupSupplyType==='group_drugstore' && account.groupDrugstoreName && !config.listedDrugstores.includes(account.groupDrugstoreName)) throw new Error(`Unknown central drugstore on ${account.name}.`);
@@ -1443,6 +1591,16 @@ function validateDatabase(raw) {
       for (const key of ['name','specialty','timings']) doctor[key]=textValue(doctor[key],`doctor ${key}`,key==='name',1000);
       doctor.note=textValue(doctor.note,'doctor note');
     }
+  }
+  value.field_notes ??= [];
+  requireArray(value.field_notes,'Field notes',20000);
+  ids(value.field_notes,'field note');
+  for(const note of value.field_notes) {
+    if(!dateValue(note.date,'field note')) throw new Error('A field note needs a date.');
+    note.title=textValue(note.title,'field note title',false,200);
+    note.text=textValue(note.text,'field note text',true,10000);
+    note.createdAt=timestamp(note.createdAt,'field note creation',true);
+    note.updatedAt=timestamp(note.updatedAt,'field note update',true);
   }
   requireArray(value.timeline_events,'Timeline',50000);
   requireArray(value.deliverables,'Deliverables',50000);
@@ -1495,7 +1653,7 @@ function renderSettings() {
     ${masterListMarkup('listedGroupChains','My listed group pharmacies','Groups where Hantco is listed in the main store or warehouse.')}
     ${masterListMarkup('listedDrugstores','My partner drugstores','The exact sub-distributors Hantco supplies to.')}
     <section class="card stack"><div><h2 class="section-title">Product master</h2><p class="muted tiny">All 17 products • AED • editable prices and talking points</p></div>${db.skus.map(s=>`<div class="list-row"><div><span class="eyebrow">${esc(s.code)}</span><p>${esc(s.name)}</p><span class="tiny muted">${money(s.retailExclVatAED)} excl. VAT · ${money(s.retailInclVatAED)} incl. VAT · ${money(s.defaultTradeDiscountPct)}% trade</span></div>${button('Edit','s-sku-open',`data-id="${esc(s.id)}"`)}</div>`).join('')}</section>
-    <section class="card stack"><h2 class="section-title">Excel exports</h2><p class="tiny muted">UTF-8 CSV files open in Excel. The pharmacy export includes every SKU status, quantity, note, expiry flag and online listing.</p>${button('Export All Pharmacies & 17-SKU Audit (CSV)','s-csv-accounts')}${button('Export Visit History & Requirements (CSV)','s-csv-history')}</section>
+    <section class="card stack"><h2 class="section-title">Excel exports</h2><p class="tiny muted">UTF-8 CSV files open in Excel. The pharmacy export includes every SKU status, quantity, note, expiry flag and online listing.</p>${button('Export All Pharmacies & 17-SKU Audit (CSV)','s-csv-accounts')}${button('Export Visit History & Requirements (CSV)','s-csv-history')}${button('Export Dated Field Notes (CSV)','s-csv-notes')}</section>
     <section class="card stack"><h2 class="section-title">Backup &amp; restore</h2><p class="tiny muted">A JSON backup contains all accounts, contacts, prices, lists, activities and promises. Cloud passwords and session tokens are never included.</p>${button('Download Full JSON Backup','s-backup')}<label class="btn secondary" for="restore-file">Choose JSON to Restore</label><input id="restore-file" type="file" accept=".json,application/json" data-settings="restore-file" hidden><p class="tiny muted">A restore replaces this device’s database after validation and confirmation. A recovery copy is kept locally.</p>${button('Download Previous Recovery Copy','s-recovery')}</section>
     <section class="card stack"><div class="row"><h2 class="section-title">Optional cloud sync</h2><span class="badge">Supabase</span></div><p class="tiny muted">Manual, private snapshots for your signed-in user. Upload or restore explicitly; this is not automatic multi-rep merging.</p>
       <label class="field"><span>Supabase project URL</span><input type="url" data-settings="url" value="${esc(config.url)}" placeholder="https://your-project.supabase.co" autocomplete="off"></label>
@@ -1532,10 +1690,10 @@ function requestedProductsText(account) {
 }
 
 function exportAccountsCSV() {
-  const headers=['Account ID','Pharmacy','Emirate','Area','Pipeline stage','Supply route','Group','Drugstore','Other drugstores','Latitude','Longitude','GPS accuracy metres','Contacts','Clinic attached','Clinic name','Doctors','Follow-up date','Last visit','Order action','Requested SKU packs','Additional requirements','Trade license','TRN','Payment terms','Account notes','Escalation Note','Created at','Updated at','Account Type','Nearby Pharmacy'];
+  const headers=['Account ID','Pharmacy','Emirate','Area','Pipeline stage','Supply route','Group','Drugstore','Other drugstores','Latitude','Longitude','GPS accuracy metres','Contacts','Clinic attached','Clinic name','Doctors','Follow-up date','Last visit','Order action','Requested SKU packs','Additional requirements','Trade license','TRN','Payment terms','Account notes','Escalation Note','Created at','Updated at','Account Type','Nearby Pharmacy','Known Drugstore Accounts'];
   for(const sku of db.skus) headers.push(`${sku.code} Product`,`${sku.code} Status`,`${sku.code} Quantity`,`${sku.code} Note`,`${sku.code} Near expiry`,`${sku.code} Listed online`,`${sku.code} Retail excl VAT AED`,`${sku.code} Retail incl VAT AED`);
   const rows=db.accounts.map(a=>{
-    const row=[a.id,a.name,a.emirate,a.area,a.stage,routeLabel(a),a.groupName,a.drugstoreName,a.otherDrugstores,a.gps?.lat??'',a.gps?.lng??'',a.gps?.accuracy??'',a.contacts.map(c=>`${c.name} | ${c.role} | ${c.phone}`).join('\n'),a.hasClinic?'Yes':'No',a.clinicName,a.doctors.map(d=>`${d.name} | ${d.specialty} | ${d.timings} | Samples needed: ${d.samplesNeeded?'Yes':'No'} | Samples given: ${d.samplesGiven?'Yes':'No'}${d.note?' | Note: '+d.note:''}`).join('\n'),a.followUp,a.lastVisit,a.orderAction,requestedProductsText(a),a.requests,a.tradeLicense,a.trn,a.paymentTerms,a.notes,a.escalationNote||'',a.createdAt,a.updatedAt,a.accountType==='clinic'?'Clinic':'Pharmacy',a.nearbyPharmacy||''];
+    const row=[a.id,a.name,a.emirate,a.area,a.stage,routeLabel(a),a.groupName,a.drugstoreName,a.otherDrugstores,a.gps?.lat??'',a.gps?.lng??'',a.gps?.accuracy??'',a.contacts.map(c=>`${c.name} | ${c.role} | ${c.phone}`).join('\n'),a.hasClinic?'Yes':'No',a.clinicName,a.doctors.map(d=>`${d.name} | ${d.specialty} | ${d.timings} | Samples needed: ${d.samplesNeeded?'Yes':'No'} | Samples given: ${d.samplesGiven?'Yes':'No'}${d.note?' | Note: '+d.note:''}`).join('\n'),a.followUp,a.lastVisit,a.orderAction,requestedProductsText(a),a.requests,a.tradeLicense,a.trn,a.paymentTerms,a.notes,a.escalationNote||'',a.createdAt,a.updatedAt,a.accountType==='clinic'?'Clinic':'Pharmacy',a.nearbyPharmacy||'',(a.knownDrugstores||[]).join(', ')];
     for(const sku of db.skus) { const s=a.stock[sku.id]; row.push(sku.name,statusLabel(s.status),s.qty,s.note,s.nearExpiry?'Yes':'No',a.hasOnline?(s.talabat?'Yes':'No'):'No online store',sku.retailExclVatAED,sku.retailInclVatAED); }
     return row;
   });
@@ -1563,7 +1721,7 @@ function backupText(database=db,includeConfig=true) {
 function stageRestore(candidate,source) {
   const validated=validateDatabase(candidate);
   settingsState.restore={database:validated,source,revision:db.revision};
-  showDialog('Review database restore',`<div class="stack"><p>Restore from <strong>${esc(source)}</strong>?</p><div class="notice"><strong>${validated.accounts.length} pharmacies · ${validated.skus.length} products</strong><p class="tiny">${validated.timeline_events.length} activities · ${validated.deliverables.length} promises<br>${validated.master_config.listedGroupChains.length} groups · ${validated.master_config.listedDrugstores.length} drugstores</p></div><p>This replaces the current ${db.accounts.length} pharmacies and all local prices, lists and history. Your current database will be kept as a recovery copy. Any open visit draft will be cleared.</p>${button('Download Current Backup First','s-backup')}${button('Replace Local Database','s-restore-confirm','','danger')}${button('Cancel','s-restore-cancel')}</div>`);
+  showDialog('Review database restore',`<div class="stack"><p>Restore from <strong>${esc(source)}</strong>?</p><div class="notice"><strong>${validated.accounts.length} pharmacies · ${validated.skus.length} products</strong><p class="tiny">${validated.timeline_events.length} activities · ${validated.deliverables.length} promises · ${validated.field_notes.length} notes<br>${validated.master_config.listedGroupChains.length} groups · ${validated.master_config.listedDrugstores.length} drugstores</p></div><p>This replaces the current ${db.accounts.length} pharmacies and all local prices, lists and history. Your current database will be kept as a recovery copy. Any open visit draft will be cleared.</p>${button('Download Current Backup First','s-backup')}${button('Replace Local Database','s-restore-confirm','','danger')}${button('Cancel','s-restore-cancel')}</div>`);
 }
 
 function finishRestore() {
@@ -1737,6 +1895,10 @@ async function handleSettingsAction(action,el) {
     if(transact(next=>{next.skus[next.skus.findIndex(x=>x.id===sku.id)]=clone(sku);})){settingsState.sku=null;closeModal();render();toast('Product master updated.');}
   } else if(action==='s-csv-accounts')exportAccountsCSV();
   else if(action==='s-csv-history')exportHistoryCSV();
+  else if(action==='s-csv-notes') {
+    const rows=db.field_notes.map(n=>[n.id,n.date,n.title,n.text,n.createdAt,n.updatedAt]);
+    download('Hantco-Field-Notes-'+today()+'.csv',makeCSV([['Note ID','Date','Title','Note','Created At','Updated At'],...rows]),'text/csv;charset=utf-8');
+  }
   else if(action==='s-backup')download(`Hantco-Backup-${today()}.json`,backupText(),'application/json');
   else if(action==='s-recovery') {
     const backup=localStorage.getItem('HANTCO_CRM_PRE_RESTORE_V1');if(backup)download(`Hantco-Recovery-${today()}.json`,backup,'application/json');else toast('No previous restore or reset recovery copy is available.');
@@ -1767,6 +1929,7 @@ async function handleClick(event){
  const el=event.target.closest('[data-action]');if(!el||el.disabled)return;
  const action=el.dataset.action,id=el.dataset.id,a=id?db?.accounts.find(a=>a.id===id):null;
  try{
+  if(handleFieldNoteAction(action,el))return;
   switch(action){
    case 'tab':navigate(el.dataset.tab);return;
    case 'new-visit':startVisit(undefined,'pharmacy');return;
@@ -1812,6 +1975,7 @@ async function handleInput(event){
  if(event.type==='input'&&(el.tagName==='SELECT'||['checkbox','radio','file'].includes(el.type)))return;
  if(event.type==='change'&&el.tagName!=='SELECT'&&!['checkbox','radio','file','date'].includes(el.type))return;
  try{
+  if(handleFieldNoteInput(el))return;
   if(el.dataset.pipeline){ui[el.dataset.pipeline]=el.value;document.getElementById('account-results').innerHTML=accountResults();return;}
   if(el.dataset.calculator){const root=el.closest('[data-calc-root]');if(el.dataset.calculator==='sku')root.querySelector('[data-calculator="discount"]').value=skuById(el.value).defaultTradeDiscountPct;updateCalculator(root);return;}
   if(el.dataset.task){const done=el.checked;const old=db.deliverables.find(t=>t.id===el.dataset.task);if(transact(next=>{const task=next.deliverables.find(t=>t.id===el.dataset.task);task.done=done;task.completedAt=done?stamp():null;next.timeline_events.push(logEvent(task.accountId,done?'Promise Completed':'Promise Reopened',task.title));})){render();refreshProfile();toast(done?'Promise completed.':'Promise reopened.');}else el.checked=old.done;return;}
